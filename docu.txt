@@ -13,3 +13,5 @@ curl -G 'http://10.100.0.138:8086/query?db=ruuvi' --data-urlencode 'q=SELECT tem
 curl -G 'http://10.100.0.138:8086/query?db=ruuvi&pretty=true' --data-urlencode 'q=SELECT mean(accelerationAngleFromX) FROM "ruuvi_measurements" GROUP BY time(2m), "mac" fill(null) LIMIT 10'
 
 http://10.100.0.138:8086/query?db=ruuvi&q=SELECT%20temperature%20FROM%20ruuvi_measurements%20limit%2010
+
+http://10.100.0.138:8086/query?db=ruuvi&q=SELECT%20mean(temperature)%20FROM%20ruuvi_measurements%20GROUP%20BY%20time(2m),%20mac%20limit%2010
