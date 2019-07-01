@@ -1,0 +1,1 @@
+curl -G 'http://10.100.0.138:8086/query?db=ruuvi' --data-urlencode 'q=SELECT temperature FROM "ruuvi_measurements"'
