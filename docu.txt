@@ -1,8 +1,14 @@
-curl -G 'http://10.100.0.138:8086/query?db=ruuvi' --data-urlencode 'q=SELECT temperature FROM "ruuvi_measurements"'
-
 https://docs.influxdata.com/influxdb/v1.7/tools/api/
 
 https://blog.ruuvi.com/rpi-gateway-6e4a5b676510
+
+--
+
+
+Komennot:
+
+
+curl -G 'http://10.100.0.138:8086/query?db=ruuvi' --data-urlencode 'q=SELECT temperature FROM "ruuvi_measurements"'
 
 curl -G 'http://10.100.0.138:8086/query?db=ruuvi&pretty=true' --data-urlencode 'q=SELECT mean(accelerationAngleFromX) FROM "ruuvi_measurements" GROUP BY time(2m), "mac" fill(null) LIMIT 10'
 
