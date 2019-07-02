@@ -2,6 +2,9 @@ https://docs.influxdata.com/influxdb/v1.7/tools/api/
 
 https://blog.ruuvi.com/rpi-gateway-6e4a5b676510
 
+-- serveri asennus
+http://hapifhir.io/doc_jpa.html
+
 --
 
 
