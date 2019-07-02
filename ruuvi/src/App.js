@@ -1,5 +1,4 @@
 import React from 'react';
-//import './App.css';
 import Influx from './components/Influx';
 
 
@@ -7,9 +6,9 @@ function App() {
 
   return (
     <div className="App">
-      <header className="App-header">
+      {/* <header className="App-header"> */}
           <Influx />
-      </header>
+      {/* </header> */}
     </div>
   );
 }
