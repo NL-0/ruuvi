@@ -31,24 +31,9 @@ class Influx extends Component {
             signal1: '',
             signal2: '',
             signal3: '',
+            arvo: '0.01',
         };
       }
-
-    meh = () => {
-        // //axios.get(`http://10.100.0.138:8086/query?db=ruuvi&q=SELECT%20mean(temperature)%20FROM%20ruuvi_measurements%20GROUP%20BY%20time(2m),%20mac%20limit%2010`)
-        // axios.get(`http://10.100.0.138:8086/query?db=ruuvi&q=SELECT%20mean(temperature)%20FROM%20ruuvi_measurements%20GROUP%20BY%20time(2m),%20mac%20ORDER%20BY%20DESC%20LIMIT%201`)
-        // .then(res => {
-        //     const stuff = res.data;
-        //     this.setState({
-        //         ruuvit: [...this.stuff]
-        //     })
-
-        //     console.log(stuff)
-        // })
-        this.influxasios()
-        console.log(this.state.ruuvit)
-   
-    }
 
     influxasios() {
         axios.get(`http://10.100.0.138:8086/query?db=ruuvi&q=SELECT%20mean(temperature)%20FROM%20ruuvi_measurements%20GROUP%20BY%20time(2m),%20mac%20ORDER%20BY%20DESC%20LIMIT%201`)
@@ -65,8 +50,6 @@ class Influx extends Component {
             lampo3: jotain.results[0].series[2].values[0][1],
             })
         })
-/*         console.log(this.state.mac1 + " | " + this.state.mac2 + " | " + this.state.mac3)
-        console.log(this.state.lampo1 + " | " + this.state.lampo2 + " | " + this.state.lampo3) */
     }
 
 
@@ -85,20 +68,28 @@ class Influx extends Component {
     }
 
     influxacceleration() {
-        axios.get(`http://10.100.0.138:8086/query?db=ruuvi&q=SELECT%20mean(accelerationTotal)%20FROM%20ruuvi_measurements%20GROUP%20BY%20time(5m),%20mac%20ORDER%20BY%20DESC%20LIMIT%201`)
+        axios.get(`http://10.100.0.138:8086/query?db=ruuvi&q=SELECT%20mean(accelerationY),%20mean(accelerationX),%20mean(accelerationZ)%20FROM%20ruuvi_measurements%20GROUP%20BY%20time(5m),%20mac%20ORDER%20BY%20DESC%20LIMIT%201`)
         .then(res => {
             const jotain2 = res.data;
             this.setState({
                 liike1: jotain2.results[0].series[0].values[0][1],
                 liike2: jotain2.results[0].series[1].values[0][1],
                 liike3: jotain2.results[0].series[2].values[0][1],
+                liike1x: jotain2.results[0].series[0].values[0][1],
+                liike1y: jotain2.results[0].series[0].values[0][2],
+                liike1z: jotain2.results[0].series[0].values[0][3],  
+                liike2x: jotain2.results[0].series[1].values[0][1],
+                liike2y: jotain2.results[0].series[1].values[0][2],
+                liike2z: jotain2.results[0].series[1].values[0][3],    
+                liike3x: jotain2.results[0].series[2].values[0][1],
+                liike3y: jotain2.results[0].series[2].values[0][2],
+                liike3z: jotain2.results[0].series[2].values[0][3],          
             })
         })
     }
 
-
     componentDidMount() {
-        this.timerID = setInterval(() => this.tick(), 2000);
+        this.timerID = setInterval(() => this.tick(), 1000);
     }
 
     componentWillUnmount() {
@@ -126,64 +117,130 @@ class Influx extends Component {
             })
         }
 
-        if(this.state.liike1 > 0) {
+        if (this.state.liike1x !== this.state.liike11x ) {
             this.setState({
-          //      liike1111: Number(this.state.liike1).toFixed(12)
-                liike1111: <Liike liike={this.state.liike1} />
-          //  liike1111: parseFloat(Math.round(this.state.liike1 * 100) / 100).toFixed(12),
+                liike111x: Math.abs(Number(this.state.liike1x) - Number(this.state.liike11x)),
+                liike11x: this.state.liike1x
+                //liike111: (1.00 - Number(this.state.liike1) / Number(this.state.liike11)) * 100
             })
         }
 
-        if(this.state.liike2 > 0) {
+        if (this.state.liike1y !== this.state.liike11y ) {
             this.setState({
-                liike2222: <Liike liike={this.state.liike2} />
-            })
-        }
-
-        if(this.state.liike3 > 0) {
-            this.setState({
-                liike3333: <Liike liike={this.state.liike3} />
+                liike111y: Math.abs(Number(this.state.liike1y) - Number(this.state.liike11y)),
+                liike11y: this.state.liike1y
+                //liike111: (1.00 - Number(this.state.liike1) / Number(this.state.liike11)) * 100
             })
         }
 
 
-        // this.setState({
-        //     lampo11: parseFloat(Math.round(this.state.lampo1 * 100) / 100).toFixed(2),
-        //     lampo22: parseFloat(Math.round(this.state.lampo2 * 100) / 100).toFixed(2),
-        //     lampo33: parseFloat(Math.round(this.state.lampo3 * 100) / 100).toFixed(2),
-        // })
+        if (this.state.liike1z !== this.state.liike11z ) {
+            this.setState({
+                liike111z: Math.abs(Number(this.state.liike1z) - Number(this.state.liike11z)),
+                liike11z: this.state.liike1z
+                //liike111: (1.00 - Number(this.state.liike1) / Number(this.state.liike11)) * 100
+            })
+        }
+
+
+        if (this.state.liike2x !== this.state.liike22x ) {
+            this.setState({
+                liike222x: Math.abs(Number(this.state.liike2x) - Number(this.state.liike22x)),
+                liike22x: this.state.liike2x
+                //liike111: (1.00 - Number(this.state.liike1) / Number(this.state.liike11)) * 100
+            })
+        }
+
+        if (this.state.liike2y !== this.state.liike22y ) {
+            this.setState({
+                liike222y: Math.abs(Number(this.state.liike2y) - Number(this.state.liike22y)),
+                liike22y: this.state.liike2y
+                //liike111: (1.00 - Number(this.state.liike1) / Number(this.state.liike11)) * 100
+            })
+        }
+
+        if (this.state.liike2z !== this.state.liike22z ) {
+            this.setState({
+                liike222z: Math.abs(Number(this.state.liike2z) - Number(this.state.liike22z)),
+                liike22z: this.state.liike2z
+                //liike111: (1.00 - Number(this.state.liike1) / Number(this.state.liike11)) * 100
+            })
+        }
+
+        if (this.state.liike3x !== this.state.liike33x ) {
+            this.setState({
+                liike333x: Math.abs(Number(this.state.liike3x) - Number(this.state.liike33x)),
+                liike33x: this.state.liike3x,
+                //liike111: (1.00 - Number(this.state.liike1) / Number(this.state.liike11)) * 100
+            })
+        }
+        if (this.state.liike3y !== this.state.liike33y ) {
+            this.setState({
+                liike333y: Math.abs(Number(this.state.liike3y) - Number(this.state.liike33y)),
+                liike33y: this.state.liike3y,
+                //liike111: (1.00 - Number(this.state.liike1) / Number(this.state.liike11)) * 100
+            })
+        }
+        if (this.state.liike3z !== this.state.liike33z ) {
+            this.setState({
+                liike333z: Math.abs(Number(this.state.liike3z) - Number(this.state.liike33z)),
+                liike33z: this.state.liike3z,
+                //liike111: (1.00 - Number(this.state.liike1) / Number(this.state.liike11)) * 100
+            })
+        }
 
 
         
-        if (this.state.liike1 !== this.state.liike11) {
-            this.setState({
-                liike11: this.state.liike1,
-                liike111: (1 - Number(this.state.liike1) / Number(this.state.liike11)) * 100
-            })
+
+        //console.log("liike1x : " + this.state.liike1x + " | liike11x : " + this.state.liike11x + " | liike111x : " +this.state.liike111x)
+        
+        // if (this.state.liike1 !== this.state.liike11) {
+        //     this.setState({
+        //         liike11: this.state.liike1,
+        //         //liike111: Math.abs(Number(this.state.liike1), Number(this.state.liike11))
+        //         liike111: (1.00 - Number(this.state.liike1) / Number(this.state.liike11)) * 100
+        //     })
+        // }
+
+        // if (this.state.liike2 !== this.state.liike22) {
+        //     this.setState({
+        //         liike22: this.state.liike2,
+        //         liike222: (1 - Number(this.state.liike2) / Number(this.state.liike22)) * 100
+        //     })
+
+        // }
+
+        // if (this.state.liike3 !== this.state.liike33) {
+        //     this.setState({
+        //         liike33: this.state.liike3,
+        //         liike333: (1 - Number(this.state.liike3) / Number(this.state.liike33)) * 100
+        //     })
+        // }        
+
+/*         if (this.state.liike111x > 0.03) {
+            console.log("1: 0.03 ylitetty")
+        }
+        if(this.state.liike222x > 0.03) {
+            console.log("2: 0.03 ylitetty")
+        }
+        if(this.state.liike333x > 0.03) {
+            console.log("3: 0.03 ylitetty")
+        } */
+        if ((this.state.liike111x > this.state.arvo) || (this.state.liike111y > this.state.arvo) || (this.state.liike111z > this.state.arvo)) {
+            console.log("1111111111111111")
+        }
+        if ((this.state.liike222x > this.state.arvo) || (this.state.liike222y > this.state.arvo) || (this.state.liike222z > this.state.arvo)) {
+            console.log("2222222222222222")
+        }
+        if ((this.state.liike333x > this.state.arvo) || (this.state.liike333y > this.state.arvo) || (this.state.liike333z > this.state.arvo)) {
+            console.log("3333333333333333")
         }
 
-
-        if (this.state.liike2 !== this.state.liike22) {
-            this.setState({
-                liike22: this.state.liike2,
-                liike222: (1 - Number(this.state.liike2) / Number(this.state.liike22)) * 100
-            })
-
-        }
-
-        if (this.state.liike3 !== this.state.liike33) {
-            this.setState({
-                liike33: this.state.liike3,
-                liike333: (1 - Number(this.state.liike3) / Number(this.state.liike33)) * 100
-            })
-        }        
-
-
-        if ((this.state.liike111 != null ) || (this.state.liike111 !== 0 ))  {
-            if ((this.state.liike111 > 1 ) || (this.state.liike111 < -1 )) {
-                console.log("liikkuu?")
-            }
-        }
+        // if ((this.state.liike111 != null ) || (this.state.liike111 !== 0 ))  {
+        //     if ((this.state.liike111 > 1.3 ) || (this.state.liike111 < -1.3 )) {
+        //       //  console.log("liikkuu?")
+        //     }
+        // }
 
         this.influxasios()
         this.influxacceleration()
@@ -211,6 +268,7 @@ class Influx extends Component {
                     <u> {this.state.mac3}</u>
                 </Col>
             </Row>
+            <br />
             <Row>
                 <Col xs>
                     {this.state.lampo11} C
@@ -232,13 +290,35 @@ class Influx extends Component {
             <br />
             <Row>
                 <Col xs>
-                    {this.state.liike1111}
+                    <Liike liike={this.state.liike1x} />
                 </Col>
                 <Col xs>
-                    {this.state.liike2222}
+                    <Liike liike={this.state.liike2x} />
                 </Col>
                 <Col xs>
-                    {this.state.liike3333}
+                    <Liike liike={this.state.liike3x} />
+                </Col>
+            </Row>
+            <Row>
+                <Col xs>
+                    <Liike liike={this.state.liike1y} />
+                </Col>
+                <Col xs>
+                    <Liike liike={this.state.liike2y} />
+                </Col>
+                <Col xs>
+                    <Liike liike={this.state.liike3y} />
+                </Col>
+            </Row>
+            <Row>
+                <Col xs>
+                    <Liike liike={this.state.liike1z} />
+                </Col>
+                <Col xs>
+                    <Liike liike={this.state.liike2z} />
+                </Col>
+                <Col xs>
+                    <Liike liike={this.state.liike3z} />
                 </Col>
             </Row>
             <br />
@@ -247,69 +327,45 @@ class Influx extends Component {
                     <u>Muutos %</u>
                 </Col>
             </Row>
+            <br />
             <Row>
                 <Col xs>
-                    {this.state.liike111} 
+                    <Liike liike={this.state.liike111x} />
                 </Col>
                 <Col xs>
-                    {this.state.liike222} 
+                    <Liike liike={this.state.liike222x} />
                 </Col>
                 <Col xs>
-                    {this.state.liike333} 
+                    <Liike liike={this.state.liike333x} />
+                </Col>
+            </Row>
+            <Row>
+                <Col xs>
+                    <Liike liike={this.state.liike111y} />
+                </Col>
+                <Col xs>
+                    <Liike liike={this.state.liike222y} />
+                </Col>
+                <Col xs>
+                    <Liike liike={this.state.liike333y} />
+                </Col>
+            </Row>
+            <Row>
+                <Col xs>
+                    <Liike liike={this.state.liike111z} />
+                </Col>
+                <Col xs>
+                    <Liike liike={this.state.liike222z} />
+                </Col>
+                <Col xs>
+                    <Liike liike={this.state.liike333z} />
                 </Col>
             </Row>
 
+            <br />
+
 {/* {content} */}
 
-              {/*   <div className="box">
-                    
-                    <div><u>{this.state.mac1}</u> {this.state.lampo11} C</div>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
-                    <div><u>{this.state.mac2}</u> {this.state.lampo22} C</div>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
-                    <div><u>{this.state.mac3}</u> {this.state.lampo33} C</div>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
-                </div>
-                <br />
-                <br />
-                <div className="box">
-                    <div><u>{this.state.mac1}</u> {this.state.liike1}</div>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
-                    <div><u>{this.state.mac2}</u> {this.state.liike2}</div>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
-                    <div><u>{this.state.mac3}</u> {this.state.liike3}</div>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
-                </div>
-                <br />
-                <div className="box">
-                    <div><u>Liike muutos %</u> {this.state.liike111}</div>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
-                    <div><u>Liike muutos %</u> {this.state.liike222}</div>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
-                    <div><u>Liike muutos %</u> {this.state.liike333}</div>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
-                </div>
-                <br />
-                <br />
-                <br />
-                <div className="box">
-                    <div>1</div>
-                    <div>2</div>
-                    <div>3</div>
-                </div>
- */}
-                {/* <Row>
-  <Col xs={12} sm={3} md={2} lg={1} />1
-  <Col xs={6} sm={6} md={8} lg={10} />2
-  <Col xs={6} sm={3} md={2} lg={1} />3
-</Row> */}
-
-{/* 
-            <Row>
-                <Col xs>
-                    1111
-                </Col>
-                <Col xs>
-                   222222
-
-                </Col>
-                <Col xs>
-                    333333
-
-                </Col>
-
-            </Row> */}
             
             </div>
         )
