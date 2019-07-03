@@ -4,7 +4,6 @@ import './Inf.css';
 import { Row, Col } from 'react-flexbox-grid';
 import Liike from './Liike';
 
-
 class Influx extends Component {
     constructor(props) {
         super(props)
@@ -32,6 +31,9 @@ class Influx extends Component {
             signal2: '',
             signal3: '',
             arvo: '0.01',
+            box1c: 'red',
+            box2c: 'red',
+            box3c: 'red',
         };
       }
 
@@ -59,12 +61,10 @@ class Influx extends Component {
             const signal = res.data;
             this.setState({
                 signal1: signal.results[0].series[0].values[0][1],
-                signal2: signal.results[0].series[0].values[0][1],
-                signal3: signal.results[0].series[0].values[0][1],
+                signal2: signal.results[0].series[1].values[0][1],
+                signal3: signal.results[0].series[2].values[0][1],
             })
-
         })
-
     }
 
     influxacceleration() {
@@ -89,7 +89,7 @@ class Influx extends Component {
     }
 
     componentDidMount() {
-        this.timerID = setInterval(() => this.tick(), 1000);
+        this.timerID = setInterval(() => this.tick(), 1500);
     }
 
     componentWillUnmount() {
@@ -227,14 +227,35 @@ class Influx extends Component {
             console.log("3: 0.03 ylitetty")
         } */
         if ((this.state.liike111x > this.state.arvo) || (this.state.liike111y > this.state.arvo) || (this.state.liike111z > this.state.arvo)) {
-            console.log("1111111111111111")
+            this.setState({
+                box1c: 'green',
+            })
         }
+        else (
+            this.setState({
+                box1c: 'red',
+            })
+        )
         if ((this.state.liike222x > this.state.arvo) || (this.state.liike222y > this.state.arvo) || (this.state.liike222z > this.state.arvo)) {
-            console.log("2222222222222222")
+            this.setState({
+                box2c: 'green',
+            })
         }
+        else (
+            this.setState({
+                box2c: 'red',
+            })
+        )
         if ((this.state.liike333x > this.state.arvo) || (this.state.liike333y > this.state.arvo) || (this.state.liike333z > this.state.arvo)) {
-            console.log("3333333333333333")
+            this.setState({
+                box3c: 'green',
+            })
         }
+        else (
+            this.setState({
+                box3c: 'red',
+            })
+        )
 
         // if ((this.state.liike111 != null ) || (this.state.liike111 !== 0 ))  {
         //     if ((this.state.liike111 > 1.3 ) || (this.state.liike111 < -1.3 )) {
@@ -244,6 +265,7 @@ class Influx extends Component {
 
         this.influxasios()
         this.influxacceleration()
+        this.influxsignal()
     }
 
     render() {
@@ -252,7 +274,27 @@ class Influx extends Component {
         //     content = this.state.ruuvit[0].series.map((i, index)=> <div key={index}>{i.values[0][1]}</div>)
         //     console.log(content)
         // }
-
+        let box1 = {
+            width: '100px',
+            height: '20px',
+            background: `${this.state.box1c}`,
+            display: 'table',
+            margin: '0 auto',
+        }
+        let box2 = {
+            width: '100px',
+            height: '20px',
+            background: `${this.state.box2c}`,
+            display: 'table',
+            margin: '0 auto',
+        }
+        let box3 = {
+            width: '100px',
+            height: '20px',
+            background: `${this.state.box3c}`,
+            display: 'table',
+            margin: '0 auto',
+        }
 
         return (
             <div className="center">
@@ -361,11 +403,39 @@ class Influx extends Component {
                     <Liike liike={this.state.liike333z} />
                 </Col>
             </Row>
-
             <br />
-
+            <br />
+            <Row>
+                <Col xs>
+                    <div style={box1}></div>
+                </Col>
+                <Col xs>
+                    <div style={box2}></div>
+                </Col>
+                <Col xs>
+                    <div style={box3}></div>
+                </Col>
+            </Row>
 {/* {content} */}
-
+            <br />
+            <br />
+            <Row>
+                <Col xs>
+                    <u>Signal</u>
+                </Col>
+            </Row>
+            <br />
+            <Row>
+                <Col xs>
+                    <Liike liike={this.state.signal1} />
+                </Col>
+                <Col xs>
+                    <Liike liike={this.state.signal2} />
+                </Col>
+                <Col xs>
+                    <Liike liike={this.state.signal3} />
+                </Col>
+            </Row>
             
             </div>
         )
