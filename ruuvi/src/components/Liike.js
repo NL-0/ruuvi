@@ -2,7 +2,7 @@ const Liike = props => {
     const { liike } = props;
 
     return (
-        Number(liike).toFixed(12)
+        Number(liike).toFixed(3)
     )
 }
 

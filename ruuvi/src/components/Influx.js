@@ -3,6 +3,13 @@ import axios from 'axios'
 import './Inf.css';
 import { Row, Col } from 'react-flexbox-grid';
 import Liike from './Liike';
+import { library } from '@fortawesome/fontawesome-svg-core'
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
+import { faSignal, faTemperatureLow, faArrowsAlt } from '@fortawesome/free-solid-svg-icons';
+import InfluxTime from './InfluxTime'
+
+library.add(faSignal, faTemperatureLow, faArrowsAlt)
+
 
 class Influx extends Component {
     constructor(props) {
@@ -30,10 +37,12 @@ class Influx extends Component {
             signal1: '',
             signal2: '',
             signal3: '',
-            arvo: '0.01',
+            arvo: '0.05',
             box1c: 'red',
             box2c: 'red',
             box3c: 'red',
+           // data: [{name: 'Page A', uv: 400, pv: 2400, amt: 2400}],
+            time: [],
         };
       }
 
@@ -68,7 +77,7 @@ class Influx extends Component {
     }
 
     influxacceleration() {
-        axios.get(`http://10.100.0.138:8086/query?db=ruuvi&q=SELECT%20mean(accelerationY),%20mean(accelerationX),%20mean(accelerationZ)%20FROM%20ruuvi_measurements%20GROUP%20BY%20time(5m),%20mac%20ORDER%20BY%20DESC%20LIMIT%201`)
+        axios.get(`http://10.100.0.138:8086/query?db=ruuvi&q=SELECT%20mean(accelerationY),%20mean(accelerationX),%20mean(accelerationZ)%20FROM%20ruuvi_measurements%20GROUP%20BY%20time(1m),%20mac%20fill(0)%20ORDER%20BY%20DESC%20LIMIT%201`)
         .then(res => {
             const jotain2 = res.data;
             this.setState({
@@ -88,8 +97,12 @@ class Influx extends Component {
         })
     }
 
+
+
+   // content = this.state.ruuvit[0].series.map((i, index)=> <div key={index}>{i.values[0][1]}</div>)
+
     componentDidMount() {
-        this.timerID = setInterval(() => this.tick(), 1500);
+        this.timerID = setInterval(() => this.tick(), 1000);
     }
 
     componentWillUnmount() {
@@ -118,11 +131,14 @@ class Influx extends Component {
         }
 
         if (this.state.liike1x !== this.state.liike11x ) {
+
             this.setState({
                 liike111x: Math.abs(Number(this.state.liike1x) - Number(this.state.liike11x)),
-                liike11x: this.state.liike1x
+                liike11x: this.state.liike1x,
+               
                 //liike111: (1.00 - Number(this.state.liike1) / Number(this.state.liike11)) * 100
             })
+            
         }
 
         if (this.state.liike1y !== this.state.liike11y ) {
@@ -226,17 +242,20 @@ class Influx extends Component {
         if(this.state.liike333x > 0.03) {
             console.log("3: 0.03 ylitetty")
         } */
-        if ((this.state.liike111x > this.state.arvo) || (this.state.liike111y > this.state.arvo) || (this.state.liike111z > this.state.arvo)) {
+        if ((this.state.liike111x > this.state.arvo) && (this.state.liike111y > this.state.arvo) && (this.state.liike111z > this.state.arvo)) {
+            const date = new Date()
             this.setState({
                 box1c: 'green',
+                time: [...this.state.time, date]
             })
+            console.log(this.state.time)
         }
         else (
             this.setState({
                 box1c: 'red',
             })
         )
-        if ((this.state.liike222x > this.state.arvo) || (this.state.liike222y > this.state.arvo) || (this.state.liike222z > this.state.arvo)) {
+        if ((this.state.liike222x > this.state.arvo) && (this.state.liike222y > this.state.arvo) && (this.state.liike222z > this.state.arvo)) {
             this.setState({
                 box2c: 'green',
             })
@@ -246,7 +265,7 @@ class Influx extends Component {
                 box2c: 'red',
             })
         )
-        if ((this.state.liike333x > this.state.arvo) || (this.state.liike333y > this.state.arvo) || (this.state.liike333z > this.state.arvo)) {
+        if ((this.state.liike333x > this.state.arvo) && (this.state.liike333y > this.state.arvo) && (this.state.liike333z > this.state.arvo)) {
             this.setState({
                 box3c: 'green',
             })
@@ -262,10 +281,11 @@ class Influx extends Component {
         //       //  console.log("liikkuu?")
         //     }
         // }
-
+            
         this.influxasios()
         this.influxacceleration()
         this.influxsignal()
+        
     }
 
     render() {
@@ -313,6 +333,12 @@ class Influx extends Component {
             <br />
             <Row>
                 <Col xs>
+                    <u>Lämpötila</u>&nbsp; <FontAwesomeIcon icon={faTemperatureLow} />
+                </Col>
+            </Row>
+            <br />
+            <Row>
+                <Col xs>
                     {this.state.lampo11} C
                 </Col>
                 <Col xs>
@@ -326,7 +352,7 @@ class Influx extends Component {
             <br />
             <Row>
                 <Col xs>
-                    <u>Liike</u>
+                    <u>Liike</u> <FontAwesomeIcon icon={faArrowsAlt} />
                 </Col>
             </Row>
             <br />
@@ -421,7 +447,7 @@ class Influx extends Component {
             <br />
             <Row>
                 <Col xs>
-                    <u>Signal</u>
+                 <u>Signal</u> &nbsp;<FontAwesomeIcon icon={faSignal} />
                 </Col>
             </Row>
             <br />
@@ -436,10 +462,17 @@ class Influx extends Component {
                     <Liike liike={this.state.signal3} />
                 </Col>
             </Row>
+
+            <InfluxTime />
             
+
+        
             </div>
         )
     }
 }
+
+//const data = [{name: 'Page A', uv: 400, pv: 2200, amt: 2200},{name: 'Page A', uv: 400, pv: 2400, amt: 2400},{name: 'Page A', uv: 400, pv: 2500, amt: 2600},{name: 'Page A', uv: 400, pv: 2400, amt: 2400},{name: 'Page A', uv: 400, pv: 2700, amt: 2400},{name: 'Page A', uv: 400, pv: 2400, amt: 2400},{name: 'Page A', uv: 400, pv: 2700, amt: 2400},{name: 'Page A', uv: 400, pv: 2400, amt: 2400},{name: 'Page A', uv: 400, pv: 2400, amt: 200},];
+
 
 export default Influx
