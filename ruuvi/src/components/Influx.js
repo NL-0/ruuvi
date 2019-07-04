@@ -7,6 +7,11 @@ import { library } from '@fortawesome/fontawesome-svg-core'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { faSignal, faTemperatureLow, faArrowsAlt } from '@fortawesome/free-solid-svg-icons';
 import InfluxTime from './InfluxTime'
+import Lampo from './Lampo';
+// import { query } from 'influx-api';
+// //import { write } from 'fs';
+// import { write } from 'influx-api';
+
 
 library.add(faSignal, faTemperatureLow, faArrowsAlt)
 
@@ -42,7 +47,10 @@ class Influx extends Component {
             box2c: 'red',
             box3c: 'red',
            // data: [{name: 'Page A', uv: 400, pv: 2400, amt: 2400}],
-            time: [],
+            time1: [],
+            time2: [],
+            time3: [],
+            lampotest: '',
         };
       }
 
@@ -62,6 +70,21 @@ class Influx extends Component {
             })
         })
     }
+
+
+    // let res = await axios.post('http://localhost:3000/users/', params);
+    // params = {
+    //     id: 6,
+    //     first_name: 'Fred',
+    //     last_name: 'Blair',
+    //     email: 'freddyb34@gmail.com'
+    //   }
+
+    //   liikkeet,
+    //   mac=ABSCTD
+    //   aktiivinen=1
+
+
 
 
     influxsignal() {
@@ -101,42 +124,52 @@ class Influx extends Component {
 
    // content = this.state.ruuvit[0].series.map((i, index)=> <div key={index}>{i.values[0][1]}</div>)
 
-    componentDidMount() {
+    async componentDidMount() {
         this.timerID = setInterval(() => this.tick(), 1000);
+
+        // const result = await query({
+        //     url: 'http://10.100.0.138:8086',
+        //     q: 'SHOW MEASUREMENTS',
+        //     db: 'ruuvi',
+        //   });
+        //   console.log(result)
+
+
+        //   url: 'https://yourinflux.test:8086',
+        //   // NOTE: use of `...` instead of '...' to preserve new lines! (which are important for Line Protocol)
+        //   data: `measurement_1 tag_1=123 field_1=11,field_2=12,field_3=123 1532041200123
+        // measurement_2 tag_1=123 field_1=1,field_2=2,field_3=3 1532041200123`
+
+        // const result2 = await write({
+        //     url: 'http://10.100.0.138:8086',
+        //     data: 'liikkeet2 aktiivinen=1',
+        // });
+        //    console.log(result2);
+
     }
 
-    componentWillUnmount() {
+    async componentWillUnmount() {
         clearInterval(this.timerID);
     }
 
 
+
     tick = () => {
 
-        if(this.state.lampo1 > 0) {
-            this.setState({
-            lampo11: parseFloat(Math.round(this.state.lampo1 * 100) / 100).toFixed(2),
-            })
-        }
+        
 
-        if(this.state.lampo2 > 0) {
-            this.setState({
-            lampo22: parseFloat(Math.round(this.state.lampo2 * 100) / 100).toFixed(2),
-            })
-        }
-
-        if(this.state.lampo3 > 0) {
-            this.setState({
-            lampo33: parseFloat(Math.round(this.state.lampo3 * 100) / 100).toFixed(2),
-            })
-        }
+        this.setState({
+            lampo11: <Lampo lampo={this.state.lampo1} />,
+            lampo22: <Lampo lampo={this.state.lampo2} />,
+            lampo33: <Lampo lampo={this.state.lampo3} />,
+        
+        })
 
         if (this.state.liike1x !== this.state.liike11x ) {
 
             this.setState({
                 liike111x: Math.abs(Number(this.state.liike1x) - Number(this.state.liike11x)),
                 liike11x: this.state.liike1x,
-               
-                //liike111: (1.00 - Number(this.state.liike1) / Number(this.state.liike11)) * 100
             })
             
         }
@@ -145,7 +178,6 @@ class Influx extends Component {
             this.setState({
                 liike111y: Math.abs(Number(this.state.liike1y) - Number(this.state.liike11y)),
                 liike11y: this.state.liike1y
-                //liike111: (1.00 - Number(this.state.liike1) / Number(this.state.liike11)) * 100
             })
         }
 
@@ -154,7 +186,6 @@ class Influx extends Component {
             this.setState({
                 liike111z: Math.abs(Number(this.state.liike1z) - Number(this.state.liike11z)),
                 liike11z: this.state.liike1z
-                //liike111: (1.00 - Number(this.state.liike1) / Number(this.state.liike11)) * 100
             })
         }
 
@@ -163,7 +194,6 @@ class Influx extends Component {
             this.setState({
                 liike222x: Math.abs(Number(this.state.liike2x) - Number(this.state.liike22x)),
                 liike22x: this.state.liike2x
-                //liike111: (1.00 - Number(this.state.liike1) / Number(this.state.liike11)) * 100
             })
         }
 
@@ -171,7 +201,6 @@ class Influx extends Component {
             this.setState({
                 liike222y: Math.abs(Number(this.state.liike2y) - Number(this.state.liike22y)),
                 liike22y: this.state.liike2y
-                //liike111: (1.00 - Number(this.state.liike1) / Number(this.state.liike11)) * 100
             })
         }
 
@@ -179,7 +208,6 @@ class Influx extends Component {
             this.setState({
                 liike222z: Math.abs(Number(this.state.liike2z) - Number(this.state.liike22z)),
                 liike22z: this.state.liike2z
-                //liike111: (1.00 - Number(this.state.liike1) / Number(this.state.liike11)) * 100
             })
         }
 
@@ -187,68 +215,29 @@ class Influx extends Component {
             this.setState({
                 liike333x: Math.abs(Number(this.state.liike3x) - Number(this.state.liike33x)),
                 liike33x: this.state.liike3x,
-                //liike111: (1.00 - Number(this.state.liike1) / Number(this.state.liike11)) * 100
             })
         }
         if (this.state.liike3y !== this.state.liike33y ) {
             this.setState({
                 liike333y: Math.abs(Number(this.state.liike3y) - Number(this.state.liike33y)),
                 liike33y: this.state.liike3y,
-                //liike111: (1.00 - Number(this.state.liike1) / Number(this.state.liike11)) * 100
             })
         }
         if (this.state.liike3z !== this.state.liike33z ) {
             this.setState({
                 liike333z: Math.abs(Number(this.state.liike3z) - Number(this.state.liike33z)),
                 liike33z: this.state.liike3z,
-                //liike111: (1.00 - Number(this.state.liike1) / Number(this.state.liike11)) * 100
             })
         }
 
 
-        
-
-        //console.log("liike1x : " + this.state.liike1x + " | liike11x : " + this.state.liike11x + " | liike111x : " +this.state.liike111x)
-        
-        // if (this.state.liike1 !== this.state.liike11) {
-        //     this.setState({
-        //         liike11: this.state.liike1,
-        //         //liike111: Math.abs(Number(this.state.liike1), Number(this.state.liike11))
-        //         liike111: (1.00 - Number(this.state.liike1) / Number(this.state.liike11)) * 100
-        //     })
-        // }
-
-        // if (this.state.liike2 !== this.state.liike22) {
-        //     this.setState({
-        //         liike22: this.state.liike2,
-        //         liike222: (1 - Number(this.state.liike2) / Number(this.state.liike22)) * 100
-        //     })
-
-        // }
-
-        // if (this.state.liike3 !== this.state.liike33) {
-        //     this.setState({
-        //         liike33: this.state.liike3,
-        //         liike333: (1 - Number(this.state.liike3) / Number(this.state.liike33)) * 100
-        //     })
-        // }        
-
-/*         if (this.state.liike111x > 0.03) {
-            console.log("1: 0.03 ylitetty")
-        }
-        if(this.state.liike222x > 0.03) {
-            console.log("2: 0.03 ylitetty")
-        }
-        if(this.state.liike333x > 0.03) {
-            console.log("3: 0.03 ylitetty")
-        } */
         if ((this.state.liike111x > this.state.arvo) && (this.state.liike111y > this.state.arvo) && (this.state.liike111z > this.state.arvo)) {
             const date = new Date()
             this.setState({
                 box1c: 'green',
-                time: [...this.state.time, date]
+                time1: [...this.state.time1, date]
             })
-            console.log(this.state.time)
+            // console.log("1: "+ this.state.time1)
         }
         else (
             this.setState({
@@ -256,9 +245,12 @@ class Influx extends Component {
             })
         )
         if ((this.state.liike222x > this.state.arvo) && (this.state.liike222y > this.state.arvo) && (this.state.liike222z > this.state.arvo)) {
+            const date = new Date()
             this.setState({
                 box2c: 'green',
+                time2: [...this.state.time2, date]
             })
+            // console.log("2: "+ this.state.time2)
         }
         else (
             this.setState({
@@ -266,9 +258,12 @@ class Influx extends Component {
             })
         )
         if ((this.state.liike333x > this.state.arvo) && (this.state.liike333y > this.state.arvo) && (this.state.liike333z > this.state.arvo)) {
+            const date = new Date()
             this.setState({
                 box3c: 'green',
+                time3: [...this.state.time3, date]
             })
+            // console.log("3: "+ this.state.time3)
         }
         else (
             this.setState({
@@ -285,15 +280,21 @@ class Influx extends Component {
         this.influxasios()
         this.influxacceleration()
         this.influxsignal()
+        // this.influxput()
         
+
+
+
     }
 
     render() {
+
+
         // let content =<div/>
         // if(this.state.ruuvit.length > 0){
         //     content = this.state.ruuvit[0].series.map((i, index)=> <div key={index}>{i.values[0][1]}</div>)
         //     console.log(content)
-        // }
+        //}
         let box1 = {
             width: '100px',
             height: '20px',
@@ -462,11 +463,15 @@ class Influx extends Component {
                     <Liike liike={this.state.signal3} />
                 </Col>
             </Row>
-
+            <Row>
+                <Col xs>
+                    1
+                </Col>
+                <Col xs>
+                    2
+                </Col>
+            </Row>
             <InfluxTime />
-            
-
-        
             </div>
         )
     }
