@@ -2,6 +2,7 @@ import React, { Component } from 'react'
 import axios from 'axios'
 import { XAxis, CartesianGrid, Tooltip, BarChart, Bar, Legend, YAxis } from 'recharts';
 //import LiikeTime from './LiikeTime';
+// import { write } from 'influx-api';
 
 class InfluxTime extends Component {
 
@@ -45,7 +46,7 @@ class InfluxTime extends Component {
                 liiketime1: [timedata.results[0].series[0]],
                 liiketime2: [timedata.results[0].series[1]],
                 liiketime3: [timedata.results[0].series[2]],
-                liikedata: [...this.state.liikedata, {name: timedata.results[0].series[0].values[0][0], uv: timedata.results[0].series[0].values[0][1]}],
+                //liikedata: [...this.state.liikedata, {name: timedata.results[0].series[0].values[0][0], uv: timedata.results[0].series[0].values[0][1]}],
                 liikkunut1: '',
                 liikkunut2: '',
                 liikkunut3: '',
@@ -109,7 +110,6 @@ class InfluxTime extends Component {
     tick = () => {
         this.influxtimedata()
 
-
         if ((this.state.liiketime2.length > 0) && (this.state.liiketime2))
         {
 
@@ -170,14 +170,20 @@ class InfluxTime extends Component {
 
     // }
 
+        // this.setState({
+        //     liikedata: [...this.state.liikedata, {name: timedata.results[0].series[0].values[0][0], uv: timedata.results[0].series[0].values[0][1]}],
+        // })
     
 
-    console.log("1 Liikkunut: " + this.state.liikkunut1)
-    console.log("2 Liikkunut: " + this.state.liikkunut2)
-    console.log("3 Liikkunut: " + this.state.liikkunut3)
 
+
+    // console.log("1 Liikkunut: " + this.state.liikkunut1)
+    // console.log("2 Liikkunut: " + this.state.liikkunut2)
+    // console.log("3 Liikkunut: " + this.state.liikkunut3)
 
     }
+
+
 
     liikedata() {
 

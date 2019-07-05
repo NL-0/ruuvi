@@ -9,12 +9,11 @@ import { faSignal, faTemperatureLow, faArrowsAlt } from '@fortawesome/free-solid
 import InfluxTime from './InfluxTime'
 import Lampo from './Lampo';
 // import { query } from 'influx-api';
-// //import { write } from 'fs';
-// import { write } from 'influx-api';
+import { write } from 'influx-api';
+import MovedData from './MovedData';
 
 
 library.add(faSignal, faTemperatureLow, faArrowsAlt)
-
 
 class Influx extends Component {
     constructor(props) {
@@ -99,6 +98,9 @@ class Influx extends Component {
         })
     }
 
+
+    D0FF86BF041E
+    
     influxacceleration() {
         axios.get(`http://10.100.0.138:8086/query?db=ruuvi&q=SELECT%20mean(accelerationY),%20mean(accelerationX),%20mean(accelerationZ)%20FROM%20ruuvi_measurements%20GROUP%20BY%20time(1m),%20mac%20fill(0)%20ORDER%20BY%20DESC%20LIMIT%201`)
         .then(res => {
@@ -140,9 +142,19 @@ class Influx extends Component {
         //   data: `measurement_1 tag_1=123 field_1=11,field_2=12,field_3=123 1532041200123
         // measurement_2 tag_1=123 field_1=1,field_2=2,field_3=3 1532041200123`
 
+
+        // data: `measurement_1 tag_1=123 field_1=11,field_2=12,field_3=123 1532041200123
+        // measurement_2 tag_1=123 field_1=1,field_2=2,field_3=3 1532041200123`
+
+        // let testimac = '0000930293029000'
+
+        // let lii = 'liikkeet mac=' + testimac
+        // console.log(lii)
+
         // const result2 = await write({
         //     url: 'http://10.100.0.138:8086',
-        //     data: 'liikkeet2 aktiivinen=1',
+        //     db: 'ruuvi',
+        //     data: lii,
         // });
         //    console.log(result2);
 
@@ -153,6 +165,32 @@ class Influx extends Component {
     }
 
 
+    async addmac(mac) {
+        //poista kirjaimet
+        //let testimac = mac.replace(/\D/g,'');
+
+        let testimac = mac
+        // let testimac = 'c1f7588e9435'
+        //let testimac = `12345`
+        //let testimac = '0000930293029000'
+        // stringit ""
+        // ,values EI välilyöntiä
+//     esim.  mov3 mac="E5A82164DA26",values=1
+        //
+        let lii = 'mov4 mac="' + testimac +'",val1=3'
+        console.log(lii)
+
+
+
+        //const result2 await write({
+        const result2 = await write({
+            url: 'http://10.100.0.138:8086',
+            db: 'ruuvi',
+            data: lii,
+        });
+           console.log(result2);
+           
+    }
 
     tick = () => {
 
@@ -231,12 +269,13 @@ class Influx extends Component {
         }
 
 
-        if ((this.state.liike111x > this.state.arvo) && (this.state.liike111y > this.state.arvo) && (this.state.liike111z > this.state.arvo)) {
+        if ((this.state.liike111x > this.state.arvo) || (this.state.liike111y > this.state.arvo) || (this.state.liike111z > this.state.arvo)) {
             const date = new Date()
             this.setState({
                 box1c: 'green',
                 time1: [...this.state.time1, date]
             })
+            this.addmac(this.state.mac1)
             // console.log("1: "+ this.state.time1)
         }
         else (
@@ -244,12 +283,13 @@ class Influx extends Component {
                 box1c: 'red',
             })
         )
-        if ((this.state.liike222x > this.state.arvo) && (this.state.liike222y > this.state.arvo) && (this.state.liike222z > this.state.arvo)) {
+        if ((this.state.liike222x > this.state.arvo) || (this.state.liike222y > this.state.arvo) || (this.state.liike222z > this.state.arvo)) {
             const date = new Date()
             this.setState({
                 box2c: 'green',
                 time2: [...this.state.time2, date]
             })
+            this.addmac(this.state.mac2)
             // console.log("2: "+ this.state.time2)
         }
         else (
@@ -257,12 +297,13 @@ class Influx extends Component {
                 box2c: 'red',
             })
         )
-        if ((this.state.liike333x > this.state.arvo) && (this.state.liike333y > this.state.arvo) && (this.state.liike333z > this.state.arvo)) {
+        if ((this.state.liike333x > this.state.arvo) || (this.state.liike333y > this.state.arvo) || (this.state.liike333z > this.state.arvo)) {
             const date = new Date()
             this.setState({
                 box3c: 'green',
                 time3: [...this.state.time3, date]
             })
+            this.addmac(this.state.mac3)
             // console.log("3: "+ this.state.time3)
         }
         else (
@@ -472,6 +513,7 @@ class Influx extends Component {
                 </Col>
             </Row>
             <InfluxTime />
+            <MovedData />
             </div>
         )
     }

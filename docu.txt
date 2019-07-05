@@ -8,6 +8,7 @@ http://hapifhir.io/doc_jpa.html
 influx-api react
 https://github.com/jmarceli/influx-api
 
+https://github.com/node-influx/node-influx
 --
 
 
