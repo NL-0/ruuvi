@@ -5,6 +5,9 @@ https://blog.ruuvi.com/rpi-gateway-6e4a5b676510
 -- serveri asennus
 http://hapifhir.io/doc_jpa.html
 
+influx-api react:
+https://github.com/jmarceli/influx-api
+
 --
 
 

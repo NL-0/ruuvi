@@ -7,7 +7,6 @@
     "start": "nodemon index.js",
     "client": "npm start --prefix ruuvi",
     "app": "concurrently \"npm run start \" \"npm run client \" "
-
   },
   "repository": {
     "type": "git",

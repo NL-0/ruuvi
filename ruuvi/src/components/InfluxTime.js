@@ -1,6 +1,7 @@
 import React, { Component } from 'react'
 import axios from 'axios'
 import { XAxis, CartesianGrid, Tooltip, BarChart, Bar, Legend, YAxis } from 'recharts';
+//import LiikeTime from './LiikeTime';
 
 class InfluxTime extends Component {
 
@@ -8,6 +9,8 @@ class InfluxTime extends Component {
         super(props)
         this.state = {
             liiketime1: [],
+            liiketime2: [],
+            liiketime3: [],
             liikedata: [],
             vanhaliikex: [],
             vanhaliikey: [],
@@ -17,6 +20,10 @@ class InfluxTime extends Component {
             muutosy: [],
             muutosz: [],
             arvo: 0.03,
+            liikkunut1: '',
+            liikkunut2: '',
+            liikkunut3: '',
+            plus1: 1
         };
       }
 
@@ -39,15 +46,9 @@ class InfluxTime extends Component {
                 liiketime2: [timedata.results[0].series[1]],
                 liiketime3: [timedata.results[0].series[2]],
                 liikedata: [...this.state.liikedata, {name: timedata.results[0].series[0].values[0][0], uv: timedata.results[0].series[0].values[0][1]}],
-                muutos1x: [],
-                muutos1y: [],
-                muutos1z: [],
-                muutos2x: [],
-                muutos2y: [],
-                muutos2z: [],
-                muutos3x: [],
-                muutos3y: [],
-                muutos3z: [],
+                liikkunut1: '',
+                liikkunut2: '',
+                liikkunut3: '',
             })
         })
         if ((this.state.liiketime1.length > 0) && (this.state.liiketime1))
@@ -63,12 +64,14 @@ class InfluxTime extends Component {
                 //console.log(`${this.state.liiketime1[0].values[i][0]}`)
                // alert(i)
 
-
-
             if ((Math.abs(Number(this.state.liiketime1[0].values[i][1] - Number(this.state.liiketime1[0].values[i-1][1]))) > this.state.arvo) 
             && (Math.abs(Number(this.state.liiketime1[0].values[i][2] - Number (this.state.liiketime1[0].values[i-1][2]))) > this.state.arvo)
             && (Math.abs(Number(this.state.liiketime1[0].values[i][3] - Number(this.state.liiketime1[0].values[i-1][3]))))) {
-                console.log(i + ": Arvo yli 0.03")
+                //console.log(i + ": Arvo yli 0.03")
+                this.setState((PrevState) => ({
+                    liikkunut1: (Number(PrevState.liikkunut1) + Number(this.state.plus1))
+                })
+                )
             }
 
 
@@ -99,10 +102,53 @@ class InfluxTime extends Component {
             
             //console.log(this.state.liiketime1[0].values[1])
             }
+
+            
     }
 
     tick = () => {
         this.influxtimedata()
+
+
+        if ((this.state.liiketime2.length > 0) && (this.state.liiketime2))
+        {
+
+            for (var i = 1; i < `${this.state.liiketime2[0].values.length}`; i++) {
+                //console.log(`${this.state.liiketime1[0].values[i][0]}`)
+               // alert(i)
+
+            if ((Math.abs(Number(this.state.liiketime2[0].values[i][1] - Number(this.state.liiketime2[0].values[i-1][1]))) > this.state.arvo) 
+            && (Math.abs(Number(this.state.liiketime2[0].values[i][2] - Number (this.state.liiketime2[0].values[i-1][2]))) > this.state.arvo)
+            && (Math.abs(Number(this.state.liiketime2[0].values[i][3] - Number(this.state.liiketime2[0].values[i-1][3]))))) {
+                //console.log(i + ": Arvo yli 0.03")
+                this.setState((PrevState) => ({
+                    liikkunut2: (Number(PrevState.liikkunut2) + Number(this.state.plus1))
+                })
+                )
+            }
+
+        }
+        }
+
+        if ((this.state.liiketime3.length > 0) && (this.state.liiketime3))
+        {
+
+            for (var y = 1; y < `${this.state.liiketime3[0].values.length}`; y++) {
+                //console.log(`${this.state.liiketime1[0].values[i][0]}`)
+               // alert(i)
+
+            if ((Math.abs(Number(this.state.liiketime3[0].values[y][1] - Number(this.state.liiketime3[0].values[y-1][1]))) > this.state.arvo) 
+            && (Math.abs(Number(this.state.liiketime3[0].values[y][2] - Number (this.state.liiketime3[0].values[y-1][2]))) > this.state.arvo)
+            && (Math.abs(Number(this.state.liiketime3[0].values[y][3] - Number(this.state.liiketime3[0].values[y-1][3]))))) {
+                //console.log(i + ": Arvo yli 0.03")
+                this.setState((PrevState) => ({
+                    liikkunut3: (Number(PrevState.liikkunut3) + Number(this.state.plus1))
+                })
+                )
+            }
+
+        }
+        }
         
         // for (var i = 1; i < this.state.muutos1x.length; i++) {
 
@@ -123,6 +169,13 @@ class InfluxTime extends Component {
 
 
     // }
+
+    
+
+    console.log("1 Liikkunut: " + this.state.liikkunut1)
+    console.log("2 Liikkunut: " + this.state.liikkunut2)
+    console.log("3 Liikkunut: " + this.state.liikkunut3)
+
 
     }
 
