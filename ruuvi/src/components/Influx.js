@@ -6,11 +6,12 @@ import Liike from './Liike';
 import { library } from '@fortawesome/fontawesome-svg-core'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { faSignal, faTemperatureLow, faArrowsAlt } from '@fortawesome/free-solid-svg-icons';
-import InfluxTime from './InfluxTime'
+// import InfluxTime from './InfluxTime'
 import Lampo from './Lampo';
 // import { query } from 'influx-api';
 import { write } from 'influx-api';
 import MovedData from './MovedData';
+import LiikeChart from './LiikeChart';
 
 
 library.add(faSignal, faTemperatureLow, faArrowsAlt)
@@ -45,11 +46,11 @@ class Influx extends Component {
             box1c: 'red',
             box2c: 'red',
             box3c: 'red',
-           // data: [{name: 'Page A', uv: 400, pv: 2400, amt: 2400}],
             time1: [],
             time2: [],
             time3: [],
             lampotest: '',
+            data: [],
         };
       }
 
@@ -70,22 +71,6 @@ class Influx extends Component {
         })
     }
 
-
-    // let res = await axios.post('http://localhost:3000/users/', params);
-    // params = {
-    //     id: 6,
-    //     first_name: 'Fred',
-    //     last_name: 'Blair',
-    //     email: 'freddyb34@gmail.com'
-    //   }
-
-    //   liikkeet,
-    //   mac=ABSCTD
-    //   aktiivinen=1
-
-
-
-
     influxsignal() {
         axios.get(`http://10.100.0.138:8086/query?db=ruuvi&q=SELECT%20mean(rssi)%20FROM%20ruuvi_measurements%20GROUP%20BY%20time(5m),%20mac%20ORDER%20BY%20DESC%20LIMIT%201`)
         .then(res => {
@@ -97,9 +82,6 @@ class Influx extends Component {
             })
         })
     }
-
-
-    D0FF86BF041E
     
     influxacceleration() {
         axios.get(`http://10.100.0.138:8086/query?db=ruuvi&q=SELECT%20mean(accelerationY),%20mean(accelerationX),%20mean(accelerationZ)%20FROM%20ruuvi_measurements%20GROUP%20BY%20time(1m),%20mac%20fill(0)%20ORDER%20BY%20DESC%20LIMIT%201`)
@@ -129,24 +111,8 @@ class Influx extends Component {
     async componentDidMount() {
         this.timerID = setInterval(() => this.tick(), 1000);
 
-        // const result = await query({
-        //     url: 'http://10.100.0.138:8086',
-        //     q: 'SHOW MEASUREMENTS',
-        //     db: 'ruuvi',
-        //   });
-        //   console.log(result)
-
-
-        //   url: 'https://yourinflux.test:8086',
-        //   // NOTE: use of `...` instead of '...' to preserve new lines! (which are important for Line Protocol)
-        //   data: `measurement_1 tag_1=123 field_1=11,field_2=12,field_3=123 1532041200123
-        // measurement_2 tag_1=123 field_1=1,field_2=2,field_3=3 1532041200123`
-
-
         // data: `measurement_1 tag_1=123 field_1=11,field_2=12,field_3=123 1532041200123
         // measurement_2 tag_1=123 field_1=1,field_2=2,field_3=3 1532041200123`
-
-        // let testimac = '0000930293029000'
 
         // let lii = 'liikkeet mac=' + testimac
         // console.log(lii)
@@ -170,17 +136,13 @@ class Influx extends Component {
         //let testimac = mac.replace(/\D/g,'');
 
         let testimac = mac
-        // let testimac = 'c1f7588e9435'
-        //let testimac = `12345`
-        //let testimac = '0000930293029000'
         // stringit ""
         // ,values EI välilyöntiä
 //     esim.  mov3 mac="E5A82164DA26",values=1
         //
-        let lii = 'mov4 mac="' + testimac +'",val1=3'
+        //let lii = 'mov4 mac="' + testimac +'",val1=3'
+        let lii = `mov10,mac=` + testimac +` value1="`+ testimac + `"`
         console.log(lii)
-
-
 
         //const result2 await write({
         const result2 = await write({
@@ -193,8 +155,6 @@ class Influx extends Component {
     }
 
     tick = () => {
-
-        
 
         this.setState({
             lampo11: <Lampo lampo={this.state.lampo1} />,
@@ -271,12 +231,15 @@ class Influx extends Component {
 
         if ((this.state.liike111x > this.state.arvo) || (this.state.liike111y > this.state.arvo) || (this.state.liike111z > this.state.arvo)) {
             const date = new Date()
+            if (this.state.box1c === 'red') {
+                this.setState({
+                    time1: [...this.state.time1, date],
+                })
+                this.addmac(this.state.mac1)
+            }
             this.setState({
                 box1c: 'green',
-                time1: [...this.state.time1, date]
             })
-            this.addmac(this.state.mac1)
-            // console.log("1: "+ this.state.time1)
         }
         else (
             this.setState({
@@ -285,12 +248,16 @@ class Influx extends Component {
         )
         if ((this.state.liike222x > this.state.arvo) || (this.state.liike222y > this.state.arvo) || (this.state.liike222z > this.state.arvo)) {
             const date = new Date()
+
+            if (this.state.box2c === 'red') {
+                this.setState({
+                    time2: [...this.state.time2, date],
+                })
+                this.addmac(this.state.mac2)
+            }
             this.setState({
                 box2c: 'green',
-                time2: [...this.state.time2, date]
             })
-            this.addmac(this.state.mac2)
-            // console.log("2: "+ this.state.time2)
         }
         else (
             this.setState({
@@ -299,12 +266,17 @@ class Influx extends Component {
         )
         if ((this.state.liike333x > this.state.arvo) || (this.state.liike333y > this.state.arvo) || (this.state.liike333z > this.state.arvo)) {
             const date = new Date()
+
+            if (this.state.box3c === 'red') {
+                this.setState({
+                    time3: [...this.state.time3, date],
+                })
+                this.addmac(this.state.mac3)
+            }
+
             this.setState({
                 box3c: 'green',
-                time3: [...this.state.time3, date]
             })
-            this.addmac(this.state.mac3)
-            // console.log("3: "+ this.state.time3)
         }
         else (
             this.setState({
@@ -312,24 +284,15 @@ class Influx extends Component {
             })
         )
 
-        // if ((this.state.liike111 != null ) || (this.state.liike111 !== 0 ))  {
-        //     if ((this.state.liike111 > 1.3 ) || (this.state.liike111 < -1.3 )) {
-        //       //  console.log("liikkuu?")
-        //     }
-        // }
             
         this.influxasios()
         this.influxacceleration()
         this.influxsignal()
         // this.influxput()
-        
-
-
-
+    
     }
 
     render() {
-
 
         // let content =<div/>
         // if(this.state.ruuvit.length > 0){
@@ -409,6 +372,11 @@ class Influx extends Component {
                     <Liike liike={this.state.liike3x} />
                 </Col>
             </Row>
+             <Row>
+                <Col xs>
+                   <LiikeChart liike1={this.state.liike1x} liike2={this.state.liike2x} liike3={this.state.liike3x} />
+                </Col>
+            </Row> 
             <Row>
                 <Col xs>
                     <Liike liike={this.state.liike1y} />
@@ -420,6 +388,7 @@ class Influx extends Component {
                     <Liike liike={this.state.liike3y} />
                 </Col>
             </Row>
+            <LiikeChart liike1={this.state.liike1y} liike2={this.state.liike2y} liike3={this.state.liike3y} />
             <Row>
                 <Col xs>
                     <Liike liike={this.state.liike1z} />
@@ -431,6 +400,7 @@ class Influx extends Component {
                     <Liike liike={this.state.liike3z} />
                 </Col>
             </Row>
+            <LiikeChart liike1={this.state.liike1z} liike2={this.state.liike2z} liike3={this.state.liike3z} />
             <br />
             <Row>
                 <Col xs>
@@ -486,6 +456,25 @@ class Influx extends Component {
             </Row>
 {/* {content} */}
             <br />
+            <Row>
+                <Col xs>
+                    <u>Liikkeita yhteensä</u>
+                </Col>
+            </Row>
+            <br />
+            <Row>
+                <Col xs>
+                    <div>{this.state.time1.length}</div>
+                </Col>
+                <Col xs>
+                    <div>{this.state.time2.length}</div>
+                </Col>
+                <Col xs>
+                    <div>{this.state.time3.length}</div>
+                </Col>
+            </Row>
+            <br />
+            <MovedData />
             <br />
             <Row>
                 <Col xs>
@@ -504,22 +493,23 @@ class Influx extends Component {
                     <Liike liike={this.state.signal3} />
                 </Col>
             </Row>
+            <br />
+            <br />
             <Row>
                 <Col xs>
-                    1
+                    
                 </Col>
                 <Col xs>
-                    2
+                    
                 </Col>
             </Row>
-            <InfluxTime />
-            <MovedData />
+            {/* <InfluxTime /> */}
+            
             </div>
         )
     }
 }
 
-//const data = [{name: 'Page A', uv: 400, pv: 2200, amt: 2200},{name: 'Page A', uv: 400, pv: 2400, amt: 2400},{name: 'Page A', uv: 400, pv: 2500, amt: 2600},{name: 'Page A', uv: 400, pv: 2400, amt: 2400},{name: 'Page A', uv: 400, pv: 2700, amt: 2400},{name: 'Page A', uv: 400, pv: 2400, amt: 2400},{name: 'Page A', uv: 400, pv: 2700, amt: 2400},{name: 'Page A', uv: 400, pv: 2400, amt: 2400},{name: 'Page A', uv: 400, pv: 2400, amt: 200},];
 
 
 export default Influx

@@ -1,6 +1,6 @@
 import React, { Component } from 'react'
 import axios from 'axios'
-import { XAxis, CartesianGrid, Tooltip, BarChart, Bar, Legend, YAxis } from 'recharts';
+// import { XAxis, CartesianGrid, Tooltip, BarChart, Bar, Legend, YAxis } from 'recharts';
 //import LiikeTime from './LiikeTime';
 // import { write } from 'influx-api';
 
@@ -46,7 +46,7 @@ class InfluxTime extends Component {
                 liiketime1: [timedata.results[0].series[0]],
                 liiketime2: [timedata.results[0].series[1]],
                 liiketime3: [timedata.results[0].series[2]],
-                //liikedata: [...this.state.liikedata, {name: timedata.results[0].series[0].values[0][0], uv: timedata.results[0].series[0].values[0][1]}],
+                liikedata: [...this.state.liikedata, {name: timedata.results[0].series[0].values[0][0], uv: timedata.results[0].series[0].values[0][1]}],
                 liikkunut1: '',
                 liikkunut2: '',
                 liikkunut3: '',
@@ -209,17 +209,17 @@ class InfluxTime extends Component {
         return (
             <div>
                 <br />
-                test
+                {/* test */}
                 {/* {this.liikedata()} */}
-            <BarChart width={730} height={250} data={this.state.liikedata}>
+            {/* <BarChart width={730} height={250} data={this.state.liikedata}>
             <CartesianGrid strokeDasharray="3 3" />
             <XAxis dataKey="name" />
             <YAxis />
             <Tooltip />
-            <Legend />
+            <Legend /> */}
             {/* <Bar dataKey="pv" fill="#8884d8" /> */}
-            <Bar dataKey="uv" fill="#82ca9d" />
-            </BarChart>
+            {/* <Bar dataKey="uv" fill="#82ca9d" />
+            </BarChart> */}
         
             </div>
         )
