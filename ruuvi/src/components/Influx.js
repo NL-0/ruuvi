@@ -55,7 +55,8 @@ class Influx extends Component {
       }
 
     influxasios() {
-        axios.get(`http://10.100.0.138:8086/query?db=ruuvi&q=SELECT%20mean(temperature)%20FROM%20ruuvi_measurements%20GROUP%20BY%20time(2m),%20mac%20ORDER%20BY%20DESC%20LIMIT%201`)
+        //axios.get(`http://10.100.0.138:8086/query?db=ruuvi&q=SELECT%20mean(temperature)%20FROM%20ruuvi_measurements%20GROUP%20BY%20time(2m),%20mac%20ORDER%20BY%20DESC%20LIMIT%201`)
+        axios.get(`http://10.100.0.119:5000/temp`)
         .then(res => {
         const jotain = res.data;
         this.setState({
@@ -72,7 +73,8 @@ class Influx extends Component {
     }
 
     influxsignal() {
-        axios.get(`http://10.100.0.138:8086/query?db=ruuvi&q=SELECT%20mean(rssi)%20FROM%20ruuvi_measurements%20GROUP%20BY%20time(5m),%20mac%20ORDER%20BY%20DESC%20LIMIT%201`)
+        //axios.get(`http://10.100.0.138:8086/query?db=ruuvi&q=SELECT%20mean(rssi)%20FROM%20ruuvi_measurements%20GROUP%20BY%20time(5m),%20mac%20ORDER%20BY%20DESC%20LIMIT%201`)
+        axios.get(`http://10.100.0.119:5000/signal`)
         .then(res => {
             const signal = res.data;
             this.setState({
@@ -84,7 +86,8 @@ class Influx extends Component {
     }
     
     influxacceleration() {
-        axios.get(`http://10.100.0.138:8086/query?db=ruuvi&q=SELECT%20mean(accelerationX),%20mean(accelerationY),%20mean(accelerationZ)%20FROM%20ruuvi_measurements%20GROUP%20BY%20time(1m),%20mac%20fill(0)%20ORDER%20BY%20DESC%20LIMIT%201`)
+        //axios.get(`http://10.100.0.138:8086/query?db=ruuvi&q=SELECT%20mean(accelerationX),%20mean(accelerationY),%20mean(accelerationZ)%20FROM%20ruuvi_measurements%20GROUP%20BY%20time(1m),%20mac%20fill(0)%20ORDER%20BY%20DESC%20LIMIT%201`)
+        axios.get(`http://10.100.0.119:5000/xyz`)
         .then(res => {
             const jotain2 = res.data;
             this.setState({
@@ -510,7 +513,7 @@ class Influx extends Component {
             <br />
             <Row middle="xs">
                 <Col xs={5} sm={5} md={5} lg={2} className='vasen'>
-               <div>{this.state.time1.length}</div>
+                <div>{this.state.time1.length}</div>
                 </Col>
                 <Col xs={5} lg={2} className='keski'>
                 <div>{this.state.time2.length}</div>

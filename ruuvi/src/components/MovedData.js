@@ -44,9 +44,11 @@ class MovedData extends Component {
     movedaxios() {
         //http://10.100.0.138:8086/query?db=ruuvi&q=SELECT%20count(mac)%20FROM%20mov3%20GROUP%20BY%20time(10m),%20mac%20ORDER%20BY%20DESC
         //axios.get(`http://10.100.0.138:8086/query?db=ruuvi&q=SELECT%20*%20FROM%20mov3%20ORDER%20BY%20DESC`)
-        axios.get(`http://10.100.0.138:8086/query?db=ruuvi&q=SELECT%20count(value1)%20FROM%20mov10%20GROUP%20BY%20time(1h),%20mac%20ORDER%20BY%20DESC`)
+        //axios.get(`http://10.100.0.138:8086/query?db=ruuvi&q=SELECT%20count(value1)%20FROM%20mov10%20GROUP%20BY%20time(1h),%20mac%20ORDER%20BY%20DESC`)
+        axios.get(`http://10.100.0.119:5000/mdata`)
         .then(res => {
             const moveddata = res.data;
+            //console.log(moveddata)
             this.setState({
                 //moved1: moveddata.results[0].series[0].values,
                 //data: [...this.state.data, {name: moveddata.results[0].series[0].values[0][0], uv: moveddata.results[0].series[0].values[0][2]}],
@@ -56,6 +58,7 @@ class MovedData extends Component {
                 data: [{name: '', pv: this.state.value1, uv: this.state.value2, dv: this.state.value3}]
             })
         })
+        //console.log(this.state.moveddata)
     }
 
 
@@ -90,10 +93,10 @@ class MovedData extends Component {
                 {this.state.value1}
                 </Col>
                 <Col xs={5} lg={2} className='keski'>
-                {this.state.value1}
+                {this.state.value2}
                 </Col>
                 <Col xs={5} lg={2} className='oikea'>
-                {this.state.value1}
+                {this.state.value3}
                 </Col>
                 <Col xs={5} lg={1}>
                 <BarChart
