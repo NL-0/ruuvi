@@ -78,6 +78,72 @@ class MovedData extends Component {
             </BarChart> */}
 
             <Row>
+                <Col xs={5} lg={2}>
+                </Col>
+                <Col xs={5} lg={2}>
+                <b>Liikkeitä yhteensä viimeisen 1h aikana</b>  
+                </Col>
+            </Row>
+            <br />
+            <Row middle="xs">
+                <Col xs={5} sm={5} md={5} lg={2} className='vasen'>
+                {this.state.value1}
+                </Col>
+                <Col xs={5} lg={2} className='keski'>
+                {this.state.value1}
+                </Col>
+                <Col xs={5} lg={2} className='oikea'>
+                {this.state.value1}
+                </Col>
+                <Col xs={5} lg={1}>
+                <BarChart
+                    width={400}
+                    height={200}
+                    data={this.state.data}
+                    // margin={{
+                    // top: 5, right: 30, left: 20, bottom: 5,
+                    // }}
+                    className='chart'
+                >
+                <CartesianGrid strokeDasharray="3 3" />
+                <XAxis dataKey="name" />
+                <YAxis />
+                <Tooltip />
+                {/* <Legend /> */}
+                <Bar dataKey="pv" fill="grey" background={{ fill: '#eee' }} />
+                <Bar dataKey="uv" fill="lightgreen" background={{ fill: '#eee' }}/>
+                <Bar dataKey="dv" fill="lightblue" background={{ fill: '#eee' }}/>
+                </BarChart>
+                </Col>
+            </Row>
+
+{/*             <Row>
+                <Col xs={5} lg={2}>
+                </Col>
+                <Col xs={5} lg={2}>
+                <BarChart
+                    width={400}
+                    height={200}
+                    data={this.state.data}
+                    // margin={{
+                    // top: 5, right: 30, left: 20, bottom: 5,
+                    // }}
+                    className='chart'
+                >
+                <CartesianGrid strokeDasharray="3 3" />
+                <XAxis dataKey="name" />
+                <YAxis />
+                <Tooltip />
+                
+                <Bar dataKey="pv" fill="#8884d8" background={{ fill: '#eee' }} />
+                <Bar dataKey="uv" fill="#82ca9d" background={{ fill: '#eee' }}/>
+                <Bar dataKey="dv" fill="#853907" background={{ fill: '#eee' }}/>
+                </BarChart>
+                </Col>
+            </Row>
+ */}
+{/* 
+            <Row>
                 <Col xs>
                     <u>Liikeitä yhteensä viimeisin 1h aikana</u>  
                 </Col>
@@ -93,29 +159,30 @@ class MovedData extends Component {
                 <Col xs>
                     {this.state.value3}
                 </Col>
-            </Row>
+            </Row> */}
 
-            <Row>
+{/*             <Row>
                 <Col xs>
                 <BarChart
-                    width={500}
-                    height={300}
+                    width={400}
+                    height={200}
                     data={this.state.data}
                     // margin={{
                     // top: 5, right: 30, left: 20, bottom: 5,
                     // }}
+                    className='chart'
                 >
                 <CartesianGrid strokeDasharray="3 3" />
                 <XAxis dataKey="name" />
                 <YAxis />
-                <Tooltip />
+                <Tooltip /> */}
                 {/* <Legend /> */}
-                <Bar dataKey="pv" fill="#8884d8" background={{ fill: '#eee' }} />
+{/*                 <Bar dataKey="pv" fill="#8884d8" background={{ fill: '#eee' }} />
                 <Bar dataKey="uv" fill="#82ca9d" background={{ fill: '#eee' }}/>
                 <Bar dataKey="dv" fill="#853907" background={{ fill: '#eee' }}/>
                 </BarChart>
                 </Col>
-            </Row>
+            </Row> */}
 
 
             </div>

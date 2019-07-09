@@ -84,7 +84,7 @@ class Influx extends Component {
     }
     
     influxacceleration() {
-        axios.get(`http://10.100.0.138:8086/query?db=ruuvi&q=SELECT%20mean(accelerationY),%20mean(accelerationX),%20mean(accelerationZ)%20FROM%20ruuvi_measurements%20GROUP%20BY%20time(1m),%20mac%20fill(0)%20ORDER%20BY%20DESC%20LIMIT%201`)
+        axios.get(`http://10.100.0.138:8086/query?db=ruuvi&q=SELECT%20mean(accelerationX),%20mean(accelerationY),%20mean(accelerationZ)%20FROM%20ruuvi_measurements%20GROUP%20BY%20time(1m),%20mac%20fill(0)%20ORDER%20BY%20DESC%20LIMIT%201`)
         .then(res => {
             const jotain2 = res.data;
             this.setState({
@@ -322,9 +322,12 @@ class Influx extends Component {
         }
 
         return (
+
+            
             <div className="center">
+
             <br />
-            <Row>
+            {/* <Row>
                 <Col xs>
                     <u>{this.state.mac1}</u>
                 </Col>
@@ -335,8 +338,191 @@ class Influx extends Component {
                     <u> {this.state.mac3}</u>
                 </Col>
             </Row>
+            <br /> */}
+
+            <Row>
+                <Col xs={5} lg={2} className='vasen'>
+                <b>{this.state.mac1}</b>
+                </Col>
+                <Col xs={5} lg={2} className='keski'>
+                <b>{this.state.mac2}</b>
+                </Col>
+                <Col xs={5} lg={2} className='oikea'>
+                <b>{this.state.mac3}</b>
+                </Col>
+                <Col xs={5} lg={3}>
+                
+                </Col>
+            </Row>
             <br />
             <Row>
+                <Col xs={5} lg={2}>
+                </Col>
+                <Col xs={5} lg={2}>
+                    <b>Lämpötila</b>&nbsp; <FontAwesomeIcon icon={faTemperatureLow} />
+                </Col>
+            </Row>
+            <br />
+            <Row>
+                <Col xs={5} lg={2} className='vasen'>
+                {this.state.lampo11} C
+                </Col>
+                <Col xs={5} lg={2} className='keski'>
+                {this.state.lampo22} C
+                </Col>
+                <Col xs={5} lg={2} className='oikea'>
+                {this.state.lampo33} C
+                </Col>
+                <Col xs={5} lg={3}>
+                
+                </Col>
+            </Row>
+            <br />
+            <br />
+            <Row>
+                <Col xs={5} lg={2}>
+                </Col>
+                <Col xs={5} lg={2}>
+                <b>Liike</b> <FontAwesomeIcon icon={faArrowsAlt} />
+                </Col>
+            </Row>
+            <br />
+            <Row middle="xs">
+                <Col xs={5} sm={5} md={5} lg={2} className='vasen'>
+                X: <Liike liike={this.state.liike1x} />
+                </Col>
+                <Col xs={5} lg={2} className='keski'>
+                X: <Liike liike={this.state.liike2x} />
+                </Col>
+                <Col xs={5} lg={2} className='oikea'>
+                X: <Liike liike={this.state.liike3x} />
+                </Col>
+                <Col xs={5} lg={1}>
+                <LiikeChart liike1={this.state.liike1x} liike2={this.state.liike2x} liike3={this.state.liike3x} />
+                </Col>
+            </Row>
+
+            <Row middle="xs">
+                <Col xs={5} sm={5} md={5} lg={2} className='vasen'>
+                Y: <Liike liike={this.state.liike1y} />
+                </Col>
+                <Col xs={5} lg={2} className='keski'>
+                Y: <Liike liike={this.state.liike2y} />
+                </Col>
+                <Col xs={5} lg={2} className='oikea'>
+                Y: <Liike liike={this.state.liike3y} />
+                </Col>
+                <Col xs={5} lg={1}>
+                <LiikeChart liike1={this.state.liike1y} liike2={this.state.liike2y} liike3={this.state.liike3y} />
+                </Col>
+            </Row>
+            <Row middle="xs">
+                <Col xs={5} sm={5} md={5} lg={2} className='vasen'>
+                Z: <Liike liike={this.state.liike1z} />
+                </Col>
+                <Col xs={5} lg={2} className='keski'>
+                Z: <Liike liike={this.state.liike2z} />
+                </Col>
+                <Col xs={5} lg={2} className='oikea'>
+                Z: <Liike liike={this.state.liike3z} />
+                </Col>
+                <Col xs={5} lg={1}>
+                <LiikeChart liike1={this.state.liike1z} liike2={this.state.liike2z} liike3={this.state.liike3z} />
+                </Col>
+            </Row>
+            <br />
+            <Row>
+                <Col xs={5} lg={2}>
+                </Col>
+                <Col xs={5} lg={2}>
+                <b>Muutos %</b>
+                </Col>
+            </Row>
+            <br />
+            <Row middle="xs">
+                <Col xs={5} sm={5} md={5} lg={2} className='vasen'>
+                X: <Liike liike={this.state.liike111x} />
+                </Col>
+                <Col xs={5} lg={2} className='keski'>
+                X: <Liike liike={this.state.liike222x} />
+                </Col>
+                <Col xs={5} lg={2} className='oikea'>
+                X: <Liike liike={this.state.liike333x} />
+                </Col>
+                <Col xs={5} lg={1}>
+               
+                </Col>
+            </Row>
+            <Row middle="xs">
+                <Col xs={5} sm={5} md={5} lg={2} className='vasen'>
+                Y: <Liike liike={this.state.liike111y} />
+                </Col>
+                <Col xs={5} lg={2} className='keski'>
+                Y: <Liike liike={this.state.liike222y} />
+                </Col>
+                <Col xs={5} lg={2} className='oikea'>
+                Y: <Liike liike={this.state.liike333y} />
+                </Col>
+                <Col xs={5} lg={1}>
+               
+                </Col>
+            </Row>
+            <Row middle="xs">
+                <Col xs={5} sm={5} md={5} lg={2} className='vasen'>
+                Z: <Liike liike={this.state.liike111z} />
+                </Col>
+                <Col xs={5} lg={2} className='keski'>
+                Z: <Liike liike={this.state.liike222z} />
+                </Col>
+                <Col xs={5} lg={2} className='oikea'>
+                Z: <Liike liike={this.state.liike333z} />
+                </Col>
+                <Col xs={5} lg={1}>
+               
+                </Col>
+            </Row>
+
+            <br />
+            <br />
+            <Row middle="xs">
+                <Col xs={5} sm={5} md={5} lg={2}>
+                <div style={box1}></div>
+                </Col>
+                <Col xs={5} lg={2}>
+                <div style={box2}></div>
+                </Col>
+                <Col xs={5} lg={2}>
+                <div style={box3}></div>
+                </Col>
+                <Col xs={5} lg={1}>
+               
+                </Col>
+            </Row>
+            <br />
+
+            <Row>
+                <Col xs={5} lg={2}>
+                </Col>
+                <Col xs={5} lg={2}>
+                <b>Liikkeitä yhteensä</b>
+                </Col>
+            </Row>
+            <br />
+            <Row middle="xs">
+                <Col xs={5} sm={5} md={5} lg={2} className='vasen'>
+               <div>{this.state.time1.length}</div>
+                </Col>
+                <Col xs={5} lg={2} className='keski'>
+                <div>{this.state.time2.length}</div>
+                </Col>
+                <Col xs={5} lg={2} className='oikea'>
+                <div>{this.state.time3.length}</div>
+                </Col>
+                <Col xs={5} lg={1}>
+               
+                </Col>
+            </Row>
+            {/* <Row>
                 <Col xs>
                     <u>Lämpötila</u>&nbsp; <FontAwesomeIcon icon={faTemperatureLow} />
                 </Col>
@@ -352,9 +538,11 @@ class Influx extends Component {
                 <Col xs>
                     {this.state.lampo33} C
                 </Col>
-            </Row>
+            </Row> */}
             <br />
             <br />
+
+            {/* 
             <Row>
                 <Col xs>
                     <u>Liike</u> <FontAwesomeIcon icon={faArrowsAlt} />
@@ -400,8 +588,8 @@ class Influx extends Component {
                     <Liike liike={this.state.liike3z} />
                 </Col>
             </Row>
-            <LiikeChart liike1={this.state.liike1z} liike2={this.state.liike2z} liike3={this.state.liike3z} />
-            <br />
+            <LiikeChart liike1={this.state.liike1z} liike2={this.state.liike2z} liike3={this.state.liike3z} /> */}
+            {/* <br />
             <Row>
                 <Col xs>
                     <u>Muutos %</u>
@@ -440,10 +628,10 @@ class Influx extends Component {
                 <Col xs>
                     <Liike liike={this.state.liike333z} />
                 </Col>
-            </Row>
-            <br />
-            <br />
-            <Row>
+            </Row> */}
+ {/*            <br />
+            <br /> */}
+{/*             <Row>
                 <Col xs>
                     <div style={box1}></div>
                 </Col>
@@ -453,8 +641,9 @@ class Influx extends Component {
                 <Col xs>
                     <div style={box3}></div>
                 </Col>
-            </Row>
+            </Row> */}
 {/* {content} */}
+{/* 
             <br />
             <Row>
                 <Col xs>
@@ -473,9 +662,33 @@ class Influx extends Component {
                     <div>{this.state.time3.length}</div>
                 </Col>
             </Row>
-            <br />
+            <br /> */}
             <MovedData />
             <br />
+
+            <Row>
+                <Col xs={5} lg={2}>
+                </Col>
+                <Col xs={5} lg={2}>
+                <b>Signal</b> &nbsp;<FontAwesomeIcon icon={faSignal} />
+                </Col>
+            </Row>
+            <br />
+            <Row middle="xs">
+                <Col xs={5} sm={5} md={5} lg={2} className='vasen'>
+                <Liike liike={this.state.signal1} />
+                </Col>
+                <Col xs={5} lg={2} className='keski'>
+                <Liike liike={this.state.signal2} />
+                </Col>
+                <Col xs={5} lg={2} className='oikea'>
+                <Liike liike={this.state.signal3} />
+                </Col>
+                <Col xs={5} lg={1}>
+               
+                </Col>
+            </Row>
+{/* 
             <Row>
                 <Col xs>
                  <u>Signal</u> &nbsp;<FontAwesomeIcon icon={faSignal} />
@@ -502,7 +715,7 @@ class Influx extends Component {
                 <Col xs>
                     
                 </Col>
-            </Row>
+            </Row> */}
             {/* <InfluxTime /> */}
             
             </div>
