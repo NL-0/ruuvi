@@ -2,7 +2,7 @@ const Lampo = props => {
     const { lampo } = props;
 
     if ( lampo > 0 ) {
-        return Number(lampo).toFixed(1)
+        return Number(lampo).toFixed(2)
     }
     else {
         return lampo

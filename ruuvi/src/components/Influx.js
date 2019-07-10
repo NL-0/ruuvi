@@ -49,9 +49,9 @@ class Influx extends Component {
             time3: [],
             lampotest: '',
             data: [],
-            influxtemp: 'http://10.100.0.119:5000/temp',
-            influxsignal: 'http://10.100.0.119:5000/signal',
-            influxacc: 'http://10.100.0.119:5000/xyz',
+            influxtemp: 'http://10.100.0.110:5000/temp',
+            influxsignal: 'http://10.100.0.110:5000/signal',
+            influxacc: 'http://10.100.0.110:5000/xyz',
 
         };
     }
@@ -342,7 +342,7 @@ class Influx extends Component {
                         {this.state.lampo33} C
                 </Col>
                     <Col xs={5} lg={3}>
-
+                    <LiikeChart liike1={this.state.lampo1} liike2={this.state.lampo2} liike3={this.state.lampo3} />
                     </Col>
                 </Row>
                 <br />
