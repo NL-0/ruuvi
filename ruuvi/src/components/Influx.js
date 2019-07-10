@@ -11,7 +11,6 @@ import { write } from 'influx-api';
 import MovedData from './MovedData';
 import LiikeChart from './LiikeChart';
 
-
 library.add(faSignal, faTemperatureLow, faArrowsAlt)
 
 class Influx extends Component {
@@ -167,14 +166,12 @@ class Influx extends Component {
             })
         }
 
-
         if (this.state.liike1z !== this.state.liike11z) {
             this.setState({
                 liike111z: Math.abs(Number(this.state.liike1z) - Number(this.state.liike11z)),
                 liike11z: this.state.liike1z
             })
         }
-
 
         if (this.state.liike2x !== this.state.liike22x) {
             this.setState({
@@ -216,7 +213,6 @@ class Influx extends Component {
             })
         }
 
-
         if ((this.state.liike111x > this.state.arvo) || (this.state.liike111y > this.state.arvo) || (this.state.liike111z > this.state.arvo)) {
             const date = new Date()
             if (this.state.box1c === 'red') {
@@ -234,6 +230,7 @@ class Influx extends Component {
                 box1c: 'red',
             })
         )
+
         if ((this.state.liike222x > this.state.arvo) || (this.state.liike222y > this.state.arvo) || (this.state.liike222z > this.state.arvo)) {
             const date = new Date()
 
@@ -252,6 +249,7 @@ class Influx extends Component {
                 box2c: 'red',
             })
         )
+
         if ((this.state.liike333x > this.state.arvo) || (this.state.liike333y > this.state.arvo) || (this.state.liike333z > this.state.arvo)) {
             const date = new Date()
 
@@ -272,14 +270,12 @@ class Influx extends Component {
             })
         )
 
-
         this.influxasios()
         this.influxacceleration()
         this.influxsignal()
     }
 
     render() {
-
         let box1 = {
             width: '100px',
             height: '20px',
@@ -303,8 +299,6 @@ class Influx extends Component {
         }
 
         return (
-
-
             <div className="center">
 
                 <br />
