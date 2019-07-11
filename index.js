@@ -51,6 +51,17 @@ app.get('/signal', cors(), (req, res) => {
 
 })
 
+app.get('/time1', cors(), (req, res) => {
+    res.header("Access-Control-Allow-Origin", "*");
+    res.header("Access-Control-Allow-Headers", "Origin, X-Requested-With, Content-Type, Accept");
+    axios.get(`http://10.100.0.138:8086/query?db=ruuvi&q=SELECT%20accelerationTotal%20FROM%20ruuvi_measurements%20WHERE%20time%20%3E=%20%272019-07-11T09:41:00Z%27%20and%20time%20%3C=%20%272019-07-11T09:43:00Z%27%20GROUP%20BY%20mac%20ORDER%20BY%20time`)
+        .then(r => {
+            const { data } = r;
+            res.send(data)
+        })
+
+})
+
 app.listen(5000, () => {
     console.log('Server runs on http://localhost:5000')
 })

@@ -10,6 +10,7 @@ import Lampo from './Lampo';
 import { write } from 'influx-api';
 import MovedData from './MovedData';
 import LiikeChart from './LiikeChart';
+import MoveTime from './MoveTime';
 
 library.add(faSignal, faTemperatureLow, faArrowsAlt)
 
@@ -61,7 +62,7 @@ class Influx extends Component {
 
     influxasios() {
         //axios.get(`http://10.100.0.138:8086/query?db=ruuvi&q=SELECT%20mean(temperature)%20FROM%20ruuvi_measurements%20GROUP%20BY%20time(2m),%20mac%20ORDER%20BY%20DESC%20LIMIT%201`)
-         /** Description of prop "foo". */
+        
         axios.get(this.state.influxtemp)
             .then(res => {
                 const jotain = res.data;
@@ -518,6 +519,34 @@ class Influx extends Component {
                         <LiikeChart liike1={this.state.signal1} liike2={this.state.signal2} liike3={this.state.signal3} />
                     </Col>
                 </Row>
+                <br />
+                <Row>
+                    <Col xs={5} lg={2}>
+                    <b>Liikkunut aikana</b> 
+                    </Col>
+                    <Col xs={5} lg={2}>
+                    <b>2019-07-11 | 09:41:00 </b>
+                    </Col>
+                    <Col xs={5} lg={2}>
+                    <b>2019-07-11 | 09:43:00</b>
+                    </Col>
+                </Row>
+                <br />
+                <Row middle="xs">
+                    <Col xs={5} sm={5} md={5} lg={2} className='vasen'>
+                       X<br />Y<br />Z
+                    </Col>
+                    <Col xs={5} lg={2} className='keski'>
+                       X<br />Y<br />Z
+                    </Col>
+                    <Col xs={5} lg={2} className='oikea'>
+                        X<br />Y<br />Z
+                    </Col>
+                    <Col xs={5} lg={1}>
+                    </Col>
+                </Row>
+                <MoveTime url="time1" />
+
             </div>
         )
     }
