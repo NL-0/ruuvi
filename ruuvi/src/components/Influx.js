@@ -298,6 +298,7 @@ class Influx extends Component {
             margin: '0 auto',
         }
 
+        
         return (
             <div className="center">
 
