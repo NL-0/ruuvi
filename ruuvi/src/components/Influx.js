@@ -11,6 +11,7 @@ import { write } from 'influx-api';
 import MovedData from './MovedData';
 import LiikeChart from './LiikeChart';
 import MoveTime from './MoveTime';
+import Button from '@material-ui/core/Button';
 
 library.add(faSignal, faTemperatureLow, faArrowsAlt)
 
@@ -56,6 +57,7 @@ class Influx extends Component {
             influxtemp: 'http://10.100.0.119:5000/temp',
             influxsignal: 'http://10.100.0.119:5000/signal',
             influxacc: 'http://10.100.0.119:5000/xyz',
+            show: false
 
         };
     }
@@ -281,7 +283,14 @@ class Influx extends Component {
         this.influxsignal()
     }
 
+    time1() {
+        console.log("time1")
+        //MoveTime url="time1" />
+    this.setState({show:!this.state.show});
+    }
+
     render() {
+
         let box1 = {
             width: '100px',
             height: '20px',
@@ -304,7 +313,7 @@ class Influx extends Component {
             margin: '0 auto',
         }
 
-        
+        const {show} = this.state
         return (
             <div className="center">
 
@@ -526,10 +535,21 @@ class Influx extends Component {
                     </Col>
                 </Row>
                 <br />
-                <MoveTime url="time1" />
+
+                <Button variant="contained" 
+                color="primary" 
+                onClick={this.time1.bind(this)}
+                >Time1
+                </Button>
+                {show ? <MoveTime url="time1"/> : undefined}
+                {show ? <MoveTime url="time2"/> : undefined}
+                {show ? <MoveTime url="time3"/> : undefined}
+
+
+                {/* <MoveTime url="time1" /> */}
                 <br />
-                <MoveTime url="time2" />
-                <MoveTime url="time3" />
+                {/* <MoveTime url="time2" />
+                <MoveTime url="time3" /> */}
                 
 
             </div>

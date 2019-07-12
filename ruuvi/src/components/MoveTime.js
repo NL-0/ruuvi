@@ -16,11 +16,13 @@ class MoveTime extends Component {
             timemin: [],
             timemin2: [],
             datakeski: [],
+            timer1: '2000'
+
         };
     }
 
     componentDidMount() {
-        this.timerID = setInterval(() => this.tick(), 10000);
+      this.timerID = setInterval(() => this.tick(), this.state.timer1);
     }
 
     componentWillUnmount() {
@@ -66,12 +68,10 @@ class MoveTime extends Component {
                 else {
                     this.setState({
                         data: [...this.state.data, { name: this.state.timedata1[0].values[i][0], pv: this.state.timedata1[0].values[i][1], uv: this.state.timedata1[1].values[i][1], dv: this.state.timedata1[2].values[i][1] }],
-                        datakeski: [...this.state.datakeski, { name: this.state.timedata1[0].values[i][0], pv: (Number(this.state.timedata1[0].values[i][1]) + Number(this.state.timedata1[1].values[i][1]) + Number(this.state.timedata1[2].values[i][1])) / 3 }]
+                        datakeski: [...this.state.datakeski, { name: this.state.timedata1[0].values[i][0], pv: (Number(this.state.timedata1[0].values[i][1]) + Number(this.state.timedata1[1].values[i][1]) + Number(this.state.timedata1[2].values[i][1])) / 3.00 }]
                     })
                 }
                 console.log(this.state.datakeski)
-
-
 
             }
         }
@@ -80,6 +80,7 @@ class MoveTime extends Component {
                 data2: this.state.data,
                 data: [],
             })
+        
         if (this.state.timemin !== this.state.timemin2)
             this.setState({
                 timemin2: this.state.timemin,
@@ -90,10 +91,16 @@ class MoveTime extends Component {
                 datakeski2: this.state.datakeski,
                 datakeski: [],
             })
+
+        if (this.state.data2.length > 1) {
+            clearInterval(this.timerID);
+        }
+
+        //clearInterval(this.timerID);
     };
 
-    axiosurl() {
-        axios.get(this.state.aurl)
+    async axiosurl() {
+        await axios.get(this.state.aurl)
             .then(res => {
                 const resdata = res.data;
                 this.setState({
@@ -101,8 +108,9 @@ class MoveTime extends Component {
                 })
             })
     }
-
+   
     render() {
+        
         return (
             <div>
                 <TimeChart data={this.state.data2} />
