@@ -520,32 +520,17 @@ class Influx extends Component {
                     </Col>
                 </Row>
                 <br />
-                <Row>
-                    <Col xs={5} lg={2}>
-                    <b>Liikkunut aikana</b> 
-                    </Col>
-                    <Col xs={5} lg={2}>
-                    <b>2019-07-11 | 09:41:00 </b>
-                    </Col>
-                    <Col xs={5} lg={2}>
-                    <b>2019-07-11 | 09:43:00</b>
+                <Row >
+                    <Col xs>
+                        <b>Liikkunut aikana</b> 
                     </Col>
                 </Row>
                 <br />
-                <Row middle="xs">
-                    <Col xs={5} sm={5} md={5} lg={2} className='vasen'>
-                       X<br />Y<br />Z
-                    </Col>
-                    <Col xs={5} lg={2} className='keski'>
-                       X<br />Y<br />Z
-                    </Col>
-                    <Col xs={5} lg={2} className='oikea'>
-                        X<br />Y<br />Z
-                    </Col>
-                    <Col xs={5} lg={1}>
-                    </Col>
-                </Row>
                 <MoveTime url="time1" />
+                <br />
+                <MoveTime url="time2" />
+                <MoveTime url="time3" />
+                
 
             </div>
         )

@@ -10,42 +10,12 @@ class TimeChart extends Component {
         this.state = {
             data: this.props.data,
         };
-    }
-
-    // componentDidMount() {
-    //     this.timerID = setInterval(() => this.tick(), 1000);
-    // }
-
-    // componentWillUnmount() {
-    //     clearInterval(this.timerID);
-    // }
-
-    // tick = () => {
-    //     this.addData()
-    // }
-
-    // addData() {
-
-    //         this.setState({
-    //             data: [...this.state.data, { name: '', uv: this.props.liike1, pv: this.props.liike2, dv: this.props.liike3 }]
-    //         })
-    // }
-    
+    }    
 
     render() {
-        console.log("timechart: " + this.props.data)
         return (
-            // <LineChart width={500} height={100} data={this.props.data} className='chart'>
-            //     <Line type="monotone" dataKey="pv" stroke="grey" strokeWidth={2} />
-            //     <Line type="monotone" dataKey="uv" stroke="#90EE90" strokeWidth={2} />
-            //     <Line type="monotone" dataKey="dv" stroke="#ADD8E6" strokeWidth={2} />
-            //     <XAxis dataKey="name" />
-            //     {/* <YAxis /> */}
-            //     <CartesianGrid />
-            // </LineChart>
-
             <LineChart
-        width={1000}
+        width={1100}
         height={500}
         data={this.props.data}
         margin={{
@@ -58,8 +28,8 @@ class TimeChart extends Component {
         <Tooltip />
         <Legend />
         <Line type="monotone" dataKey="pv" stroke="grey" activeDot={{ r: 8 }} />
-        <Line type="monotone" dataKey="uv" stroke="lightgreen" />
-        <Line type="monotone" dataKey="dv" stroke="lightblue" />
+        <Line type="monotone" dataKey="uv" stroke="green" />
+        <Line type="monotone" dataKey="dv" stroke="blue" />
       </LineChart>
         )
     }

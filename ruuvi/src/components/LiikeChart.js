@@ -44,8 +44,8 @@ class LiikeChart extends Component {
         return (
             <LineChart width={500} height={100} data={this.state.data} className='chart'>
                 <Line type="monotone" dataKey="pv" stroke="grey" strokeWidth={2} />
-                <Line type="monotone" dataKey="uv" stroke="#90EE90" strokeWidth={2} />
-                <Line type="monotone" dataKey="dv" stroke="#ADD8E6" strokeWidth={2} />
+                <Line type="monotone" dataKey="uv" stroke="green" strokeWidth={2} />
+                <Line type="monotone" dataKey="dv" stroke="blue" strokeWidth={2} />
                 <XAxis dataKey="name" />
                 {/* <YAxis /> */}
                 <CartesianGrid />
