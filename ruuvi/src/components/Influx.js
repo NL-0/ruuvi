@@ -541,10 +541,14 @@ class Influx extends Component {
                 onClick={this.time1.bind(this)}
                 >Time1
                 </Button>
-                {show ? <MoveTime url="time1"/> : undefined}
+{/*                 {show ? <MoveTime url="time1"/> : undefined}
                 {show ? <MoveTime url="time2"/> : undefined}
                 {show ? <MoveTime url="time3"/> : undefined}
 
+ */}
+                {show ? <MoveTime url="hidastime1"/> : undefined}
+                {show ? <MoveTime url="hidastime2"/> : undefined}
+                {show ? <MoveTime url="hidastime3"/> : undefined}
 
                 {/* <MoveTime url="time1" /> */}
                 <br />

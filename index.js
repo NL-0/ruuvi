@@ -84,6 +84,40 @@ app.get('/time3', cors(), (req, res) => {
 
 })
 
+app.get('/hidastime1', cors(), (req, res) => {
+    res.header("Access-Control-Allow-Origin", "*");
+    res.header("Access-Control-Allow-Headers", "Origin, X-Requested-With, Content-Type, Accept");
+    axios.get(`http://10.100.0.138:8086/query?db=ruuvi&q=SELECT%20mean(accelerationTotal)%20FROM%20ruuvi_measurements%20WHERE%20time%20%3E=%20%272019-07-11T08:56:47Z%27%20and%20time%20%3C=%20%272019-07-11T08:58:09Z%27%20GROUP%20BY%20time(1s),%20mac%20fill(linear)%20ORDER%20BY%20time`)
+        .then(r => {
+            const { data } = r;
+            res.send(data)
+        })
+
+})
+app.get('/hidastime2', cors(), (req, res) => {
+    res.header("Access-Control-Allow-Origin", "*");
+    res.header("Access-Control-Allow-Headers", "Origin, X-Requested-With, Content-Type, Accept");
+    axios.get(`http://10.100.0.138:8086/query?db=ruuvi&q=SELECT%20mean(accelerationTotal)%20FROM%20ruuvi_measurements%20WHERE%20time%20%3E=%20%272019-07-11T09:14:00Z%27%20and%20time%20%3C=%20%272019-07-11T09:16:00Z%27%20GROUP%20BY%20time(1s),%20mac%20fill(linear)%20ORDER%20BY%20time`)
+        .then(r => {
+            const { data } = r;
+            res.send(data)
+        })
+
+})
+
+app.get('/hidastime3', cors(), (req, res) => {
+    res.header("Access-Control-Allow-Origin", "*");
+    res.header("Access-Control-Allow-Headers", "Origin, X-Requested-With, Content-Type, Accept");
+    axios.get(`http://10.100.0.138:8086/query?db=ruuvi&q=SELECT%20mean(accelerationTotal)%20FROM%20ruuvi_measurements%20WHERE%20time%20%3E=%20%272019-07-11T09:17:00Z%27%20and%20time%20%3C=%20%272019-07-11T09:18:20Z%27%20GROUP%20BY%20time(1s),%20mac%20fill(linear)%20ORDER%20BY%20time`)
+        .then(r => {
+            const { data } = r;
+            res.send(data)
+        })
+
+})
+
+
+
 
 app.listen(5000, () => {
     console.log('Server runs on http://localhost:5000')
