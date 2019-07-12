@@ -24,4 +24,40 @@ http://10.100.0.138:8086/query?db=ruuvi&q=SELECT%20temperature%20FROM%20ruuvi_me
 http://10.100.0.138:8086/query?db=ruuvi&q=SELECT%20mean(temperature)%20FROM%20ruuvi_measurements%20GROUP%20BY%20time(2m),%20mac%20limit%2010
 
 
+
+
 Mittausdata 2019-07-11
+11.07.2019 11:52 -> n. 1 min, tasaiset liikkeet, kolme anturia samassa taskussa
+		-- ruuvin influx data poistettu kannasta	
+
+-- aloitettu uudestaan:
+I.1. 11.07.2019 11:56 - 11:57, tasaiset hitaat liikkeet, kolme anturia "samassa taskussa"
+I.2. 11.07.2019 12:14 - 12:16, tasaiset hitaat liikkeet, kolme anturia "samassa taskussa"
+I.3. 11.07.2019 12:17 - 12:18, tasaiset hitaat liikkeet, kolme anturia "samassa taskussa"
+
+
+II.1. 11.07.2019 12:25:40 - 12:27:00, liikkeet normaalinopeudella, kolme anturia "samassa taskussa"
+	- kaksi kierrosta
+
+II.2. 11.07.2019 12:28 - 12:29, liikkeet normaalinopeudella, 8 mallinen, kolme anturia "samassa taskussa"
+	- kaksi kierrosta
+
+
+II.3. 11.07.2019 12:41:02 - 12:41:48, liikkeet normaalinopeudella, 8 mallinen, kolme anturia "samassa taskussa"
+	- kaksi kierrosta
+
+
+Hakulause:
+
+select accelerationX, accelerationY, accelerationZ, accelerationTotal 
+from ruuvi_measurements 
+where time >='2019-07-11T09:41:00Z' and time <= '2019-07-11T09:41:50Z' 
+group by mac  
+order by time desc  
+--II.3: ohjelmassa otetaan väli: 09:40:55 - 09:41:55
+
+
+HUOM!
+jos poistetaan dataa taulusta, säilytetään kuitenkin testidata:
+
+delete from ruuvi_measurements where time > '2019-07-11T09:41:59Z' 
