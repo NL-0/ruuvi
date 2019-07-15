@@ -47,6 +47,9 @@ class Influx extends Component {
             box1c: 'red',
             box2c: 'red',
             box3c: 'red',
+            boxt1c: 'red',
+            boxt2c: 'red',
+            boxt3c: 'red',
             time1: [],
             time2: [],
             time3: [],
@@ -54,6 +57,9 @@ class Influx extends Component {
             data: [],
             show: false,
             influxall: 'http://10.100.0.119:5000/all',
+            acc1: '',
+            acc2: '',
+            acc3: '',
 
         };
     }
@@ -108,13 +114,16 @@ class Influx extends Component {
                     liike3x: jotain[0].mean_4,
                     liike3y: jotain[1].mean_4,
                     liike3z: jotain[2].mean_4,
+                    acc1: jotain[0].mean_5,
+                    acc2: jotain[1].mean_5,
+                    acc3: jotain[2].mean_5,
                 })
             })
 
     }
 
     async componentDidMount() {
-        this.timerID = setInterval(() => this.tick(), 1000);
+        this.timerID = setInterval(() => this.tick(), 2000);
 
     }
 
@@ -304,6 +313,28 @@ class Influx extends Component {
             margin: '0 auto',
         }
 
+        let boxt1 = {
+            width: '100px',
+            height: '20px',
+            background: `${this.state.boxt1c}`,
+            display: 'table',
+            margin: '0 auto',
+        }
+        let boxt2 = {
+            width: '100px',
+            height: '20px',
+            background: `${this.state.boxt2c}`,
+            display: 'table',
+            margin: '0 auto',
+        }
+        let boxt3 = {
+            width: '100px',
+            height: '20px',
+            background: `${this.state.boxt3c}`,
+            display: 'table',
+            margin: '0 auto',
+        }
+
         const { show } = this.state
         return (
             <div className="center">
@@ -341,9 +372,15 @@ class Influx extends Component {
                 <MakeRowBox val1={box1} val2={box2} val3={box3} />
                 <br />
 
-                <MakeRowTitleNoIcon val1="Liikkeitä yhteensä" val2="" />
+                <MakeRowTitleNoIcon val1="Muutos Total" val2="" />
                 <br />
 
+                <MakeRowLiike val1={this.state.acc1} val2={this.state.acc2} val3={this.state.acc3} val4="" />
+                <MakeRowBox val1={boxt1} val2={boxt2} val3={boxt3} />
+                <br />
+                <MakeRowTitleNoIcon val1="Liikkeitä yhteensä" val2="" />
+                <br />
+                
                 <MakeRowLiikeYhteensa val1={this.state.time1.length} val2={this.state.time2.length} val3={this.state.time3.length} />
                 <br />
 

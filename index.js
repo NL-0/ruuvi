@@ -51,7 +51,7 @@ const influx = new Influx.InfluxDB({
 // })
 
 app.get('/all', cors(), (req, res) => {
-influx.query('select mean(temperature), mean(rssi), mean(accelerationX), mean(accelerationY), mean(accelerationZ) from ruuvi_measurements group by time(1m), mac fill(previous) order by desc limit 1').then(results => {
+influx.query('select mean(temperature), mean(rssi), mean(accelerationX), mean(accelerationY), mean(accelerationZ), mean(accelerationTotal) from ruuvi_measurements group by time(1m), mac fill(previous) order by desc limit 1').then(results => {
     //console.log(results)
     res.send(results)
   })
