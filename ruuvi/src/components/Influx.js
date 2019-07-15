@@ -23,9 +23,6 @@ class Influx extends Component {
     constructor(props) {
         super(props)
         this.state = {
-            timer1: '1000',
-            ruuvit: [],
-            test: '',
             mac1: '',
             mac2: '',
             mac3: '',
@@ -54,66 +51,38 @@ class Influx extends Component {
             time3: [],
             lampotest: '',
             data: [],
-            influxtemp: 'http://10.100.0.119:5000/temp',
-            influxsignal: 'http://10.100.0.119:5000/signal',
-            influxacc: 'http://10.100.0.119:5000/xyz',
-            show: false
+            show: false,
+            influxall: 'http://10.100.0.119:5000/all',
 
         };
     }
 
-    influxasios() {
-        //axios.get(`http://10.100.0.138:8086/query?db=ruuvi&q=SELECT%20mean(temperature)%20FROM%20ruuvi_measurements%20GROUP%20BY%20time(2m),%20mac%20ORDER%20BY%20DESC%20LIMIT%201`)
-
-        axios.get(this.state.influxtemp)
+    influxall() {
+        axios.get(this.state.influxall)
             .then(res => {
                 const jotain = res.data;
                 this.setState({
-                    ruuvit: jotain.results,
-                    test: jotain.results,
                     mac1: jotain.results[0].series[0].tags.mac,
                     mac2: jotain.results[0].series[1].tags.mac,
                     mac3: jotain.results[0].series[2].tags.mac,
                     lampo1: jotain.results[0].series[0].values[0][1],
                     lampo2: jotain.results[0].series[1].values[0][1],
                     lampo3: jotain.results[0].series[2].values[0][1],
+                    signal1: jotain.results[0].series[0].values[0][2],
+                    signal2: jotain.results[0].series[1].values[0][2],
+                    signal3: jotain.results[0].series[2].values[0][2],
+                    liike1x: jotain.results[0].series[0].values[0][3],
+                    liike1y: jotain.results[0].series[0].values[0][4],
+                    liike1z: jotain.results[0].series[0].values[0][5],
+                    liike2x: jotain.results[0].series[1].values[0][3],
+                    liike2y: jotain.results[0].series[1].values[0][4],
+                    liike2z: jotain.results[0].series[1].values[0][5],
+                    liike3x: jotain.results[0].series[2].values[0][3],
+                    liike3y: jotain.results[0].series[2].values[0][4],
+                    liike3z: jotain.results[0].series[2].values[0][5],         
                 })
             })
-    }
 
-    influxsignal() {
-        //axios.get(`http://10.100.0.138:8086/query?db=ruuvi&q=SELECT%20mean(rssi)%20FROM%20ruuvi_measurements%20GROUP%20BY%20time(5m),%20mac%20ORDER%20BY%20DESC%20LIMIT%201`)
-        axios.get(this.state.influxsignal)
-            .then(res => {
-                const signal = res.data;
-                this.setState({
-                    signal1: signal.results[0].series[0].values[0][1],
-                    signal2: signal.results[0].series[1].values[0][1],
-                    signal3: signal.results[0].series[2].values[0][1],
-                })
-            })
-    }
-
-    influxacceleration() {
-        //axios.get(`http://10.100.0.138:8086/query?db=ruuvi&q=SELECT%20mean(accelerationX),%20mean(accelerationY),%20mean(accelerationZ)%20FROM%20ruuvi_measurements%20GROUP%20BY%20time(1m),%20mac%20fill(0)%20ORDER%20BY%20DESC%20LIMIT%201`)
-        axios.get(this.state.influxacc)
-            .then(res => {
-                const jotain2 = res.data;
-                this.setState({
-                    liike1: jotain2.results[0].series[0].values[0][1],
-                    liike2: jotain2.results[0].series[1].values[0][1],
-                    liike3: jotain2.results[0].series[2].values[0][1],
-                    liike1x: jotain2.results[0].series[0].values[0][1],
-                    liike1y: jotain2.results[0].series[0].values[0][2],
-                    liike1z: jotain2.results[0].series[0].values[0][3],
-                    liike2x: jotain2.results[0].series[1].values[0][1],
-                    liike2y: jotain2.results[0].series[1].values[0][2],
-                    liike2z: jotain2.results[0].series[1].values[0][3],
-                    liike3x: jotain2.results[0].series[2].values[0][1],
-                    liike3y: jotain2.results[0].series[2].values[0][2],
-                    liike3z: jotain2.results[0].series[2].values[0][3],
-                })
-            })
     }
 
     async componentDidMount() {
@@ -150,12 +119,6 @@ class Influx extends Component {
     }
 
     tick = () => {
-
-/*         this.setState({
-            lampo11: <Lampo lampo={this.state.lampo1} />,
-            lampo22: <Lampo lampo={this.state.lampo2} />,
-            lampo33: <Lampo lampo={this.state.lampo3} />,
-        }) */
 
         if (this.state.liike1x !== this.state.liike11x) {
 
@@ -277,9 +240,10 @@ class Influx extends Component {
             })
         )
 
-        this.influxasios()
-        this.influxacceleration()
-        this.influxsignal()
+        // this.influxasios()
+        // this.influxacceleration()
+        // this.influxsignal()
+        this.influxall()
     }
 
     time1() {
@@ -343,14 +307,13 @@ class Influx extends Component {
 
                 <MakeRowLiikeMuutos val1={this.state.liike111y} val2={this.state.liike222y} val3={this.state.liike333y} val4="Y: " />
 
-
                 <MakeRowLiikeMuutos val1={this.state.liike111z} val2={this.state.liike222z} val3={this.state.liike333z} val4="Z: " />
                 <br />
 
                 <MakeRowBox val1={box1} val2={box2} val3={box3} />
                 <br />
 
-                <MakeRowTitle val1="Likkeitä yhteensä" val2="" />
+                <MakeRowTitle val1="Liikkeitä yhteensä" val2="" />
                 <br />
 
                 <MakeRowLiikeYhteensa val1={this.state.time1.length} val2={this.state.time2.length} val3={this.state.time3.length} />

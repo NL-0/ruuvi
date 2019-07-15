@@ -31,9 +31,6 @@ class MovedData extends Component {
     };
 
     movedaxios() {
-        //http://10.100.0.138:8086/query?db=ruuvi&q=SELECT%20count(mac)%20FROM%20mov3%20GROUP%20BY%20time(10m),%20mac%20ORDER%20BY%20DESC
-        //axios.get(`http://10.100.0.138:8086/query?db=ruuvi&q=SELECT%20*%20FROM%20mov3%20ORDER%20BY%20DESC`)
-        //axios.get(`http://10.100.0.138:8086/query?db=ruuvi&q=SELECT%20count(value1)%20FROM%20mov10%20GROUP%20BY%20time(1h),%20mac%20ORDER%20BY%20DESC`)
         axios.get(this.state.influxmoved).then(res => {
             const moveddata = res.data;
             this.setState({
