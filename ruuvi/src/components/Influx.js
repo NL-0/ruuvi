@@ -14,6 +14,7 @@ import MakeRowLiikeMuutos from './MakeRowLiikeMuutos';
 import MakeRowLiikeYhteensa from './MakeRowLiikeYhteensa';
 import MakeRowTitle from './MakeRowTitle';
 import MakeRowBox from './MakeRowBox';
+import MakeRowTitleNoIcon from './MakeRowTitleNoIcon';
 
 /**
  * General component description in JSDoc format. Markdown is *supported*.
@@ -62,24 +63,51 @@ class Influx extends Component {
             .then(res => {
                 const jotain = res.data;
                 this.setState({
-                    mac1: jotain.results[0].series[0].tags.mac,
-                    mac2: jotain.results[0].series[1].tags.mac,
-                    mac3: jotain.results[0].series[2].tags.mac,
-                    lampo1: jotain.results[0].series[0].values[0][1],
-                    lampo2: jotain.results[0].series[1].values[0][1],
-                    lampo3: jotain.results[0].series[2].values[0][1],
-                    signal1: jotain.results[0].series[0].values[0][2],
-                    signal2: jotain.results[0].series[1].values[0][2],
-                    signal3: jotain.results[0].series[2].values[0][2],
-                    liike1x: jotain.results[0].series[0].values[0][3],
-                    liike1y: jotain.results[0].series[0].values[0][4],
-                    liike1z: jotain.results[0].series[0].values[0][5],
-                    liike2x: jotain.results[0].series[1].values[0][3],
-                    liike2y: jotain.results[0].series[1].values[0][4],
-                    liike2z: jotain.results[0].series[1].values[0][5],
-                    liike3x: jotain.results[0].series[2].values[0][3],
-                    liike3y: jotain.results[0].series[2].values[0][4],
-                    liike3z: jotain.results[0].series[2].values[0][5],         
+                    //http
+                    // mac1: jotain.results[0].series[0].tags.mac,
+                    // mac2: jotain.results[0].series[1].tags.mac,
+                    // mac3: jotain.results[0].series[2].tags.mac,
+                    // lampo1: jotain.results[0].series[0].values[0][1],
+                    // lampo2: jotain.results[0].series[1].values[0][1],
+                    // lampo3: jotain.results[0].series[2].values[0][1],
+                    // signal1: jotain.results[0].series[0].values[0][2],
+                    // signal2: jotain.results[0].series[1].values[0][2],
+                    // signal3: jotain.results[0].series[2].values[0][2],
+                    // liike1x: jotain.results[0].series[0].values[0][3],
+                    // liike1y: jotain.results[0].series[0].values[0][4],
+                    // liike1z: jotain.results[0].series[0].values[0][5],
+                    // liike2x: jotain.results[0].series[1].values[0][3],
+                    // liike2y: jotain.results[0].series[1].values[0][4],
+                    // liike2z: jotain.results[0].series[1].values[0][5],
+                    // liike3x: jotain.results[0].series[2].values[0][3],
+                    // liike3y: jotain.results[0].series[2].values[0][4],
+                    // liike3z: jotain.results[0].series[2].values[0][5],       
+                    //
+                    //Suora  
+
+                    //mean = temperature
+                    //mean_1 = rssi
+                    //mean_2 = AccX
+                    //mean_3 = AccY
+                    //mean_4 = AccZ
+                    mac1: jotain[0].mac,
+                    mac2: jotain[1].mac,
+                    mac3: jotain[2].mac,
+                    lampo1: jotain[0].mean,
+                    lampo2: jotain[1].mean,
+                    lampo3: jotain[2].mean,            
+                    signal1: jotain[0].mean_1,
+                    signal2: jotain[1].mean_1,
+                    signal3: jotain[2].mean_1,
+                    liike1x: jotain[0].mean_2,
+                    liike1y: jotain[1].mean_2,
+                    liike1z: jotain[2].mean_2,
+                    liike2x: jotain[0].mean_3,
+                    liike2y: jotain[1].mean_3,
+                    liike2z: jotain[2].mean_3,
+                    liike3x: jotain[0].mean_4,
+                    liike3y: jotain[1].mean_4,
+                    liike3z: jotain[2].mean_4,
                 })
             })
 
@@ -300,7 +328,7 @@ class Influx extends Component {
                 <MakeRowLiike val1={this.state.liike1z} val2={this.state.liike2z} val3={this.state.liike3z} val4="Z: " />
                 <br />
 
-                <MakeRowTitle val1="Muutos %" val2="" />
+                <MakeRowTitleNoIcon val1="Muutos %" val2="" />
                 <br />
 
                 <MakeRowLiikeMuutos val1={this.state.liike111x} val2={this.state.liike222x} val3={this.state.liike333x} val4="X: " />
@@ -313,7 +341,7 @@ class Influx extends Component {
                 <MakeRowBox val1={box1} val2={box2} val3={box3} />
                 <br />
 
-                <MakeRowTitle val1="Liikkeitä yhteensä" val2="" />
+                <MakeRowTitleNoIcon val1="Liikkeitä yhteensä" val2="" />
                 <br />
 
                 <MakeRowLiikeYhteensa val1={this.state.time1.length} val2={this.state.time2.length} val3={this.state.time3.length} />

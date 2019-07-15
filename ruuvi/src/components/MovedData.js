@@ -34,9 +34,13 @@ class MovedData extends Component {
         axios.get(this.state.influxmoved).then(res => {
             const moveddata = res.data;
             this.setState({
-                value1: moveddata.results[0].series[0].values[0][1],
-                value2: moveddata.results[0].series[1].values[0][1],
-                value3: moveddata.results[0].series[2].values[0][1],
+                // value1: moveddata.results[0].series[0].values[0][1],
+                // value2: moveddata.results[0].series[1].values[0][1],
+                // value3: moveddata.results[0].series[2].values[0][1],
+                // data: [{name: "", pv: this.state.value1, uv: this.state.value2,dv: this.state.value3}]
+                value1: moveddata[0].count,
+                value2: moveddata[1].count,
+                value3: moveddata[2].count,
                 data: [{name: "", pv: this.state.value1, uv: this.state.value2,dv: this.state.value3}]
             });
         });

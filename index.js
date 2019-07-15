@@ -2,21 +2,78 @@ var express = require('express')
 var app = express()
 var axios = require('axios')
 var cors = require('cors')
+const Influx = require('influx');
 
 app.use(cors())
 app.get('/', (req, res) => {
     res.json({ success: true })
 })
 
+const influx = new Influx.InfluxDB({
+    host: '10.100.0.138:8086/',
+    database: 'ruuvi',
+  });
+
+// influx.query(`
+//   select * from ruuvi `)
+// .then( result => response.status(200).json(result) )
+// .catch( error => response.status(500).json({ error }) );
+
+// app.get('/all2', cors(), (req, res) => {
+//     res.header("Access-Control-Allow-Origin", "*");
+//     res.header("Access-Control-Allow-Headers", "Origin, X-Requested-With, Content-Type, Accept");
+//     influx.query('select mean(temperature), mean(rssi), mean(accelerationX), mean(accelerationY), mean(accelerationZ) from ruuvi_measurements group by time(1m), mac fill(previous) order by desc limit 1').then(results => {
+//        const { data } = results;
+//        res.send(data)
+//       })
+
+// })
+
+// app.get('/all', cors(), (req, res) => {
+//     res.header("Access-Control-Allow-Origin", "*");
+//     res.header("Access-Control-Allow-Headers", "Origin, X-Requested-With, Content-Type, Accept");
+//     influx.query('select mean(temperature), mean(rssi), mean(accelerationX), mean(accelerationY), mean(accelerationZ) from ruuvi_measurements group by time(1m), mac fill(previous) order by desc limit 1')
+//     .then(r => {
+//         const { data } = r;
+//         res.json(data)
+//     })
+// })
+
+// app.get('/all', cors(), (req, res) => {
+//     res.header("Access-Control-Allow-Origin", "*");
+//     res.header("Access-Control-Allow-Headers", "Origin, X-Requested-With, Content-Type, Accept");
+//     influx.query('select mean(temperature), mean(rssi), mean(accelerationX), mean(accelerationY), mean(accelerationZ) from ruuvi_measurements group by time(1m), mac fill(previous) order by desc limit 1')
+//         .then(r => {
+//             const { data } = r;
+//             res.send(data)
+//         })
+
+// })
+
 app.get('/all', cors(), (req, res) => {
-    res.header("Access-Control-Allow-Origin", "*");
-    res.header("Access-Control-Allow-Headers", "Origin, X-Requested-With, Content-Type, Accept");
-    axios.get(`http://10.100.0.138:8086/query?db=ruuvi&q=SELECT%20mean(temperature),%20mean(rssi),%20mean(accelerationX),%20mean(accelerationY),%20mean(accelerationZ)%20FROM%20ruuvi_measurements%20GROUP%20BY%20time(1m),%20mac%20fill(previous)%20ORDER%20BY%20DESC%20LIMIT%201`)
-        .then(r => {
-            const { data } = r;
-            res.send(data)
-        })
+influx.query('select mean(temperature), mean(rssi), mean(accelerationX), mean(accelerationY), mean(accelerationZ) from ruuvi_measurements group by time(1m), mac fill(previous) order by desc limit 1').then(results => {
+    //console.log(results)
+    res.send(results)
+  })
 })
+
+// app.get('/mdata', cors(), (req, res) => {
+//     influx.query('SELECT count(value1) FROM mov10 GROUP BY time(1h), mac ORDER BY DESC').then(results => {
+//         //console.log(results)
+//         res.send(results)
+//       })
+//     })
+
+
+// app.get('/all', cors(), (req, res) => {
+//     res.header("Access-Control-Allow-Origin", "*");
+//     res.header("Access-Control-Allow-Headers", "Origin, X-Requested-With, Content-Type, Accept");
+//     axios.get(`http://10.100.0.138:8086/query?db=ruuvi&q=SELECT%20mean(temperature),%20mean(rssi),%20mean(accelerationX),%20mean(accelerationY),%20mean(accelerationZ)%20FROM%20ruuvi_measurements%20GROUP%20BY%20time(1m),%20mac%20fill(previous)%20ORDER%20BY%20DESC%20LIMIT%201`)
+//         .then(r => {
+//             const { data } = r;
+//             res.send(data)
+//         })
+// })
 
 // app.get('/xyz', cors(), (req, res) => {
 //     res.header("Access-Control-Allow-Origin", "*");
@@ -29,15 +86,23 @@ app.get('/all', cors(), (req, res) => {
 // })
 
 app.get('/mdata', cors(), (req, res) => {
-    res.header("Access-Control-Allow-Origin", "*");
-    res.header("Access-Control-Allow-Headers", "Origin, X-Requested-With, Content-Type, Accept");
-    axios.get(`http://10.100.0.138:8086/query?db=ruuvi&q=SELECT%20count(value1)%20FROM%20mov10%20GROUP%20BY%20time(1h),%20mac%20ORDER%20BY%20DESC`)
-        .then(r => {
-            const { data } = r;
-            res.send(data)
-        })
+    influx.query(`SELECT count(value1) FROM mov10 GROUP BY mac, time(1h) ORDER BY DESC LIMIT 1`).then(results => {
+        //console.log(results)
+        res.send(results)
+      })
+    })
 
-})
+
+// app.get('/mdata', cors(), (req, res) => {
+//     res.header("Access-Control-Allow-Origin", "*");
+//     res.header("Access-Control-Allow-Headers", "Origin, X-Requested-With, Content-Type, Accept");
+//     axios.get(`http://10.100.0.138:8086/query?db=ruuvi&q=SELECT%20count(value1)%20FROM%20mov10%20GROUP%20BY%20time(1h),%20mac%20ORDER%20BY%20DESC`)
+//         .then(r => {
+//             const { data } = r;
+//             res.send(data)
+//         })
+
+// })
 
 // app.get('/temp', cors(), (req, res) => {
 //     res.header("Access-Control-Allow-Origin", "*");
