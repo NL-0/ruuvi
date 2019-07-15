@@ -2,18 +2,18 @@ import React, { Component } from 'react'
 import axios from 'axios'
 import './Inf.css';
 import { Row, Col } from 'react-flexbox-grid';
-import Liike from './Liike';
-import { library } from '@fortawesome/fontawesome-svg-core'
-import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
-import { faSignal, faTemperatureLow, faArrowsAlt } from '@fortawesome/free-solid-svg-icons';
-import Lampo from './Lampo';
+//import Lampo from './Lampo';
 import { write } from 'influx-api';
 import MovedData from './MovedData';
-import LiikeChart from './LiikeChart';
 import MoveTime from './MoveTime';
 import Button from '@material-ui/core/Button';
-
-library.add(faSignal, faTemperatureLow, faArrowsAlt)
+import MakeRowT from './MakeRowT';
+import MakeRowLampo from './MakeRowLampo';
+import MakeRowLiike from './MakeRowLiike';
+import MakeRowLiikeMuutos from './MakeRowLiikeMuutos';
+import MakeRowLiikeYhteensa from './MakeRowLiikeYhteensa';
+import MakeRowTitle from './MakeRowTitle';
+import MakeRowBox from './MakeRowBox';
 
 /**
  * General component description in JSDoc format. Markdown is *supported*.
@@ -64,7 +64,7 @@ class Influx extends Component {
 
     influxasios() {
         //axios.get(`http://10.100.0.138:8086/query?db=ruuvi&q=SELECT%20mean(temperature)%20FROM%20ruuvi_measurements%20GROUP%20BY%20time(2m),%20mac%20ORDER%20BY%20DESC%20LIMIT%201`)
-        
+
         axios.get(this.state.influxtemp)
             .then(res => {
                 const jotain = res.data;
@@ -151,12 +151,11 @@ class Influx extends Component {
 
     tick = () => {
 
-        this.setState({
+/*         this.setState({
             lampo11: <Lampo lampo={this.state.lampo1} />,
             lampo22: <Lampo lampo={this.state.lampo2} />,
             lampo33: <Lampo lampo={this.state.lampo3} />,
-
-        })
+        }) */
 
         if (this.state.liike1x !== this.state.liike11x) {
 
@@ -286,7 +285,7 @@ class Influx extends Component {
     time1() {
         console.log("time1")
         //MoveTime url="time1" />
-    this.setState({show:!this.state.show});
+        this.setState({ show: !this.state.show });
     }
 
     render() {
@@ -313,248 +312,85 @@ class Influx extends Component {
             margin: '0 auto',
         }
 
-        const {show} = this.state
+        const { show } = this.state
         return (
             <div className="center">
-
-                <br />
-                <Row>
-                    <Col xs={5} lg={2} className='vasen'>
-                        <b>{this.state.mac1}</b>
-                    </Col>
-                    <Col xs={5} lg={2} className='keski'>
-                        <b>{this.state.mac2}</b>
-                    </Col>
-                    <Col xs={5} lg={2} className='oikea'>
-                        <b>{this.state.mac3}</b>
-                    </Col>
-                    <Col xs={5} lg={3}> 
-
-                    </Col>
-                </Row>
-                <br />
-                <Row>
-                    <Col xs={5} lg={2}>
-                    </Col>
-                    <Col xs={5} lg={2}>
-                        <b>Lämpötila</b>&nbsp; <FontAwesomeIcon icon={faTemperatureLow} />
-                    </Col>
-                </Row>
-                <br />
-                <Row middle="xs">
-                    <Col xs={5} sm={5} md={5} lg={2} className='vasen'>
-                        {this.state.lampo11} C
-                </Col>
-                    <Col xs={5} lg={2} className='keski'>
-                        {this.state.lampo22} C
-                </Col>
-                    <Col xs={5} lg={2} className='oikea'>
-                        {this.state.lampo33} C
-                </Col>
-                    <Col xs={5} lg={3}>
-                    <LiikeChart liike1={this.state.lampo1} liike2={this.state.lampo2} liike3={this.state.lampo3} />
-                    </Col>
-                </Row>
-                <br />
-                <br />
-                <Row>
-                    <Col xs={5} lg={2}>
-                    </Col>
-                    <Col xs={5} lg={2}>
-                        <b>Liike</b> <FontAwesomeIcon icon={faArrowsAlt} />
-                    </Col>
-                </Row>
-                <br />
-                <Row middle="xs">
-                    <Col xs={5} sm={5} md={5} lg={2} className='vasen'>
-                        X: <Liike liike={this.state.liike1x} />
-                    </Col>
-                    <Col xs={5} lg={2} className='keski'>
-                        X: <Liike liike={this.state.liike2x} />
-                    </Col>
-                    <Col xs={5} lg={2} className='oikea'>
-                        X: <Liike liike={this.state.liike3x} />
-                    </Col>
-                    <Col xs={5} lg={1}>
-                        <LiikeChart liike1={this.state.liike1x} liike2={this.state.liike2x} liike3={this.state.liike3x} />
-                    </Col>
-                </Row>
-
-                <Row middle="xs">
-                    <Col xs={5} sm={5} md={5} lg={2} className='vasen'>
-                        Y: <Liike liike={this.state.liike1y} />
-                    </Col>
-                    <Col xs={5} lg={2} className='keski'>
-                        Y: <Liike liike={this.state.liike2y} />
-                    </Col>
-                    <Col xs={5} lg={2} className='oikea'>
-                        Y: <Liike liike={this.state.liike3y} />
-                    </Col>
-                    <Col xs={5} lg={1}>
-                        <LiikeChart liike1={this.state.liike1y} liike2={this.state.liike2y} liike3={this.state.liike3y} />
-                    </Col>
-                </Row>
-                <Row middle="xs">
-                    <Col xs={5} sm={5} md={5} lg={2} className='vasen'>
-                        Z: <Liike liike={this.state.liike1z} />
-                    </Col>
-                    <Col xs={5} lg={2} className='keski'>
-                        Z: <Liike liike={this.state.liike2z} />
-                    </Col>
-                    <Col xs={5} lg={2} className='oikea'>
-                        Z: <Liike liike={this.state.liike3z} />
-                    </Col>
-                    <Col xs={5} lg={1}>
-                        <LiikeChart liike1={this.state.liike1z} liike2={this.state.liike2z} liike3={this.state.liike3z} />
-                    </Col>
-                </Row>
-                <br />
-                <Row>
-                    <Col xs={5} lg={2}>
-                    </Col>
-                    <Col xs={5} lg={2}>
-                        <b>Muutos %</b>
-                    </Col>
-                </Row>
-                <br />
-                <Row middle="xs">
-                    <Col xs={5} sm={5} md={5} lg={2} className='vasen'>
-                        X: <Liike liike={this.state.liike111x} />
-                    </Col>
-                    <Col xs={5} lg={2} className='keski'>
-                        X: <Liike liike={this.state.liike222x} />
-                    </Col>
-                    <Col xs={5} lg={2} className='oikea'>
-                        X: <Liike liike={this.state.liike333x} />
-                    </Col>
-                    <Col xs={5} lg={1}>
-
-                    </Col>
-                </Row>
-                <Row middle="xs">
-                    <Col xs={5} sm={5} md={5} lg={2} className='vasen'>
-                        Y: <Liike liike={this.state.liike111y} />
-                    </Col>
-                    <Col xs={5} lg={2} className='keski'>
-                        Y: <Liike liike={this.state.liike222y} />
-                    </Col>
-                    <Col xs={5} lg={2} className='oikea'>
-                        Y: <Liike liike={this.state.liike333y} />
-                    </Col>
-                    <Col xs={5} lg={1}>
-
-                    </Col>
-                </Row>
-                <Row middle="xs">
-                    <Col xs={5} sm={5} md={5} lg={2} className='vasen'>
-                        Z: <Liike liike={this.state.liike111z} />
-                    </Col>
-                    <Col xs={5} lg={2} className='keski'>
-                        Z: <Liike liike={this.state.liike222z} />
-                    </Col>
-                    <Col xs={5} lg={2} className='oikea'>
-                        Z: <Liike liike={this.state.liike333z} />
-                    </Col>
-                    <Col xs={5} lg={1}>
-
-                    </Col>
-                </Row>
-
-                <br />
-                <br />
-                <Row middle="xs">
-                    <Col xs={5} sm={5} md={5} lg={2}>
-                        <div style={box1}></div>
-                    </Col>
-                    <Col xs={5} lg={2}>
-                        <div style={box2}></div>
-                    </Col>
-                    <Col xs={5} lg={2}>
-                        <div style={box3}></div>
-                    </Col>
-                    <Col xs={5} lg={1}>
-
-                    </Col>
-                </Row>
                 <br />
 
-                <Row>
-                    <Col xs={5} lg={2}>
-                    </Col>
-                    <Col xs={5} lg={2}>
-                        <b>Liikkeitä yhteensä</b>
-                    </Col>
-                </Row>
+                <MakeRowT val1={this.state.mac1} val2={this.state.mac2} val3={this.state.mac3} val4="u" />
                 <br />
-                <Row middle="xs">
-                    <Col xs={5} sm={5} md={5} lg={2} className='vasen'>
-                        <div>{this.state.time1.length}</div>
-                    </Col>
-                    <Col xs={5} lg={2} className='keski'>
-                        <div>{this.state.time2.length}</div>
-                    </Col>
-                    <Col xs={5} lg={2} className='oikea'>
-                        <div>{this.state.time3.length}</div>
-                    </Col>
-                    <Col xs={5} lg={1}>
 
-                    </Col>
-                </Row>
+                <MakeRowTitle val1="Lämpötila" val2="temperature-low" />
                 <br />
+
+                <MakeRowLampo val1={this.state.lampo1} val2={this.state.lampo2} val3={this.state.lampo3} />
+                <br />
+
+                <MakeRowTitle val1="Liike" val2="arrows-alt" />
+                <br />
+
+                <MakeRowLiike val1={this.state.liike1x} val2={this.state.liike2x} val3={this.state.liike3x} val4="X: " />
+
+                <MakeRowLiike val1={this.state.liike1y} val2={this.state.liike2y} val3={this.state.liike3y} val4="Y: " />
+
+                <MakeRowLiike val1={this.state.liike1z} val2={this.state.liike2z} val3={this.state.liike3z} val4="Z: " />
+                <br />
+
+                <MakeRowTitle val1="Muutos %" val2="" />
+                <br />
+
+                <MakeRowLiikeMuutos val1={this.state.liike111x} val2={this.state.liike222x} val3={this.state.liike333x} val4="X: " />
+
+                <MakeRowLiikeMuutos val1={this.state.liike111y} val2={this.state.liike222y} val3={this.state.liike333y} val4="Y: " />
+
+
+                <MakeRowLiikeMuutos val1={this.state.liike111z} val2={this.state.liike222z} val3={this.state.liike333z} val4="Z: " />
+                <br />
+
+                <MakeRowBox val1={box1} val2={box2} val3={box3} />
+                <br />
+
+                <MakeRowTitle val1="Likkeitä yhteensä" val2="" />
+                <br />
+
+                <MakeRowLiikeYhteensa val1={this.state.time1.length} val2={this.state.time2.length} val3={this.state.time3.length} />
                 <br />
 
                 <MovedData />
                 <br />
 
-                <Row>
-                    <Col xs={5} lg={2}>
-                    </Col>
-                    <Col xs={5} lg={2}>
-                        <b>Signal</b> &nbsp;<FontAwesomeIcon icon={faSignal} />
-                    </Col>
-                </Row>
+                <MakeRowTitle val1="Signal" val2="signal" />
                 <br />
-                <Row middle="xs">
-                    <Col xs={5} sm={5} md={5} lg={2} className='vasen'>
-                        <Liike liike={this.state.signal1} />
-                    </Col>
-                    <Col xs={5} lg={2} className='keski'>
-                        <Liike liike={this.state.signal2} />
-                    </Col>
-                    <Col xs={5} lg={2} className='oikea'>
-                        <Liike liike={this.state.signal3} />
-                    </Col>
-                    <Col xs={5} lg={1}>
-                        <LiikeChart liike1={this.state.signal1} liike2={this.state.signal2} liike3={this.state.signal3} />
-                    </Col>
-                </Row>
+
+                <MakeRowLiike val1={this.state.signal1} val2={this.state.signal2} val3={this.state.signal3} val4="" />
+
                 <br />
                 <Row >
                     <Col xs>
-                        <b>Liikkunut aikana</b> 
+                        <b>Liikkunut aikana</b>
                     </Col>
                 </Row>
                 <br />
 
-                <Button variant="contained" 
-                color="primary" 
-                onClick={this.time1.bind(this)}
+                <Button variant="contained"
+                    color="primary"
+                    onClick={this.time1.bind(this)}
                 >Time1
                 </Button>
 {/*                 {show ? <MoveTime url="time1"/> : undefined}
                 {show ? <MoveTime url="time2"/> : undefined}
                 {show ? <MoveTime url="time3"/> : undefined}
 
- */}
-                {show ? <MoveTime url="hidastime1"/> : undefined}
-                {show ? <MoveTime url="hidastime2"/> : undefined}
-                {show ? <MoveTime url="hidastime3"/> : undefined}
+  */}
+                {show ? <MoveTime url="hidastime1" /> : undefined}
+                {show ? <MoveTime url="hidastime2" /> : undefined}
+                {show ? <MoveTime url="hidastime3" /> : undefined}
 
                 {/* <MoveTime url="time1" /> */}
                 <br />
                 {/* <MoveTime url="time2" />
                 <MoveTime url="time3" /> */}
-                
+
 
             </div>
         )
