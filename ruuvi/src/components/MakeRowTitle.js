@@ -15,7 +15,6 @@ class MakeRowTitle extends Component {
         };
     }
 
-
     render() {
         return (
             <Row>

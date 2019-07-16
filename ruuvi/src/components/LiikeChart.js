@@ -1,6 +1,6 @@
 import React, { Component } from 'react'
 import {
-    LineChart, Line, XAxis /*,  YAxis */, CartesianGrid
+    LineChart, Line, XAxis ,  YAxis , CartesianGrid
 } from 'recharts';
 
 class LiikeChart extends Component {
@@ -47,7 +47,7 @@ class LiikeChart extends Component {
                 <Line type="monotone" dataKey="uv" stroke="green" strokeWidth={2} />
                 <Line type="monotone" dataKey="dv" stroke="blue" strokeWidth={2} />
                 <XAxis dataKey="name" />
-                {/* <YAxis /> */}
+                 <YAxis />
                 <CartesianGrid />
             </LineChart>
         )
