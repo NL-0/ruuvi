@@ -1,6 +1,5 @@
 import React, { Component } from 'react'
 import { Row, Col } from 'react-flexbox-grid';
-import './Inf.css';
 
 class MakeRowBox extends Component {
 
@@ -9,7 +8,6 @@ class MakeRowBox extends Component {
         this.state = {
             data: this.props.test1,
         };
-
     }
 
     render() {

@@ -3,13 +3,18 @@ import axios from "axios";
 import TimeChart from './TimeChart';
 //import Button from '@material-ui/core/Button';
 
+
+
 class MoveTime extends Component {
 
     constructor(props) {
         super(props);
         this.state = {
             moved1: [],
-            aurl: "http://10.100.0.119:5000/" + this.props.url,
+            //1: http://10.100.0.119:5000/alltest?q=2019-07-17T10:35:00Z&q2=2019-07-17T10:40:00Z,
+
+            aurl: "http://10.100.0.119:5000/alltest?q=" + this.props.val1 + "Z&q2=" + this.props.val2 + "Z&mac1=" + this.props.mac1,
+            //aurl: "http://10.100.0.119:5000/" + this.props.url,
             timedata1: [],
             data: [],
             data2: [],
@@ -17,7 +22,6 @@ class MoveTime extends Component {
             timemin2: [],
             datakeski: [],
             timer1: '2000'
-
         };
     }
 
@@ -30,7 +34,7 @@ class MoveTime extends Component {
     }
 
     tick = () => {
-
+        console.log(this.state.aurl)
         this.axiosurl();
 
         if ((this.state.timedata1) && (this.state.timedata1.length > 0)) {

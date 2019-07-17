@@ -16,6 +16,7 @@ import MakeRowTitle from './MakeRowTitle';
 import MakeRowBox from './MakeRowBox';
 import MakeRowTitleNoIcon from './MakeRowTitleNoIcon';
 // import LiikeLasku from './LiikeLasku';
+import TextField from '@material-ui/core/TextField';
 
 /**
  * General component description in JSDoc format. Markdown is *supported*.
@@ -65,6 +66,8 @@ class Influx extends Component {
             val2: '',
             val3: '',
             totalarvo: '0.05',
+            aika1value: '',
+            aika2value: '',
         };
     }
 
@@ -259,8 +262,10 @@ class Influx extends Component {
         this.setState({ show: !this.state.show });
     }
 
-    render() {
 
+
+    render() {
+        
         const { show } = this.state
         return (
             <div className="center">
@@ -329,28 +334,45 @@ class Influx extends Component {
                 </Row>
                 <br />
 
+                <TextField id="standard-name"
+                label="Aika1"
+                onChange={e => this.setState({
+                    aika1: e.target.value})}
+                />
+               
+                <TextField id="standard-name"
+                label="Aika2"
+                onChange={e => this.setState({
+                    aika2: e.target.value})}
+                />
                 <Button variant="contained"
                     color="primary"
                     onClick={this.time1.bind(this)}
-                >Time1
+                >Näytä
                 </Button>
-                {/*                 {show ? <MoveTime url="time1"/> : undefined}
+                {show ? <MoveTime val1={this.state.aika1} val2={this.state.aika2} mac1={this.state.mac1} /> : undefined}
+
+                {/*
+                {show ? <MoveTime url="time1"/> : undefined}
                 {show ? <MoveTime url="time2"/> : undefined}
                 {show ? <MoveTime url="time3"/> : undefined}
-  */}
-                {show ? <MoveTime url="hidastime1" /> : undefined}
+                */}
+                {/* {show ? <MoveTime url="hidastime1" /> : undefined}
                 {show ? <MoveTime url="hidastime2" /> : undefined}
-                {show ? <MoveTime url="hidastime3" /> : undefined}
+                {show ? <MoveTime url="hidastime3" /> : undefined} */}
 
                 {/* <MoveTime url="time1" /> */}
                 <br />
                 {/* <MoveTime url="time2" />
                 <MoveTime url="time3" /> */}
+
+
+                
+                <br />
+                
             </div>
         )
     }
 }
-
-
 
 export default Influx

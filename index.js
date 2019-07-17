@@ -191,6 +191,22 @@ app.get('/hidastime3', cors(), (req, res) => {
 
 })
 
+app.get('/alltest', cors(), (req, res) => {
+    let time1 = req.query.q
+    let time2 = req.query.q2
+    let mac1 = req.query.mac1
+
+    let urli = "select mean(temperature), mean(accelerationTotal) from ruuvi_measurements where mac='" + mac1 + "' and (time >= '" + time1 + "' and time <= '" + time2 + "') group by time(2s), mac fill(linear) order by time desc"
+
+    influx.query(urli).then(results => {
+
+    //influx.query("select mean(temperature) from ruuvi_measurements where time >= '2019-07-17T10:50:43Z' and time <= '2019-07-17T10:51:00Z' group by time(2s), mac fill(linear) order by desc").then(results => {
+        //console.log(results)
+        res.send(results)
+        //res.send(req.query.tagId)
+      })
+    })
+
 
 app.listen(5000, () => {
     console.log('Server runs on http://localhost:5000')
