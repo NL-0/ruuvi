@@ -15,6 +15,7 @@ import MakeRowLiikeYhteensa from './MakeRowLiikeYhteensa';
 import MakeRowTitle from './MakeRowTitle';
 import MakeRowBox from './MakeRowBox';
 import MakeRowTitleNoIcon from './MakeRowTitleNoIcon';
+// import LiikeLasku from './LiikeLasku';
 
 /**
  * General component description in JSDoc format. Markdown is *supported*.
@@ -119,7 +120,6 @@ class Influx extends Component {
 
     async componentDidMount() {
         this.timerID = setInterval(() => this.tick(), 4000);
-
     }
 
     async componentWillUnmount() {
@@ -127,8 +127,6 @@ class Influx extends Component {
     }
 
     async addmac(mac) {
-        //poista kirjaimet
-        //let testimac = mac.replace(/\D/g,'');
 
         let testimac = mac
         // stringit ""
@@ -138,38 +136,29 @@ class Influx extends Component {
         //let lii = 'mov4 mac="' + testimac +'",val1=3'
         let lii = `mov10,mac=` + testimac + ` value1="` + testimac + `"`
         //console.log(lii)
-
         //const result2 await write({
-
         /* const result2 =  */await write({
             url: 'http://10.100.0.138:8086',
             db: 'ruuvi',
             data: lii,
         });
         //console.log(result2);
-
     }
 
 
     lasku(val1, val2) {
 
-        if (val1 > 5) {
-            return 1
-        }
-        if (val2 > 5) {
-            return 1
-        }
+        if (val1 > 5) { return 1 }
+        else if (val2 > 5) { return 1 }
         if ((val1 === null) || (val2 === null)) {
             return 1
-        }
-        else {
+        } else {
             let val3 = Math.abs(val1 - val2)
             return val3
         }
     }
 
     tick = () => {
-
         this.setState({
             liike111x: this.lasku(`${this.state.liike1x}`, `${this.state.vliike1x}`),
             liike111y: this.lasku(`${this.state.liike1y}`, `${this.state.vliike1y}`),
@@ -271,49 +260,6 @@ class Influx extends Component {
     }
 
     render() {
-        let box1 = {
-            width: '100px',
-            height: '20px',
-            background: `${this.state.box1c}`,
-            display: 'table',
-            margin: '0 auto',
-        }
-        let box2 = {
-            width: '100px',
-            height: '20px',
-            background: `${this.state.box2c}`,
-            display: 'table',
-            margin: '0 auto',
-        }
-        let box3 = {
-            width: '100px',
-            height: '20px',
-            background: `${this.state.box3c}`,
-            display: 'table',
-            margin: '0 auto',
-        }
-
-        let boxt1 = {
-            width: '100px',
-            height: '20px',
-            background: `${this.state.boxt1c}`,
-            display: 'table',
-            margin: '0 auto',
-        }
-        let boxt2 = {
-            width: '100px',
-            height: '20px',
-            background: `${this.state.boxt2c}`,
-            display: 'table',
-            margin: '0 auto',
-        }
-        let boxt3 = {
-            width: '100px',
-            height: '20px',
-            background: `${this.state.boxt3c}`,
-            display: 'table',
-            margin: '0 auto',
-        }
 
         const { show } = this.state
         return (
@@ -349,7 +295,7 @@ class Influx extends Component {
                 <MakeRowLiikeMuutos val1={this.state.liike111z} val2={this.state.liike222z} val3={this.state.liike333z} val4="Z: " />
                 <br />
 
-                <MakeRowBox val1={box1} val2={box2} val3={box3} />
+                <MakeRowBox val1={this.state.box1c} val2={this.state.box2c} val3={this.state.box1c} />
                 <br />
 
                 <MakeRowTitleNoIcon val1="Muutos Total" val2="" />
@@ -359,7 +305,7 @@ class Influx extends Component {
 
                 <MakeRowLiike val1={this.state.totalacc1} val2={this.state.totalacc2} val3={this.state.totalacc3} val4="" />
 
-                <MakeRowBox val1={boxt1} val2={boxt2} val3={boxt3} />
+                <MakeRowBox val1={this.state.boxt1c} val2={this.state.boxt2c} val3={this.state.boxt1c} />
                 <br />
                 <MakeRowTitleNoIcon val1="Liikkeitä yhteensä" val2="" />
                 <br />

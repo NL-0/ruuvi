@@ -37,3 +37,11 @@
 .oikea {
   background: lightblue;
 }
+
+.box1 {
+  width: '100px';
+  height: '20px';
+  display: 'table';
+  margin: '0 auto';
+  background: red;
+}

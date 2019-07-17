@@ -5,7 +5,8 @@ const Lampo = props => {
         return Number(lampo).toFixed(2) + " C"
     }
     else {
-        return lampo
+        return " C"
+        //return lampo + " C"
     }
 
     // return (
