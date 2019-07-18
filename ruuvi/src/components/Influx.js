@@ -17,6 +17,14 @@ import MakeRowBox from './MakeRowBox';
 import MakeRowTitleNoIcon from './MakeRowTitleNoIcon';
 // import LiikeLasku from './LiikeLasku';
 import TextField from '@material-ui/core/TextField';
+//
+import DateFnsUtils from "@date-io/date-fns"; // choose your lib
+import {
+//   DatePicker,
+//   TimePicker,
+  KeyboardDateTimePicker,
+  MuiPickersUtilsProvider,
+} from "@material-ui/pickers";
 
 /**
  * General component description in JSDoc format. Markdown is *supported*.
@@ -68,6 +76,8 @@ class Influx extends Component {
             totalarvo: '0.05',
             aika1value: '',
             aika2value: '',
+            mehDate: new Date(),
+            mehDate2: new Date(),
         };
     }
 
@@ -141,7 +151,7 @@ class Influx extends Component {
         //console.log(lii)
         //const result2 await write({
         /* const result2 =  */await write({
-            url: 'http://10.100.0.138:8086',
+            url: 'http://10.100.0.111:8086',
             db: 'ruuvi',
             data: lii,
         });
@@ -263,9 +273,24 @@ class Influx extends Component {
     }
 
 
+    onChange1 = (date) => {
+        this.setState({
+          //mehDate1: date.valueOf(),
+          mehDate1: date
+        });
+        //console.log(this.state.mehDate1.customFormat("#DD#/#MM#/#YYYY# #hh#:#mm#:#ss#"))
+        console.log(this.state.mehDate1)
+      };
+
+    onChange2 = (date) => {
+        this.setState({
+            mehDate2:  date.valueOf(),
+        });
+
+        console.log(this.state.mehDate2)
+    }
 
     render() {
-        
         const { show } = this.state
         return (
             <div className="center">
@@ -334,14 +359,55 @@ class Influx extends Component {
                 </Row>
                 <br />
 
+                <MuiPickersUtilsProvider utils={DateFnsUtils}>
+                {/* <DateTimePicker  */}
+                <KeyboardDateTimePicker
+                    variant="inline"
+                    format="yyyy/MM/dd HH:mm:ss"
+                    //onChange={this.handleChangeDate}
+                    onChange={this.onChange1}
+                    //onChange={this.handleChange1.bind(this)}
+                    value={this.state.mehDate1}
+                    // onChange={(e, event) => 
+                    //  this.setState({
+                    //      selectedDate1: e.valueOf(),
+                    //  })
+                    //   //  {console.log(e.valueOf())}
+                        //this.setState({ selectedDate1: event.value,
+                    // }
+                />
+                <KeyboardDateTimePicker
+                    variant="inline"
+                    format="yyyy/MM/dd HH:mm:ss"
+                    onChange={this.onChange2}
+                    value={this.state.mehDate2}
+                />
+
+                {/* <DateTimePicker 
+                    onChange={this.onChange2}
+                    value={this.state.mehDate2}
+                /> */}
+                
+                </MuiPickersUtilsProvider>
+<br /><br />
+                 {this.state.selectedDate1} 
+                {/* <KeyboardDateTimePicker variant="inline"
+                    label="With keyboard"
+                    value="2"
+                    onError={console.log}
+                    format="yyyy/MM/dd HH:mm"
+                /> */}
+                
                 <TextField id="standard-name"
                 label="Aika1"
+                defaultValue="2019-07-18T08:45:00"
                 onChange={e => this.setState({
                     aika1: e.target.value})}
                 />
                
                 <TextField id="standard-name"
                 label="Aika2"
+                defaultValue="2019-07-18T08:46:00"
                 onChange={e => this.setState({
                     aika2: e.target.value})}
                 />
@@ -350,7 +416,11 @@ class Influx extends Component {
                     onClick={this.time1.bind(this)}
                 >Näytä
                 </Button>
-                {show ? <MoveTime val1={this.state.aika1} val2={this.state.aika2} mac1={this.state.mac1} /> : undefined}
+
+                {show ? <MoveTime val1={this.state.mehDate1} val2={this.state.mehDate2} mac1={this.state.mac1} mac2={this.state.mac2} mac3={this.state.mac3} /> : undefined}
+
+                
+{/*                 {show ? <MoveTime val1={this.state.aika1} val2={this.state.aika2} mac1={this.state.mac1} mac2={this.state.mac2} mac3={this.state.mac3} /> : undefined} */}
 
                 {/*
                 {show ? <MoveTime url="time1"/> : undefined}

@@ -10,9 +10,14 @@ app.get('/', (req, res) => {
 })
 
 const influx = new Influx.InfluxDB({
-    host: '10.100.0.138:8086/',
+    host: '10.100.0.111:8086/',
     database: 'ruuvi',
   });
+
+const influx2 = new Influx.InfluxDB({
+    host: '10.100.0.138:8086',
+    database: 'ruuvi',
+})
 
 // influx.query(`
 //   select * from ruuvi `)
@@ -159,44 +164,62 @@ app.get('/mdata', cors(), (req, res) => {
 
 // })
 
-app.get('/hidastime1', cors(), (req, res) => {
-    res.header("Access-Control-Allow-Origin", "*");
-    res.header("Access-Control-Allow-Headers", "Origin, X-Requested-With, Content-Type, Accept");
-    axios.get(`http://10.100.0.138:8086/query?db=ruuvi&q=SELECT%20mean(accelerationTotal)%20FROM%20ruuvi_measurements%20WHERE%20time%20%3E=%20%272019-07-11T08:56:47Z%27%20and%20time%20%3C=%20%272019-07-11T08:58:09Z%27%20GROUP%20BY%20time(1s),%20mac%20fill(linear)%20ORDER%20BY%20time`)
-        .then(r => {
-            const { data } = r;
-            res.send(data)
-        })
+// app.get('/hidastime1', cors(), (req, res) => {
+//     res.header("Access-Control-Allow-Origin", "*");
+//     res.header("Access-Control-Allow-Headers", "Origin, X-Requested-With, Content-Type, Accept");
+//     axios.get(`http://10.100.0.138:8086/query?db=ruuvi&q=SELECT%20mean(accelerationTotal)%20FROM%20ruuvi_measurements%20WHERE%20time%20%3E=%20%272019-07-11T08:56:47Z%27%20and%20time%20%3C=%20%272019-07-11T08:58:09Z%27%20GROUP%20BY%20time(1s),%20mac%20fill(linear)%20ORDER%20BY%20time`)
+//         .then(r => {
+//             const { data } = r;
+//             res.send(data)
+//         })
 
-})
-app.get('/hidastime2', cors(), (req, res) => {
-    res.header("Access-Control-Allow-Origin", "*");
-    res.header("Access-Control-Allow-Headers", "Origin, X-Requested-With, Content-Type, Accept");
-    axios.get(`http://10.100.0.138:8086/query?db=ruuvi&q=SELECT%20mean(accelerationTotal)%20FROM%20ruuvi_measurements%20WHERE%20time%20%3E=%20%272019-07-11T09:14:00Z%27%20and%20time%20%3C=%20%272019-07-11T09:16:00Z%27%20GROUP%20BY%20time(1s),%20mac%20fill(linear)%20ORDER%20BY%20time`)
-        .then(r => {
-            const { data } = r;
-            res.send(data)
-        })
+// })
+// app.get('/hidastime2', cors(), (req, res) => {
+//     res.header("Access-Control-Allow-Origin", "*");
+//     res.header("Access-Control-Allow-Headers", "Origin, X-Requested-With, Content-Type, Accept");
+//     axios.get(`http://10.100.0.138:8086/query?db=ruuvi&q=SELECT%20mean(accelerationTotal)%20FROM%20ruuvi_measurements%20WHERE%20time%20%3E=%20%272019-07-11T09:14:00Z%27%20and%20time%20%3C=%20%272019-07-11T09:16:00Z%27%20GROUP%20BY%20time(1s),%20mac%20fill(linear)%20ORDER%20BY%20time`)
+//         .then(r => {
+//             const { data } = r;
+//             res.send(data)
+//         })
 
-})
+// })
 
-app.get('/hidastime3', cors(), (req, res) => {
-    res.header("Access-Control-Allow-Origin", "*");
-    res.header("Access-Control-Allow-Headers", "Origin, X-Requested-With, Content-Type, Accept");
-    axios.get(`http://10.100.0.138:8086/query?db=ruuvi&q=SELECT%20mean(accelerationTotal)%20FROM%20ruuvi_measurements%20WHERE%20time%20%3E=%20%272019-07-11T09:17:00Z%27%20and%20time%20%3C=%20%272019-07-11T09:18:20Z%27%20GROUP%20BY%20time(1s),%20mac%20fill(linear)%20ORDER%20BY%20time`)
-        .then(r => {
-            const { data } = r;
-            res.send(data)
-        })
+// app.get('/hidastime3', cors(), (req, res) => {
+//     res.header("Access-Control-Allow-Origin", "*");
+//     res.header("Access-Control-Allow-Headers", "Origin, X-Requested-With, Content-Type, Accept");
+//     axios.get(`http://10.100.0.138:8086/query?db=ruuvi&q=SELECT%20mean(accelerationTotal)%20FROM%20ruuvi_measurements%20WHERE%20time%20%3E=%20%272019-07-11T09:17:00Z%27%20and%20time%20%3C=%20%272019-07-11T09:18:20Z%27%20GROUP%20BY%20time(1s),%20mac%20fill(linear)%20ORDER%20BY%20time`)
+//         .then(r => {
+//             const { data } = r;
+//             res.send(data)
+//         })
 
-})
+// })
 
-app.get('/alltest', cors(), (req, res) => {
+app.get('/time2', cors(), (req, res) => {
     let time1 = req.query.q
     let time2 = req.query.q2
-    let mac1 = req.query.mac1
+    let mac = req.query.mac
 
-    let urli = "select mean(temperature), mean(accelerationTotal) from ruuvi_measurements where mac='" + mac1 + "' and (time >= '" + time1 + "' and time <= '" + time2 + "') group by time(2s), mac fill(linear) order by time desc"
+    let urli = "select mean(accelerationTotal) from ruuvi_measurements where mac='" + mac + "' and time >= " + time1 + " and time <= " + time2 + " group by time(2s), mac fill(linear) order by time asc"
+
+    influx2.query(urli).then(results => {
+
+    //influx.query("select mean(temperature) from ruuvi_measurements where time >= '2019-07-17T10:50:43Z' and time <= '2019-07-17T10:51:00Z' group by time(2s), mac fill(linear) order by desc").then(results => {
+        //console.log(results)
+        res.send(results)
+        //res.send(req.query.tagId)
+      })
+    })
+
+app.get('/time', cors(), (req, res) => {
+    let time1 = req.query.q
+    let time2 = req.query.q2
+    let mac = req.query.mac
+
+    //let urli = "select mean(accelerationTotal) from ruuvi_measurements where mac='" + mac + "' and (time >= '" + time1 + "' and time <= '" + time2 + "') group by time(2s), mac fill(linear) order by time asc"
+
+    let urli = "select mean(accelerationTotal) from ruuvi_measurements where mac='" + mac + "' and time >= " + time1 + " and time <= " + time2 + " group by time(2s), mac fill(linear) order by time asc"
 
     influx.query(urli).then(results => {
 
