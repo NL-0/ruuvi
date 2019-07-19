@@ -56,11 +56,18 @@ const influx2 = new Influx.InfluxDB({
 // })
 
 app.get('/all', cors(), (req, res) => {
-influx.query('select mean(temperature), mean(rssi), mean(accelerationX), mean(accelerationY), mean(accelerationZ), mean(accelerationTotal) from ruuvi_measurements group by time(2s), mac fill(linear) order by desc limit 2').then(results => {
+influx.query('select mean(temperature), mean(rssi), mean(accelerationX), mean(accelerationY), mean(accelerationZ), mean(accelerationTotal) from ruuvi_measurements group by time(2s), mac fill(linear) order by asc limit 2').then(results => {
     //console.log(results)
     res.send(results)
   })
 })
+
+app.get('/all2', cors(), (req, res) => {
+  influx2.query('select mean(temperature), mean(rssi), mean(accelerationX), mean(accelerationY), mean(accelerationZ), mean(accelerationTotal) from ruuvi_measurements group by time(2s), mac fill(linear) order by asc limit 2').then(results => {
+      //console.log(results)
+      res.send(results)
+    })
+  })
 
 // app.get('/mdata', cors(), (req, res) => {
 //     influx.query('SELECT count(value1) FROM mov10 GROUP BY time(1h), mac ORDER BY DESC').then(results => {
@@ -201,7 +208,7 @@ app.get('/time2', cors(), (req, res) => {
     let time2 = req.query.q2
     let mac = req.query.mac
 
-    let urli = "select mean(accelerationTotal) from ruuvi_measurements where mac='" + mac + "' and time >= " + time1 + " and time <= " + time2 + " group by time(2s), mac fill(linear) order by time asc"
+    let urli = "select mean(accelerationTotal) from ruuvi_measurements where mac='" + mac + "' and (time >= '" + time1 + "' and time <= '" + time2 + "') group by time(2s), mac fill(linear) order by time asc"
 
     influx2.query(urli).then(results => {
 
@@ -219,10 +226,9 @@ app.get('/time', cors(), (req, res) => {
 
     //let urli = "select mean(accelerationTotal) from ruuvi_measurements where mac='" + mac + "' and (time >= '" + time1 + "' and time <= '" + time2 + "') group by time(2s), mac fill(linear) order by time asc"
 
-    let urli = "select mean(accelerationTotal) from ruuvi_measurements where mac='" + mac + "' and time >= " + time1 + " and time <= " + time2 + " group by time(2s), mac fill(linear) order by time asc"
+    let urli = "select mean(accelerationTotal) from ruuvi_measurements where mac='" + mac + "' and (time >= '" + time1 + "' and time <= '" + time2 + "') group by time(2s), mac fill(linear) order by time asc"
 
     influx.query(urli).then(results => {
-
     //influx.query("select mean(temperature) from ruuvi_measurements where time >= '2019-07-17T10:50:43Z' and time <= '2019-07-17T10:51:00Z' group by time(2s), mac fill(linear) order by desc").then(results => {
         //console.log(results)
         res.send(results)

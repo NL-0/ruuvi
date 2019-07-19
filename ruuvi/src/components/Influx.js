@@ -18,13 +18,11 @@ import MakeRowTitleNoIcon from './MakeRowTitleNoIcon';
 // import LiikeLasku from './LiikeLasku';
 import TextField from '@material-ui/core/TextField';
 //
-import DateFnsUtils from "@date-io/date-fns"; // choose your lib
-import {
-//   DatePicker,
-//   TimePicker,
-  KeyboardDateTimePicker,
-  MuiPickersUtilsProvider,
-} from "@material-ui/pickers";
+// import DateFnsUtils from "@date-io/date-fns"; 
+// import {
+//   KeyboardDateTimePicker,
+//   MuiPickersUtilsProvider,
+// } from "@material-ui/pickers";
 
 /**
  * General component description in JSDoc format. Markdown is *supported*.
@@ -67,6 +65,7 @@ class Influx extends Component {
             data: [],
             show: false,
             influxall: 'http://10.100.0.119:5000/all',
+            influxall2: 'http://10.100.0.119:5000/all2',
             acc1: '',
             acc2: '',
             acc3: '',
@@ -93,39 +92,64 @@ class Influx extends Component {
                     //mean_3 = AccY
                     //mean_4 = AccZ
                     //mean_5 = accTotal
-                    mac1: jotain[0].mac,
-                    mac2: jotain[2].mac,
-                    mac3: jotain[4].mac,
-                    lampo1: jotain[0].mean,
-                    lampo2: jotain[2].mean,
-                    lampo3: jotain[4].mean,
-                    signal1: jotain[0].mean_1,
-                    signal2: jotain[2].mean_1,
-                    signal3: jotain[4].mean_1,
-                    liike1x: jotain[0].mean_2,
-                    liike1y: jotain[2].mean_2,
-                    liike1z: jotain[4].mean_2,
-                    liike2x: jotain[0].mean_3,
-                    liike2y: jotain[2].mean_3,
-                    liike2z: jotain[4].mean_3,
-                    liike3x: jotain[0].mean_4,
-                    liike3y: jotain[2].mean_4,
-                    liike3z: jotain[4].mean_4,
-                    acc1: jotain[0].mean_5,
-                    acc2: jotain[2].mean_5,
-                    acc3: jotain[4].mean_5,
-                    vliike1x: jotain[1].mean_2,
-                    vliike1y: jotain[3].mean_2,
-                    vliike1z: jotain[5].mean_2,
-                    vliike2x: jotain[1].mean_3,
-                    vliike2y: jotain[3].mean_3,
-                    vliike2z: jotain[5].mean_3,
-                    vliike3x: jotain[1].mean_4,
-                    vliike3y: jotain[3].mean_4,
-                    vliike3z: jotain[5].mean_4,
-                    vacc1: jotain[1].mean_5,
-                    vacc2: jotain[3].mean_5,
-                    vacc3: jotain[5].mean_5,
+                    // mac1: jotain[0].mac,
+                    mac2: jotain[0].mac,
+                    mac3: jotain[2].mac,
+                    // lampo1: jotain[0].mean,
+                    lampo2: jotain[0].mean,
+                    lampo3: jotain[2].mean,
+                    // signal1: jotain[0].mean_1,
+                    signal2: jotain[0].mean_1,
+                    signal3: jotain[2].mean_1,
+                    // liike1x: jotain[0].mean_2,
+                    // liike1y: jotain[2].mean_2,
+                    // liike1z: jotain[4].mean_2,
+                    liike2x: jotain[0].mean_2,
+                    liike2y: jotain[0].mean_3,
+                    liike2z: jotain[0].mean_4,
+                    liike3x: jotain[2].mean_2,
+                    liike3y: jotain[2].mean_3,
+                    liike3z: jotain[2].mean_4,
+                    // acc1: jotain[0].mean_5,
+                    acc2: jotain[0].mean_5,
+                    acc3: jotain[2].mean_5,
+                    // vliike1x: jotain[1].mean_2,
+                    // vliike1y: jotain[3].mean_2,
+                    // vliike1z: jotain[5].mean_2,
+                    vliike2x: jotain[1].mean_2,
+                    vliike2y: jotain[1].mean_3,
+                    vliike2z: jotain[1].mean_4,
+                    vliike3x: jotain[3].mean_2,
+                    vliike3y: jotain[3].mean_3,
+                    vliike3z: jotain[3].mean_4,
+                    // vacc1: jotain[1].mean_5,
+                    vacc2: jotain[1].mean_5,
+                    vacc3: jotain[3].mean_5,
+                })
+            })
+
+            axios.get(this.state.influxall2)
+            .then(res => {
+                const jotain2 = res.data;
+                this.setState({
+                    //Suora  
+                    //mean = temperature
+                    //mean_1 = rssi
+                    //mean_2 = AccX
+                    //mean_3 = AccY
+                    //mean_4 = AccZ
+                    //mean_5 = accTotal
+                    mac1: jotain2[0].mac,
+                    lampo1: jotain2[0].mean,
+                    signal1: jotain2[0].mean_1,
+                    liike1x: jotain2[0].mean_2,
+                    liike1y: jotain2[0].mean_3,
+                    liike1z: jotain2[0].mean_4,
+                    acc1: jotain2[0].mean_5,
+                    vliike1x: jotain2[1].mean_2,
+                    vliike1y: jotain2[1].mean_3,
+                    vliike1z: jotain2[1].mean_4,
+                    vacc1: jotain2[1].mean_5,
                 })
             })
 
@@ -275,8 +299,8 @@ class Influx extends Component {
 
     onChange1 = (date) => {
         this.setState({
-          //mehDate1: date.valueOf(),
-          mehDate1: date
+          mehDate1: date.valueOf(),
+          //mehDate1: date
         });
         //console.log(this.state.mehDate1.customFormat("#DD#/#MM#/#YYYY# #hh#:#mm#:#ss#"))
         console.log(this.state.mehDate1)
@@ -359,22 +383,12 @@ class Influx extends Component {
                 </Row>
                 <br />
 
-                <MuiPickersUtilsProvider utils={DateFnsUtils}>
-                {/* <DateTimePicker  */}
+{/*                 <MuiPickersUtilsProvider utils={DateFnsUtils}>
                 <KeyboardDateTimePicker
                     variant="inline"
                     format="yyyy/MM/dd HH:mm:ss"
-                    //onChange={this.handleChangeDate}
                     onChange={this.onChange1}
-                    //onChange={this.handleChange1.bind(this)}
                     value={this.state.mehDate1}
-                    // onChange={(e, event) => 
-                    //  this.setState({
-                    //      selectedDate1: e.valueOf(),
-                    //  })
-                    //   //  {console.log(e.valueOf())}
-                        //this.setState({ selectedDate1: event.value,
-                    // }
                 />
                 <KeyboardDateTimePicker
                     variant="inline"
@@ -382,13 +396,8 @@ class Influx extends Component {
                     onChange={this.onChange2}
                     value={this.state.mehDate2}
                 />
-
-                {/* <DateTimePicker 
-                    onChange={this.onChange2}
-                    value={this.state.mehDate2}
-                /> */}
                 
-                </MuiPickersUtilsProvider>
+                </MuiPickersUtilsProvider> */}
 <br /><br />
                  {this.state.selectedDate1} 
                 {/* <KeyboardDateTimePicker variant="inline"
@@ -400,14 +409,14 @@ class Influx extends Component {
                 
                 <TextField id="standard-name"
                 label="Aika1"
-                defaultValue="2019-07-18T08:45:00"
+                defaultValue="2019-07-19T06:40:00"
                 onChange={e => this.setState({
                     aika1: e.target.value})}
                 />
                
                 <TextField id="standard-name"
                 label="Aika2"
-                defaultValue="2019-07-18T08:46:00"
+                defaultValue="2019-07-19T06:45:00"
                 onChange={e => this.setState({
                     aika2: e.target.value})}
                 />
@@ -417,10 +426,10 @@ class Influx extends Component {
                 >Näytä
                 </Button>
 
-                {show ? <MoveTime val1={this.state.mehDate1} val2={this.state.mehDate2} mac1={this.state.mac1} mac2={this.state.mac2} mac3={this.state.mac3} /> : undefined}
+                {/* {show ? <MoveTime val1={this.state.mehDate1} val2={this.state.mehDate2} mac1={this.state.mac1} mac2={this.state.mac2} mac3={this.state.mac3} /> : undefined} */}
 
                 
-{/*                 {show ? <MoveTime val1={this.state.aika1} val2={this.state.aika2} mac1={this.state.mac1} mac2={this.state.mac2} mac3={this.state.mac3} /> : undefined} */}
+                {show ? <MoveTime val1={this.state.aika1} val2={this.state.aika2} mac1={this.state.mac1} mac2={this.state.mac2} mac3={this.state.mac3} /> : undefined}
 
                 {/*
                 {show ? <MoveTime url="time1"/> : undefined}

@@ -15,9 +15,9 @@ class MoveTime extends Component {
 
             //aurl: "http://10.100.0.119:5000/alltest?q=" + this.props.val1 + "Z&q2=" + this.props.val2 + "Z&mac1=" + this.props.mac1,
             //aurl: "http://10.100.0.119:5000/" + this.props.url,
-            timeurlmac1: "http://10.100.0.119:5000/time2?q=" + this.props.val1 + "&q2=" + this.props.val2 + "&mac=" + this.props.mac1,
-            timeurlmac2: "http://10.100.0.119:5000/time?q=" + this.props.val1 + "&q2=" + this.props.val2 + "&mac=" + this.props.mac2,
-            timeurlmac3: "http://10.100.0.119:5000/time?q=" + this.props.val1 + "&q2=" + this.props.val2 + "&mac=" + this.props.mac3,
+            timeurlmac1: "http://10.100.0.119:5000/time2?q=" + this.props.val1 + "Z&q2=" + this.props.val2 + "Z&mac=" + this.props.mac3,
+            timeurlmac2: "http://10.100.0.119:5000/time?q=" + this.props.val1 + "Z&q2=" + this.props.val2 + "Z&mac=" + this.props.mac2,
+            timeurlmac3: "http://10.100.0.119:5000/time?q=" + this.props.val1 + "Z&q2=" + this.props.val2 + "Z&mac=" + this.props.mac1,
             timedata1: [],
             timedata2: [],
             timedata3: [],
