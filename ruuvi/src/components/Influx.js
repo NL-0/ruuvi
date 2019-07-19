@@ -15,15 +15,11 @@ import MakeRowLiikeYhteensa from './MakeRowLiikeYhteensa';
 import MakeRowTitle from './MakeRowTitle';
 import MakeRowBox from './MakeRowBox';
 import MakeRowTitleNoIcon from './MakeRowTitleNoIcon';
-// import LiikeLasku from './LiikeLasku';
 import TextField from '@material-ui/core/TextField';
-//
-// import DateFnsUtils from "@date-io/date-fns"; 
-// import {
-//   KeyboardDateTimePicker,
-//   MuiPickersUtilsProvider,
-// } from "@material-ui/pickers";
-
+import ArduinoTime from './ArduinoTime';
+// import Radio from '@material-ui/core/Radio';
+// import RadioGroup from '@material-ui/core/RadioGroup';
+// import FormControlLabel from '@material-ui/core/FormControlLabel';
 /**
  * General component description in JSDoc format. Markdown is *supported*.
  */
@@ -77,6 +73,8 @@ class Influx extends Component {
             aika2value: '',
             mehDate: new Date(),
             mehDate2: new Date(),
+            hidas1: '',
+            hidas1aika: ["2019-07-19T09:40:00", "2019-07-19T09:42:00"],
         };
     }
 
@@ -156,7 +154,7 @@ class Influx extends Component {
     }
 
     async componentDidMount() {
-        this.timerID = setInterval(() => this.tick(), 4000);
+        this.timerID = setInterval(() => this.tick(), 10000);
     }
 
     async componentWillUnmount() {
@@ -296,6 +294,12 @@ class Influx extends Component {
         this.setState({ show: !this.state.show });
     }
 
+    time2() {
+        //console.log("time1")
+        //MoveTime url="time1" />
+        this.setState({ show2: !this.state.show2 });
+    }
+
 
     onChange1 = (date) => {
         this.setState({
@@ -316,6 +320,7 @@ class Influx extends Component {
 
     render() {
         const { show } = this.state
+        const { show2 } = this.state
         return (
             <div className="center">
                 <br />
@@ -429,7 +434,27 @@ class Influx extends Component {
                 {/* {show ? <MoveTime val1={this.state.mehDate1} val2={this.state.mehDate2} mac1={this.state.mac1} mac2={this.state.mac2} mac3={this.state.mac3} /> : undefined} */}
 
                 
-                {show ? <MoveTime val1={this.state.aika1} val2={this.state.aika2} mac1={this.state.mac1} mac2={this.state.mac2} mac3={this.state.mac3} /> : undefined}
+                {show ? <MoveTime val1={this.state.aika1} val2={this.state.aika2} mac1={this.state.mac1} mac2={this.state.mac2} mac3={this.state.mac3} val3='1'/> : undefined}
+
+                <br /><br />     
+                {/* Hidas Kävely
+
+                <RadioGroup
+                aria-label="hidas"
+                name="hidas11"
+                onChange={e => this.setState({
+                    aika1: e.target.value})}
+                >
+                    <FormControlLabel value={this.state.hidas1aika} control={<Radio />} label="1" />
+                    <FormControlLabel value={this.state.hidas2aika} control={<Radio />} label="2" />
+                    <FormControlLabel value={this.state.hidas3aika} control={<Radio />} label="3" />
+                
+                </RadioGroup> */}
+
+                <Button variant="contained" onClick={this.time2.bind(this)}>Arduino Time</Button>
+
+                {show2 ? <ArduinoTime /> : undefined}
+                {/* {show2 ? <MoveTime val1={this.state.aika1} val2={this.state.aika2} mac1={this.state.mac1} mac2={this.state.mac2} mac3={this.state.mac3} val3='2'/> : undefined} */}
 
                 {/*
                 {show ? <MoveTime url="time1"/> : undefined}

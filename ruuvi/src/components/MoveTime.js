@@ -3,8 +3,6 @@ import axios from "axios";
 import TimeChart from './TimeChart';
 //import Button from '@material-ui/core/Button';
 
-
-
 class MoveTime extends Component {
 
     constructor(props) {
@@ -15,9 +13,9 @@ class MoveTime extends Component {
 
             //aurl: "http://10.100.0.119:5000/alltest?q=" + this.props.val1 + "Z&q2=" + this.props.val2 + "Z&mac1=" + this.props.mac1,
             //aurl: "http://10.100.0.119:5000/" + this.props.url,
-            timeurlmac1: "http://10.100.0.119:5000/time2?q=" + this.props.val1 + "Z&q2=" + this.props.val2 + "Z&mac=" + this.props.mac3,
+            timeurlmac1: "http://10.100.0.119:5000/time2?q=" + this.props.val1 + "Z&q2=" + this.props.val2 + "Z&mac=" + this.props.mac1,
             timeurlmac2: "http://10.100.0.119:5000/time?q=" + this.props.val1 + "Z&q2=" + this.props.val2 + "Z&mac=" + this.props.mac2,
-            timeurlmac3: "http://10.100.0.119:5000/time?q=" + this.props.val1 + "Z&q2=" + this.props.val2 + "Z&mac=" + this.props.mac1,
+            timeurlmac3: "http://10.100.0.119:5000/time?q=" + this.props.val1 + "Z&q2=" + this.props.val2 + "Z&mac=" + this.props.mac3,
             timedata1: [],
             timedata2: [],
             timedata3: [],
@@ -256,13 +254,33 @@ class MoveTime extends Component {
                 // console.log(resdata)
             })
     }
+
+    makecharts() {
+
+        if (this.props.val3 === '2') {
+            return (
+            <div>
+                <TimeChart data={this.state.chartdata} />
+            </div>
+            )
+        }
+        else return (
+            <div>
+                <TimeChart data={this.state.chartdata} />
+                    <br />Keskiarvo<br />
+                <TimeChart data={this.state.chartkeski} /> 
+            </div>
+        )
+
+    }
    
     render() {
         return (
             <div>
-                <TimeChart data={this.state.chartdata} />
+                {this.makecharts()}
+                {/* <TimeChart data={this.state.chartdata} />
                     <br />Keskiarvo<br />
-                <TimeChart data={this.state.chartkeski} />  
+                <TimeChart data={this.state.chartkeski} />   */}
             </div>
         )
     }
