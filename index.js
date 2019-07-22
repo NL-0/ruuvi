@@ -33,25 +33,25 @@ app.get('/', (req, res) => {
 
 //10.100.0.159
 
-const influx = new Influx.InfluxDB({
-    host: '10.100.0.111:8086/',
-    database: 'ruuvi',
-  });
-
-const influx2 = new Influx.InfluxDB({
-    host: '10.100.0.138:8086/',
-    database: 'ruuvi',
-}) 
-
 // const influx = new Influx.InfluxDB({
-//   host: '10.100.0.119:8086/',
-//   database: 'ruuvi',
-// });
+//     host: '10.100.0.111:8086/',
+//     database: 'ruuvi',
+//   });
 
 // const influx2 = new Influx.InfluxDB({
-//   host: '10.100.0.119:8086/',
-//   database: 'ruuvi',
-// })
+//     host: '10.100.0.138:8086/',
+//     database: 'ruuvi',
+// }) 
+
+const influx = new Influx.InfluxDB({
+  host: '10.100.0.119:8086/',
+  database: 'ruuvi',
+});
+
+const influx2 = new Influx.InfluxDB({
+  host: '10.100.0.119:8086/',
+  database: 'ruuvi',
+})
 
 app.get("/arduino", function(req, res){
   const sqlLauseAsiakas="select * from data where 1=1;";
@@ -67,7 +67,7 @@ app.get("/arduino", function(req, res){
 
 
 app.get('/all', cors(), (req, res) => {
-influx.query('select mean(temperature), mean(rssi), mean(accelerationX), mean(accelerationY), mean(accelerationZ), mean(accelerationTotal) from ruuvi_measurements group by time(4s), mac fill(linear) order by desc limit 2').then(results => {
+influx.query('select mean(temperature), mean(rssi), mean(accelerationX), mean(accelerationY), mean(accelerationZ), mean(accelerationTotal) from ruuvi_measurements group by time(4s), mac fill(previous) order by desc limit 2').then(results => {
     //console.log(results)
     res.send(results)
   })

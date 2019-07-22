@@ -61,7 +61,22 @@ class Influx extends Component {
             .then(res => {
                 const jotain = res.data;
 
-/* 
+                if ((jotain[0].mean !== null) && (jotain[2].mean !== null) && (jotain[4].mean !== null)) {
+                    this.setState({
+                        lampo1: jotain[0].mean,
+                        lampo2: jotain[2].mean,
+                        lampo3: jotain[4].mean,
+                    })
+                }
+
+                if ((jotain[0].mean_2 !== null) && (jotain[0].mean_3 != null) && (jotain[0].mean4 !== null)) {
+                    this.setState({
+                        liike1x: jotain[0].mean_2,
+                        liike1y: jotain[0].mean_3,
+                        liike1z: jotain[0].mean_4,
+                    })
+                }
+
                 this.setState({
                     //Suora  
                     //mean = temperature
@@ -73,15 +88,15 @@ class Influx extends Component {
                     mac1: jotain[0].mac,
                     mac2: jotain[2].mac,
                     mac3: jotain[4].mac,
-                    lampo1: jotain[0].mean,
-                    lampo2: jotain[2].mean,
-                    lampo3: jotain[4].mean,
+                    // lampo1: jotain[0].mean,
+                    // lampo2: jotain[2].mean,
+                    // lampo3: jotain[4].mean,
                     signal1: jotain[0].mean_1,
                     signal2: jotain[2].mean_1,
                     signal3: jotain[4].mean_1,
-                    liike1x: jotain[0].mean_2,
-                    liike1y: jotain[0].mean_3,
-                    liike1z: jotain[0].mean_4,
+                    // liike1x: jotain[0].mean_2,
+                    // liike1y: jotain[0].mean_3,
+                    // liike1z: jotain[0].mean_4,
                     liike2x: jotain[2].mean_2,
                     liike2y: jotain[2].mean_3,
                     liike2z: jotain[2].mean_4,
@@ -104,65 +119,65 @@ class Influx extends Component {
                     vacc2: jotain[3].mean_5,
                     vacc3: jotain[5].mean_5,
                 })
-            }) */
+            }) 
 
-                this.setState({
-                    //Suora  
-                    //mean = temperature
-                    //mean_1 = rssi
-                    //mean_2 = AccX
-                    //mean_3 = AccY
-                    //mean_4 = AccZ
-                    //mean_5 = accTotal
-                    mac2: jotain[0].mac,
-                    mac3: jotain[2].mac,
-                    lampo2: jotain[0].mean,
-                    lampo3: jotain[2].mean,
-                    signal2: jotain[0].mean_1,
-                    signal3: jotain[2].mean_1,
-                    liike2x: jotain[0].mean_2,
-                    liike2y: jotain[0].mean_3,
-                    liike2z: jotain[0].mean_4,
-                    liike3x: jotain[2].mean_2,
-                    liike3y: jotain[2].mean_3,
-                    liike3z: jotain[2].mean_4,
-                    acc2: jotain[0].mean_5,
-                    acc3: jotain[2].mean_5,
-                    vliike2x: jotain[1].mean_2,
-                    vliike2y: jotain[1].mean_3,
-                    vliike2z: jotain[1].mean_4,
-                    vliike3x: jotain[3].mean_2,
-                    vliike3y: jotain[3].mean_3,
-                    vliike3z: jotain[3].mean_4,
-                    vacc2: jotain[1].mean_5,
-                    vacc3: jotain[3].mean_5,
-                })
-            })
+        //         this.setState({
+        //             //Suora  
+        //             //mean = temperature
+        //             //mean_1 = rssi
+        //             //mean_2 = AccX
+        //             //mean_3 = AccY
+        //             //mean_4 = AccZ
+        //             //mean_5 = accTotal
+        //             mac2: jotain[0].mac,
+        //             mac3: jotain[2].mac,
+        //             lampo2: jotain[0].mean,
+        //             lampo3: jotain[2].mean,
+        //             signal2: jotain[0].mean_1,
+        //             signal3: jotain[2].mean_1,
+        //             liike2x: jotain[0].mean_2,
+        //             liike2y: jotain[0].mean_3,
+        //             liike2z: jotain[0].mean_4,
+        //             liike3x: jotain[2].mean_2,
+        //             liike3y: jotain[2].mean_3,
+        //             liike3z: jotain[2].mean_4,
+        //             acc2: jotain[0].mean_5,
+        //             acc3: jotain[2].mean_5,
+        //             vliike2x: jotain[1].mean_2,
+        //             vliike2y: jotain[1].mean_3,
+        //             vliike2z: jotain[1].mean_4,
+        //             vliike3x: jotain[3].mean_2,
+        //             vliike3y: jotain[3].mean_3,
+        //             vliike3z: jotain[3].mean_4,
+        //             vacc2: jotain[1].mean_5,
+        //             vacc3: jotain[3].mean_5,
+        //         })
+        //     })
 
-        axios.get(this.state.influxall2)
-            .then(res => {
-                const jotain2 = res.data;
-                this.setState({
-                    //Suora  
-                    //mean = temperature
-                    //mean_1 = rssi
-                    //mean_2 = AccX
-                    //mean_3 = AccY
-                    //mean_4 = AccZ
-                    //mean_5 = accTotal
-                    mac1: jotain2[0].mac,
-                    lampo1: jotain2[0].mean,
-                    signal1: jotain2[0].mean_1,
-                    liike1x: jotain2[0].mean_2,
-                    liike1y: jotain2[0].mean_3,
-                    liike1z: jotain2[0].mean_4,
-                    acc1: jotain2[0].mean_5,
-                    vliike1x: jotain2[1].mean_2,
-                    vliike1y: jotain2[1].mean_3,
-                    vliike1z: jotain2[1].mean_4,
-                    vacc1: jotain2[1].mean_5,
-                })
-            })
+        // axios.get(this.state.influxall2)
+        //     .then(res => {
+        //         const jotain2 = res.data;
+        //         this.setState({
+        //             //Suora  
+        //             //mean = temperature
+        //             //mean_1 = rssi
+        //             //mean_2 = AccX
+        //             //mean_3 = AccY
+        //             //mean_4 = AccZ
+        //             //mean_5 = accTotal
+        //             mac1: jotain2[0].mac,
+        //             lampo1: jotain2[0].mean,
+        //             signal1: jotain2[0].mean_1,
+        //             liike1x: jotain2[0].mean_2,
+        //             liike1y: jotain2[0].mean_3,
+        //             liike1z: jotain2[0].mean_4,
+        //             acc1: jotain2[0].mean_5,
+        //             vliike1x: jotain2[1].mean_2,
+        //             vliike1y: jotain2[1].mean_3,
+        //             vliike1z: jotain2[1].mean_4,
+        //             vacc1: jotain2[1].mean_5,
+        //         })
+        //     })
 
     }
 

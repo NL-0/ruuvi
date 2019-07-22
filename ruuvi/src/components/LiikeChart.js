@@ -13,7 +13,7 @@ class LiikeChart extends Component {
     }
 
     componentDidMount() {
-        this.timerID = setInterval(() => this.tick(), 1000);
+        this.timerID = setInterval(() => this.tick(), 4000);
     }
 
     componentWillUnmount() {
@@ -29,13 +29,13 @@ class LiikeChart extends Component {
         if (this.state.data.length < 50) {
 
             this.setState({
-                data: [...this.state.data, { name: '', uv: this.props.liike1, pv: this.props.liike2, dv: this.props.liike3 }],
+                data: [...this.state.data, { name: '', pv: this.props.liike1, uv: this.props.liike2, dv: this.props.liike3 }],
             })
         }
         else {
             this.state.data.shift()
             this.setState({
-                data: [...this.state.data, { name: '', uv: this.props.liike1, pv: this.props.liike2, dv: this.props.liike3 }]
+                data: [...this.state.data, { name: '', pv: this.props.liike1, uv: this.props.liike2, dv: this.props.liike3 }]
             })
         }
     }
