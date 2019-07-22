@@ -3,7 +3,6 @@ import axios from "axios";
 import TimeChart from './TimeChart';
 
 class ArduinoTime extends Component {
-
     constructor(props) {
         super(props);
         this.state = {
@@ -22,10 +21,8 @@ class ArduinoTime extends Component {
     }
   
     tick = () => {
-
         this.axiosurl();
-
-        if(this.state.arduinodata.length > 0) {
+        if (this.state.arduinodata.length > 0) {
             for (var i = 0; i < this.state.arduinodata.length; i++) {
                 this.setState({
                     arduinochart: [...this.state.arduinochart, {name: this.state.arduinodata[i].time, pv: this.state.arduinodata[i].data}],
@@ -33,13 +30,13 @@ class ArduinoTime extends Component {
             }
         }
 
-
         if (this.state.arduinochart.length > 0) {
             this.state.arduinochart.shift();
             clearInterval(this.timerID);
         }
         console.log(this.state.arduinochart)
     }
+    
     async axiosurl() {
         await axios.get(this.state.arduinourl)
             .then(res => {
@@ -48,9 +45,7 @@ class ArduinoTime extends Component {
                     arduinodata: resdata,
                 })
             })
-      //  console.log(this.state.arduinodata[2].data)
     }
-
 
     render() {
         return (

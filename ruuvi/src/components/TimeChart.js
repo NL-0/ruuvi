@@ -14,14 +14,7 @@ class TimeChart extends Component {
 
     render() {
         return (
-            <LineChart
-        width={1100}
-        height={500}
-        data={this.props.data}
-        margin={{
-          top: 5, right: 30, left: 20, bottom: 5,
-        }}
-      >
+            <LineChart width={1100} height={500} data={this.props.data} margin={{ top: 5, right: 30, left: 20, bottom: 5 }} >
         <CartesianGrid strokeDasharray="3 3" />
         <XAxis dataKey="name" />
         <YAxis />

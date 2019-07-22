@@ -60,6 +60,52 @@ class Influx extends Component {
         axios.get(this.state.influxall)
             .then(res => {
                 const jotain = res.data;
+
+/* 
+                this.setState({
+                    //Suora  
+                    //mean = temperature
+                    //mean_1 = rssi
+                    //mean_2 = AccX
+                    //mean_3 = AccY
+                    //mean_4 = AccZ
+                    //mean_5 = accTotal
+                    mac1: jotain[0].mac,
+                    mac2: jotain[2].mac,
+                    mac3: jotain[4].mac,
+                    lampo1: jotain[0].mean,
+                    lampo2: jotain[2].mean,
+                    lampo3: jotain[4].mean,
+                    signal1: jotain[0].mean_1,
+                    signal2: jotain[2].mean_1,
+                    signal3: jotain[4].mean_1,
+                    liike1x: jotain[0].mean_2,
+                    liike1y: jotain[0].mean_3,
+                    liike1z: jotain[0].mean_4,
+                    liike2x: jotain[2].mean_2,
+                    liike2y: jotain[2].mean_3,
+                    liike2z: jotain[2].mean_4,
+                    liike3x: jotain[4].mean_2,
+                    liike3y: jotain[4].mean_3,
+                    liike3z: jotain[4].mean_4,
+                    acc1: jotain[0].mean_5,
+                    acc2: jotain[2].mean_5,
+                    acc3: jotain[4].mean_5,
+                    vliike1x: jotain[1].mean_2,
+                    vliike1y: jotain[1].mean_3,
+                    vliike1z: jotain[1].mean_4,
+                    vliike2x: jotain[3].mean_2,
+                    vliike2y: jotain[3].mean_3,
+                    vliike2z: jotain[3].mean_4,
+                    vliike3x: jotain[5].mean_2,
+                    vliike3y: jotain[5].mean_3,
+                    vliike3z: jotain[5].mean_4,
+                    vacc1: jotain[1].mean_5,
+                    vacc2: jotain[3].mean_5,
+                    vacc3: jotain[5].mean_5,
+                })
+            }) */
+
                 this.setState({
                     //Suora  
                     //mean = temperature
@@ -121,7 +167,7 @@ class Influx extends Component {
     }
 
     async componentDidMount() {
-        this.timerID = setInterval(() => this.tick(), 10000);
+        this.timerID = setInterval(() => this.tick(), 4000);
     }
 
     async componentWillUnmount() {
@@ -129,7 +175,6 @@ class Influx extends Component {
     }
 
     async addmac(mac) {
-
         let testimac = mac
         // stringit ""
         // ,values EI välilyöntiä
@@ -137,10 +182,9 @@ class Influx extends Component {
         //
         //let lii = 'mov4 mac="' + testimac +'",val1=3'
         let lii = `mov10,mac=` + testimac + ` value1="` + testimac + `"`
-        //console.log(lii)
         //const result2 await write({
         /* const result2 =  */await write({
-            url: 'http://10.100.0.111:8086',
+            url: 'http://10.100.0.119:8086',
             db: 'ruuvi',
             data: lii,
         });

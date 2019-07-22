@@ -14,7 +14,10 @@ class MovedData extends Component {
             value1: "",
             value2: "",
             value3: "",
-            influxmoved: 'http://10.100.0.119:5000/mdata'
+            influxmoved: 'http://10.100.0.119:5000/mdata',
+            moveddata1: [],
+            moveddata2: [],
+            moveddata3: [],
         };
     }
 

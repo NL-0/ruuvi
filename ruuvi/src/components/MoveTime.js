@@ -1,14 +1,11 @@
 import React, { Component } from 'react'
 import axios from "axios";
 import TimeChart from './TimeChart';
-//import Button from '@material-ui/core/Button';
 
 class MoveTime extends Component {
-
     constructor(props) {
         super(props);
         this.state = {
-            moved1: [],
             timeurlmac1: "http://10.100.0.119:5000/time2?q=" + this.props.val1 + "Z&q2=" + this.props.val2 + "Z&mac=" + this.props.mac1,
             timeurlmac2: "http://10.100.0.119:5000/time?q=" + this.props.val1 + "Z&q2=" + this.props.val2 + "Z&mac=" + this.props.mac2,
             timeurlmac3: "http://10.100.0.119:5000/time?q=" + this.props.val1 + "Z&q2=" + this.props.val2 + "Z&mac=" + this.props.mac3,
@@ -21,9 +18,6 @@ class MoveTime extends Component {
             data11: [],
             data22: [],
             data33: [],
-            timemin: [],
-            timemin2: [],
-            datakeski: [],
             timer1: '2000',
             chartdata: [],
             datatime: [],
@@ -32,7 +26,7 @@ class MoveTime extends Component {
     }
 
     componentDidMount() {
-      this.timerID = setInterval(() => this.tick(), this.state.timer1);
+        this.timerID = setInterval(() => this.tick(), this.state.timer1);
     }
 
     componentWillUnmount() {
@@ -52,33 +46,31 @@ class MoveTime extends Component {
                     datatime: [...this.state.datatime, this.state.timedata1[i].time],
                 })
             }
-
         }
-        if ((this.state.timedata2) && (this.state.timedata2.length > 0)) { 
-             for (var y = 0; y < this.state.timedata2.length; y++) {
-                 this.setState({
-                     data2: [...this.state.data2, this.state.timedata2[y].mean]
-                 })
-             }
- 
-         }
-         if ((this.state.timedata3) && (this.state.timedata3.length > 0)) {
-             for (var z = 0; z < this.state.timedata3.length; z++) {
-                 this.setState({
-                     data3: [...this.state.data3, this.state.timedata3[z].mean]
-                 })
-             }
- 
-         }
+
+        if ((this.state.timedata2) && (this.state.timedata2.length > 0)) {
+            for (var y = 0; y < this.state.timedata2.length; y++) {
+                this.setState({
+                    data2: [...this.state.data2, this.state.timedata2[y].mean]
+                })
+            }
+        }
+
+        if ((this.state.timedata3) && (this.state.timedata3.length > 0)) {
+            for (var z = 0; z < this.state.timedata3.length; z++) {
+                this.setState({
+                    data3: [...this.state.data3, this.state.timedata3[z].mean]
+                })
+            }
+        }
 
         if (this.state.data1 !== this.state.data11) {
             this.setState({
                 data11: this.state.data1,
                 data1: [],
-            }) 
+            })
             this.state.data11.shift()
         }
-
 
         if (this.state.data2 !== this.state.data22) {
             this.setState({
@@ -97,39 +89,38 @@ class MoveTime extends Component {
         }
 
         for (var q = 0; q < this.state.timedata1.length; q++) {
-
             if (this.state.data11[q] > 5) {
                 this.setState({
-                    chartdata: [...this.state.chartdata, {name: this.state.datatime[q], pv: '1', uv: this.state.data22[q], dv: this.state.data33[q]}], 
-                    chartkeski:[...this.state.chartkeski, { name: this.state.datatime[q], pv: ('1' + this.state.data22[q] + this.state.data33[q]) / 3 }]
+                    chartdata: [...this.state.chartdata, { name: this.state.datatime[q], pv: '1', uv: this.state.data22[q], dv: this.state.data33[q] }],
+                    chartkeski: [...this.state.chartkeski, { name: this.state.datatime[q], pv: ('1' + this.state.data22[q] + this.state.data33[q]) / 3 }]
                 })
             }
             else if (this.state.data22[q] > 5) {
                 this.setState({
-                    chartdata: [...this.state.chartdata, {name: this.state.datatime[q], pv: this.state.data11[q], uv: '1', dv: this.state.data33[q]}], 
-                    chartkeski:[...this.state.chartkeski, { name: this.state.datatime[q], pv: (this.state.data11[q] + '1' + this.state.data33[q]) / 3 }]
+                    chartdata: [...this.state.chartdata, { name: this.state.datatime[q], pv: this.state.data11[q], uv: '1', dv: this.state.data33[q] }],
+                    chartkeski: [...this.state.chartkeski, { name: this.state.datatime[q], pv: (this.state.data11[q] + '1' + this.state.data33[q]) / 3 }]
                 })
             }
             else if (this.state.data33[q] > 5) {
                 this.setState({
-                    chartdata: [...this.state.chartdata, {name: this.state.datatime[q], pv: this.state.data11[q], uv: this.state.data22[q], dv: '1'}], 
-                    chartkeski:[...this.state.chartkeski, { name: this.state.datatime[q], pv: (this.state.data11[q] +this.state.data22[q] + 1) / 3 }]
+                    chartdata: [...this.state.chartdata, { name: this.state.datatime[q], pv: this.state.data11[q], uv: this.state.data22[q], dv: '1' }],
+                    chartkeski: [...this.state.chartkeski, { name: this.state.datatime[q], pv: (this.state.data11[q] + this.state.data22[q] + 1) / 3 }]
                 })
             }
             else {
                 this.setState({
-                    chartdata: [...this.state.chartdata, {name: this.state.datatime[q], pv: this.state.data11[q], uv: this.state.data22[q], dv: this.state.data33[q]}], 
-                    chartkeski:[...this.state.chartkeski, { name: this.state.datatime[q], pv: (this.state.data11[q] +this.state.data22[q] + this.state.data33[q]) / 3 }]
+                    chartdata: [...this.state.chartdata, { name: this.state.datatime[q], pv: this.state.data11[q], uv: this.state.data22[q], dv: this.state.data33[q] }],
+                    chartkeski: [...this.state.chartkeski, { name: this.state.datatime[q], pv: (this.state.data11[q] + this.state.data22[q] + this.state.data33[q]) / 3 }]
                 })
             }
         }
 
         if ((this.state.data11.length > 1) && (this.state.data22.length > 1) && this.state.data33.length > 1) {
-             clearInterval(this.timerID);
-         }
-         console.log(this.state.data11)
-         console.log(this.state.data22)
-         console.log(this.state.data33)
+            clearInterval(this.timerID);
+        }
+        console.log(this.state.data11)
+        console.log(this.state.data22)
+        console.log(this.state.data33)
 
     };
 
@@ -154,21 +145,20 @@ class MoveTime extends Component {
     makecharts() {
         if (this.props.val3 === '2') {
             return (
-            <div>
-                <TimeChart data={this.state.chartdata} />
-            </div>
+                <div>
+                    <TimeChart data={this.state.chartdata} />
+                </div>
             )
         }
         else return (
             <div>
                 <TimeChart data={this.state.chartdata} />
-                    <br />Keskiarvo<br />
-                <TimeChart data={this.state.chartkeski} /> 
+                <br />Keskiarvo<br />
+                <TimeChart data={this.state.chartkeski} />
             </div>
         )
-
     }
-   
+
     render() {
         return (
             <div>
