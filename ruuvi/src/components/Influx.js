@@ -2,7 +2,6 @@ import React, { Component } from 'react'
 import axios from 'axios'
 import './Inf.css';
 import { Row, Col } from 'react-flexbox-grid';
-//import Lampo from './Lampo';
 import { write } from 'influx-api';
 import MovedData from './MovedData';
 import MoveTime from './MoveTime';
@@ -17,9 +16,7 @@ import MakeRowBox from './MakeRowBox';
 import MakeRowTitleNoIcon from './MakeRowTitleNoIcon';
 import TextField from '@material-ui/core/TextField';
 import ArduinoTime from './ArduinoTime';
-// import Radio from '@material-ui/core/Radio';
-// import RadioGroup from '@material-ui/core/RadioGroup';
-// import FormControlLabel from '@material-ui/core/FormControlLabel';
+
 /**
  * General component description in JSDoc format. Markdown is *supported*.
  */
@@ -34,16 +31,6 @@ class Influx extends Component {
             lampo1: '',
             lampo2: '',
             lampo3: '',
-            liike1: '0',
-            liike2: '0',
-            liike3: '0',
-            liike11: '0',
-            liike22: '0',
-            liike33: '0',
-            test11: '0',
-            liike111: '',
-            liike222: '',
-            liike333: '',
             signal1: '',
             signal2: '',
             signal3: '',
@@ -57,24 +44,15 @@ class Influx extends Component {
             time1: [],
             time2: [],
             time3: [],
-            lampotest: '',
-            data: [],
             show: false,
             influxall: 'http://10.100.0.119:5000/all',
             influxall2: 'http://10.100.0.119:5000/all2',
             acc1: '',
             acc2: '',
             acc3: '',
-            liiketest1x: '',
             val2: '',
             val3: '',
             totalarvo: '0.05',
-            aika1value: '',
-            aika2value: '',
-            mehDate: new Date(),
-            mehDate2: new Date(),
-            hidas1: '',
-            hidas1aika: ["2019-07-19T09:40:00", "2019-07-19T09:42:00"],
         };
     }
 
@@ -90,43 +68,32 @@ class Influx extends Component {
                     //mean_3 = AccY
                     //mean_4 = AccZ
                     //mean_5 = accTotal
-                    // mac1: jotain[0].mac,
                     mac2: jotain[0].mac,
                     mac3: jotain[2].mac,
-                    // lampo1: jotain[0].mean,
                     lampo2: jotain[0].mean,
                     lampo3: jotain[2].mean,
-                    // signal1: jotain[0].mean_1,
                     signal2: jotain[0].mean_1,
                     signal3: jotain[2].mean_1,
-                    // liike1x: jotain[0].mean_2,
-                    // liike1y: jotain[2].mean_2,
-                    // liike1z: jotain[4].mean_2,
                     liike2x: jotain[0].mean_2,
                     liike2y: jotain[0].mean_3,
                     liike2z: jotain[0].mean_4,
                     liike3x: jotain[2].mean_2,
                     liike3y: jotain[2].mean_3,
                     liike3z: jotain[2].mean_4,
-                    // acc1: jotain[0].mean_5,
                     acc2: jotain[0].mean_5,
                     acc3: jotain[2].mean_5,
-                    // vliike1x: jotain[1].mean_2,
-                    // vliike1y: jotain[3].mean_2,
-                    // vliike1z: jotain[5].mean_2,
                     vliike2x: jotain[1].mean_2,
                     vliike2y: jotain[1].mean_3,
                     vliike2z: jotain[1].mean_4,
                     vliike3x: jotain[3].mean_2,
                     vliike3y: jotain[3].mean_3,
                     vliike3z: jotain[3].mean_4,
-                    // vacc1: jotain[1].mean_5,
                     vacc2: jotain[1].mean_5,
                     vacc3: jotain[3].mean_5,
                 })
             })
 
-            axios.get(this.state.influxall2)
+        axios.get(this.state.influxall2)
             .then(res => {
                 const jotain2 = res.data;
                 this.setState({
@@ -182,7 +149,6 @@ class Influx extends Component {
 
 
     lasku(val1, val2) {
-
         if (val1 > 5) { return 1 }
         else if (val2 > 5) { return 1 }
         if ((val1 === null) || (val2 === null)) {
@@ -212,71 +178,50 @@ class Influx extends Component {
         if ((this.state.liike111x > this.state.arvo) || (this.state.liike111y > this.state.arvo) || (this.state.liike111z > this.state.arvo)) {
             const date = new Date()
             if (this.state.box1c === 'red') {
-                this.setState({
-                    time1: [...this.state.time1, date],
-                })
+                this.setState({ time1: [...this.state.time1, date] })
                 this.addmac(this.state.mac1)
             }
-            this.setState({
-                box1c: 'green',
-            })
+            this.setState({ box1c: 'green' })
         }
         else (
-            this.setState({
-                box1c: 'red',
-            })
+            this.setState({ box1c: 'red' })
         )
 
         if ((this.state.liike222x > this.state.arvo) || (this.state.liike222y > this.state.arvo) || (this.state.liike222z > this.state.arvo)) {
             const date = new Date()
-
             if (this.state.box2c === 'red') {
-                this.setState({
-                    time2: [...this.state.time2, date],
-                })
+                this.setState({ time2: [...this.state.time2, date] })
                 this.addmac(this.state.mac2)
             }
-            this.setState({
-                box2c: 'green',
-            })
+            this.setState({ box2c: 'green' })
         }
         else (
-            this.setState({
-                box2c: 'red',
-            })
+            this.setState({ box2c: 'red' })
         )
 
         if ((this.state.liike333x > this.state.arvo) || (this.state.liike333y > this.state.arvo) || (this.state.liike333z > this.state.arvo)) {
             const date = new Date()
-
             if (this.state.box3c === 'red') {
-                this.setState({
-                    time3: [...this.state.time3, date],
-                })
+                this.setState({ time3: [...this.state.time3, date] })
                 this.addmac(this.state.mac3)
             }
-
-            this.setState({
-                box3c: 'green',
-            })
+            this.setState({ box3c: 'green' })
         }
         else (
-            this.setState({
-                box3c: 'red',
-            })
+            this.setState({ box3c: 'red' })
         )
 
         if (this.state.totalacc1 > this.state.totalarvo) {
             this.setState({ boxt1c: 'green' })
         } else (
-            this.setState({ boxt1c: 'red' }) 
+            this.setState({ boxt1c: 'red' })
         )
-        
+
         if (this.state.totalacc2 > this.state.totalarvo) {
             this.setState({ boxt2c: 'green' })
         }
         else (
-            this.setState({boxt2c: 'red'})
+            this.setState({ boxt2c: 'red' })
         )
         if (this.state.totalacc3 > this.state.totalarvo) {
             this.setState({ boxt3c: 'green' })
@@ -284,7 +229,6 @@ class Influx extends Component {
         else (
             this.setState({ boxt3c: 'red' })
         )
-
         this.influxall()
     }
 
@@ -298,24 +242,6 @@ class Influx extends Component {
         //console.log("time1")
         //MoveTime url="time1" />
         this.setState({ show2: !this.state.show2 });
-    }
-
-
-    onChange1 = (date) => {
-        this.setState({
-          mehDate1: date.valueOf(),
-          //mehDate1: date
-        });
-        //console.log(this.state.mehDate1.customFormat("#DD#/#MM#/#YYYY# #hh#:#mm#:#ss#"))
-        console.log(this.state.mehDate1)
-      };
-
-    onChange2 = (date) => {
-        this.setState({
-            mehDate2:  date.valueOf(),
-        });
-
-        console.log(this.state.mehDate2)
     }
 
     render() {
@@ -381,99 +307,24 @@ class Influx extends Component {
                 <MakeRowLiike val1={this.state.signal1} val2={this.state.signal2} val3={this.state.signal3} val4="" />
 
                 <br />
-                <Row >
-                    <Col xs>
-                        <b>Liikkunut aikana</b>
-                    </Col>
-                </Row>
+                <Row > <Col xs> <b>Liikkunut aikana</b> </Col> </Row>
                 <br />
 
-{/*                 <MuiPickersUtilsProvider utils={DateFnsUtils}>
-                <KeyboardDateTimePicker
-                    variant="inline"
-                    format="yyyy/MM/dd HH:mm:ss"
-                    onChange={this.onChange1}
-                    value={this.state.mehDate1}
-                />
-                <KeyboardDateTimePicker
-                    variant="inline"
-                    format="yyyy/MM/dd HH:mm:ss"
-                    onChange={this.onChange2}
-                    value={this.state.mehDate2}
-                />
+                <TextField id="standard-name" label="Aika1" defaultValue="2019-07-19T06:40:00" onChange={e => this.setState({ aika1: e.target.value })} />
+
+                <TextField id="standard-name" label="Aika2" defaultValue="2019-07-19T06:45:00" onChange={e => this.setState({ aika2: e.target.value })} />
                 
-                </MuiPickersUtilsProvider> */}
-<br /><br />
-                 {this.state.selectedDate1} 
-                {/* <KeyboardDateTimePicker variant="inline"
-                    label="With keyboard"
-                    value="2"
-                    onError={console.log}
-                    format="yyyy/MM/dd HH:mm"
-                /> */}
-                
-                <TextField id="standard-name"
-                label="Aika1"
-                defaultValue="2019-07-19T06:40:00"
-                onChange={e => this.setState({
-                    aika1: e.target.value})}
-                />
-               
-                <TextField id="standard-name"
-                label="Aika2"
-                defaultValue="2019-07-19T06:45:00"
-                onChange={e => this.setState({
-                    aika2: e.target.value})}
-                />
-                <Button variant="contained"
-                    color="primary"
-                    onClick={this.time1.bind(this)}
-                >Näytä
+                <Button variant="contained" color="primary" onClick={this.time1.bind(this)} >Näytä 
                 </Button>
-
-                {/* {show ? <MoveTime val1={this.state.mehDate1} val2={this.state.mehDate2} mac1={this.state.mac1} mac2={this.state.mac2} mac3={this.state.mac3} /> : undefined} */}
-
+                {show ? <MoveTime val1={this.state.aika1} val2=
+                {this.state.aika2} mac1={this.state.mac1} mac2={this.state.mac2} mac3={this.state.mac3} val3='1' /> : undefined}
                 
-                {show ? <MoveTime val1={this.state.aika1} val2={this.state.aika2} mac1={this.state.mac1} mac2={this.state.mac2} mac3={this.state.mac3} val3='1'/> : undefined}
-
-                <br /><br />     
-                {/* Hidas Kävely
-
-                <RadioGroup
-                aria-label="hidas"
-                name="hidas11"
-                onChange={e => this.setState({
-                    aika1: e.target.value})}
-                >
-                    <FormControlLabel value={this.state.hidas1aika} control={<Radio />} label="1" />
-                    <FormControlLabel value={this.state.hidas2aika} control={<Radio />} label="2" />
-                    <FormControlLabel value={this.state.hidas3aika} control={<Radio />} label="3" />
+                <br /><br />
                 
-                </RadioGroup> */}
-
                 <Button variant="contained" onClick={this.time2.bind(this)}>Arduino Time</Button>
-
                 {show2 ? <ArduinoTime /> : undefined}
-                {/* {show2 ? <MoveTime val1={this.state.aika1} val2={this.state.aika2} mac1={this.state.mac1} mac2={this.state.mac2} mac3={this.state.mac3} val3='2'/> : undefined} */}
-
-                {/*
-                {show ? <MoveTime url="time1"/> : undefined}
-                {show ? <MoveTime url="time2"/> : undefined}
-                {show ? <MoveTime url="time3"/> : undefined}
-                */}
-                {/* {show ? <MoveTime url="hidastime1" /> : undefined}
-                {show ? <MoveTime url="hidastime2" /> : undefined}
-                {show ? <MoveTime url="hidastime3" /> : undefined} */}
-
-                {/* <MoveTime url="time1" /> */}
                 <br />
-                {/* <MoveTime url="time2" />
-                <MoveTime url="time3" /> */}
 
-
-                
-                <br />
-                
             </div>
         )
     }

@@ -44,16 +44,13 @@ const influx2 = new Influx.InfluxDB({
 })
 
 app.get("/arduino", function(req, res){
-  // PPView, tilaajaasiakkaiden haku
   const sqlLauseAsiakas="select * from data where 1=1;";
 
   connection.query(sqlLauseAsiakas, function(err,rows,fields){
-      // connection.end();
-      if(!err) {  // console.log("tulosjoukko: ", rows);
-                  // console.log("kentat: ", fields);
+      if(!err) {  
                   res.json(rows);
               } 
-      else console.log("PPView, Asiakkaat: virhe haun yhteydessä");
+      else console.log("arduino: virhe haun yhteydessä");
   });
   }
 );

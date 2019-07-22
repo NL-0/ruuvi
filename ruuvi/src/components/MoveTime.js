@@ -9,10 +9,6 @@ class MoveTime extends Component {
         super(props);
         this.state = {
             moved1: [],
-            //1: http://10.100.0.119:5000/alltest?q=2019-07-17T10:35:00Z&q2=2019-07-17T10:40:00Z,
-
-            //aurl: "http://10.100.0.119:5000/alltest?q=" + this.props.val1 + "Z&q2=" + this.props.val2 + "Z&mac1=" + this.props.mac1,
-            //aurl: "http://10.100.0.119:5000/" + this.props.url,
             timeurlmac1: "http://10.100.0.119:5000/time2?q=" + this.props.val1 + "Z&q2=" + this.props.val2 + "Z&mac=" + this.props.mac1,
             timeurlmac2: "http://10.100.0.119:5000/time?q=" + this.props.val1 + "Z&q2=" + this.props.val2 + "Z&mac=" + this.props.mac2,
             timeurlmac3: "http://10.100.0.119:5000/time?q=" + this.props.val1 + "Z&q2=" + this.props.val2 + "Z&mac=" + this.props.mac3,
@@ -34,7 +30,7 @@ class MoveTime extends Component {
             chartkeski: [],
         };
     }
-//http://10.100.0.119:5000/time?q=2019-07-17T10:35:43Z&q2=2019-07-17T10:40:44Z&mac=EF9F74296486
+
     componentDidMount() {
       this.timerID = setInterval(() => this.tick(), this.state.timer1);
     }
@@ -50,39 +46,27 @@ class MoveTime extends Component {
         this.axiosurl();
 
         if ((this.state.timedata1) && (this.state.timedata1.length > 0)) {
-           // console.log(`${this.state.timedata1.length}`)
-           // console.log("timedata1: " + `${this.state.timedata1}`)
-
             for (var i = 0; i < this.state.timedata1.length; i++) {
                 this.setState({
                     data1: [...this.state.data1, this.state.timedata1[i].mean],
                     datatime: [...this.state.datatime, this.state.timedata1[i].time],
                 })
-                //console.log(this.state.data1)
             }
 
         }
-        if ((this.state.timedata2) && (this.state.timedata2.length > 0)) {
-            // console.log(`${this.state.timedata1.length}`)
-            // console.log("timedata1: " + `${this.state.timedata1}`)
- 
+        if ((this.state.timedata2) && (this.state.timedata2.length > 0)) { 
              for (var y = 0; y < this.state.timedata2.length; y++) {
                  this.setState({
                      data2: [...this.state.data2, this.state.timedata2[y].mean]
                  })
-                 //console.log(this.state.data2)
              }
  
          }
          if ((this.state.timedata3) && (this.state.timedata3.length > 0)) {
-            // console.log(`${this.state.timedata1.length}`)
-            // console.log("timedata1: " + `${this.state.timedata1}`)
- 
              for (var z = 0; z < this.state.timedata3.length; z++) {
                  this.setState({
                      data3: [...this.state.data3, this.state.timedata3[z].mean]
                  })
-                 //console.log(this.state.data3)
              }
  
          }
@@ -140,12 +124,6 @@ class MoveTime extends Component {
             }
         }
 
-        //  for (var a = 0; a < this.state.data11; a++) {
-        //     this.setState({
-        //         chartkeski: [...this.state.chartdata, {name: this.state.datatime[a], pv: (this.state.data11[a] + this.state.data22[a] + this.state.data33[a]) / 3}]
-        //     })
-        //  }
-
         if ((this.state.data11.length > 1) && (this.state.data22.length > 1) && this.state.data33.length > 1) {
              clearInterval(this.timerID);
          }
@@ -153,110 +131,27 @@ class MoveTime extends Component {
          console.log(this.state.data22)
          console.log(this.state.data33)
 
-        // if ((this.state.timedata1) && (this.state.timedata1.length > 0)) {
-
-        //     for (var y = 0; y < this.state.timedata1.length; y++) {
-        //         this.setState({
-        //             timemin: [...this.state.timemin, this.state.timedata1[y].values.length],
-
-        //         })
-        //     }
-
-        //     this.setState({
-        //         min: (Math.min(...this.state.timemin) - 1)
-        //     })
-
-        //     for (var i = 0; i < this.state.min; i++) {
-        //         if (this.state.timedata1[0].values[i][1] > 10) {
-        //             this.setState({
-        //                 data: [...this.state.data, { name: this.state.timedata1[0].values[i][0], pv: '1', uv: this.state.timedata1[1].values[i][1], dv: this.state.timedata1[2].values[i][1] }],
-        //                 datakeski: [...this.state.datakeski, { name: this.state.timedata1[0].values[i][0], pv: (1 + Number(this.state.timedata1[1].values[i][1]) + Number(this.state.timedata1[2].values[i][1])) / 3 }]
-        //             })
-        //         }
-        //         else if (this.state.timedata1[1].values[i][1] > 10) {
-        //             this.setState({
-        //                 data: [...this.state.data, { name: this.state.timedata1[0].values[i][0], pv: this.state.timedata1[0].values[i][1], uv: '1', dv: this.state.timedata1[2].values[i][1] }],
-        //                 datakeski: [...this.state.datakeski, { name: this.state.timedata1[0].values[i][0], pv: (Number(this.state.timedata1[0].values[i][1]) + 1 + Number(this.state.timedata1[2].values[i][1])) / 3 }]
-        //             })
-        //         }
-        //         else if (this.state.timedata1[2].values[i][1] > 10) {
-        //             this.setState({
-        //                 data: [...this.state.data, { name: this.state.timedata1[0].values[i][0], pv: this.state.timedata1[0].values[i][1], uv: this.state.timedata1[1].values[i][1], dv: '1' }],
-        //                 datakeski: [...this.state.datakeski, { name: this.state.timedata1[0].values[i][0], pv: (Number(this.state.timedata1[0].values[i][1]) + Number(this.state.timedata1[1].values[i][1]) + 1) / 3 }]
-        //             })
-        //         }
-        //         else {
-        //             this.setState({
-        //                 data: [...this.state.data, { name: this.state.timedata1[0].values[i][0], pv: this.state.timedata1[0].values[i][1], uv: this.state.timedata1[1].values[i][1], dv: this.state.timedata1[2].values[i][1] }],
-        //                 datakeski: [...this.state.datakeski, { name: this.state.timedata1[0].values[i][0], pv: (Number(this.state.timedata1[0].values[i][1]) + Number(this.state.timedata1[1].values[i][1]) + Number(this.state.timedata1[2].values[i][1])) / 3.00 }]
-        //             })
-        //         }
-        //         console.log(this.state.datakeski)
-
-        //     }
-        // }
-
-        // if (this.state.data !== this.state.data2)
-        //     this.setState({
-        //         data2: this.state.data,
-        //         data: [],
-        //     })
-        
-        // if (this.state.timemin !== this.state.timemin2)
-        //     this.setState({
-        //         timemin2: this.state.timemin,
-        //         timemin: [],
-        //     })
-        // if (this.state.datakeski !== this.state.datakeski2)
-        //     this.setState({
-        //         datakeski2: this.state.datakeski,
-        //         datakeski: [],
-        //     })
-
-        // if (this.state.data2.length > 1) {
-        //     clearInterval(this.timerID);
-        // }
-
-        //clearInterval(this.timerID);
     };
 
     async axiosurl() {
-        // await axios.get(this.state.aurl)
-        //     .then(res => {
-        //         const resdata = res.data;
-        //         this.setState({
-        //             timedata1: resdata.results[0].series,
-        //         })
-        //     })
-
         await axios.get(this.state.timeurlmac1)
             .then(res => {
                 const resdata = res.data;
-                this.setState({
-                    timedata1: resdata,
-                })
-                // console.log(resdata)
+                this.setState({ timedata1: resdata })
             })
         await axios.get(this.state.timeurlmac2)
             .then(res => {
                 const resdata = res.data;
-                this.setState({
-                    timedata2: resdata,
-                })
-                // console.log(resdata)
+                this.setState({ timedata2: resdata })
             })
         await axios.get(this.state.timeurlmac3)
             .then(res => {
                 const resdata = res.data;
-                this.setState({
-                    timedata3: resdata,
-                })
-                // console.log(resdata)
+                this.setState({ timedata3: resdata })
             })
     }
 
     makecharts() {
-
         if (this.props.val3 === '2') {
             return (
             <div>
@@ -278,9 +173,6 @@ class MoveTime extends Component {
         return (
             <div>
                 {this.makecharts()}
-                {/* <TimeChart data={this.state.chartdata} />
-                    <br />Keskiarvo<br />
-                <TimeChart data={this.state.chartkeski} />   */}
             </div>
         )
     }
