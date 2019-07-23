@@ -61,3 +61,68 @@ HUOM!
 jos poistetaan dataa taulusta, säilytetään kuitenkin testidata:
 
 delete from ruuvi_measurements where time > '2019-07-11T09:41:59Z' 
+
+
+2019-07-23 VS
+
+Käytetty Arduino mikrokontrolleri ja pari sensoria LiikkuVaxi projektin toisena tietolähteenä:
+ - "oven avaamisen" simulointi ja rekisteröinti
+ - henkilön etäisyyden (0-100cm) mittaaminen (esim. lähestyminen ikkunaan) ja rekisteröinti
+
+
+LiikkuVaxi projektin Arduino -osuuden arkkitehtuuri
+1. Arduino kit - kerää data sensoreista ja lähettää sarjaportin kautta Node.ja serverille
+2. Node.js - Arduino-NodeJS-MySQL-Serial-Data-Logger serveri, kuuntelee sarjaporttia, vastaanottaa dataa ja laitaa sitä tietokantaan
+3. MySql - kantamoottori, säilyttää rekisteröity dataa
+4. LiikuVaxi sovellus - ottaa yhteys MySql tietokantaan ja esittää dataa graafissa
+
+Arkitektuuria vastaavat resurssit:
+1.
+http://wiki.epalsite.com/index.php?title=Starter_Kit_for_Arduino
+
+2.
+Arduino-NodeJS-MySQL-Serial-Data-Logger: sends values over Serial and insert into a database
+https://github.com/tttapa/Projects/tree/master/Arduino/NodeJS/Database/Arduino-NodeJS-MySQL-Serial-Data-Logger
+
+3.
+MySql kantamoottorin asennus:
+XAMPP Apache + MariaDB (MySql) + PHP + Perl
+Löytyy paikasta:
+https://www.apachefriends.org/index.html
+
+
+Arduino Uno alusta, kytketty DC Servomoottori, HC-SR501 PIR Motion Sensor Module  
+ja HC-SR04 Ultrasonic Distance Measurement module.
+Arduino kytketty USB/Sarjaportin kautta Win koneeseen, jossa pyörii Node.js serveri, 
+joka kuuntelee sarjaporttia, kerää dataa ja lähettää sitä MySql kantaan.
+
+
+Arduino Starter Kit, Beginner Level
+Servomoottorilla "oven avaamisen" simulointi.
+Pohjana voi käyttää Arduino Projects Book projekti 12. Knock Lock, sivu 124
+
+Projektissa on käytetty sensoreita ja muita kompponentteja Professional UNO R3 Starter Kit for Arduino versiosta,
+jota todettu mukavempi käyttää.
+Lähellä kokoonpanosta oleva kitti:
+http://www.epalsite.com/store/kits/starter-kit-for-arduino-infiduino-uno-r3.html
+Starter Kit for Arduino/Infiduino Uno R3
+
+Piezo anturi vaihdettu HC-SR501 PIR Motion Sensor Moduliin, kun se tunnistaa liikkeen, 
+antaa käskyn oven avaamiselle - tapahtuman tyyppi ja aikaleima tallennetaan kantaan.
+Toisena toiminnallisuutena/tietolähteenä kokeilun mielessä 
+on lisätty HC-SR04 Ultrasonic Distance Measurement module, 
+tunnistaa etäisyyden ja tallentaa se kantaan (rekisteröidään 0-100cm väli). 
+
+
+Projektien kuvaukset ja esimerkkikoodit:
+http://wiki.epalsite.com/index.php?title=Starter_Kit_for_Arduino
+
+Tässä projektissa yhdistetty osat kolmesta esimerkkiprojektista:
+1. Lesson 25 PWM Servo Control
+2. Lesson 32 PIR Motion Sensor playing
+3. Lesson 33 Ultrasonic Distance Measurement
+
+ks. linkki ja seuraa ohjeita:
+http://wiki.epalsite.com/index.php?title=Starter_Kit_for_Arduino#Lesson_25_PWM_Servo_Control
+http://wiki.epalsite.com/index.php?title=Starter_Kit_for_Arduino#Lesson_32_PIR_Motion_Sensor_playing
+
