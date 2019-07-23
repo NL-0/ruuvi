@@ -13,7 +13,7 @@ class LiikeChart extends Component {
     }
 
     componentDidMount() {
-        this.timerID = setInterval(() => this.tick(), 4000);
+        this.timerID = setInterval(() => this.tick(), 2000);
     }
 
     componentWillUnmount() {
@@ -43,9 +43,9 @@ class LiikeChart extends Component {
     render() {
         return (
             <LineChart width={500} height={100} data={this.state.data} className='chart'>
-                <Line type="monotone" dataKey="pv" stroke="grey" strokeWidth={2} />
-                <Line type="monotone" dataKey="uv" stroke="green" strokeWidth={2} />
-                <Line type="monotone" dataKey="dv" stroke="blue" strokeWidth={2} />
+                <Line connectNulls type="monotone" dataKey="pv" stroke="grey" dot="" strokeWidth={2} />
+                <Line connectNulls type="monotone" dataKey="uv" stroke="green" dot="" strokeWidth={2} />
+                <Line connectNulls type="monotone" dataKey="dv" stroke="blue" dot="" strokeWidth={2} />
                 <XAxis dataKey="name" />
                  <YAxis />
                 <CartesianGrid />

@@ -26,6 +26,7 @@ class ArduinoTime extends Component {
             for (var i = 0; i < this.state.arduinodata.length; i++) {
                 this.setState({
                     arduinochart: [...this.state.arduinochart, {name: this.state.arduinodata[i].time, pv: this.state.arduinodata[i].data}],
+
                 })
             }
         }

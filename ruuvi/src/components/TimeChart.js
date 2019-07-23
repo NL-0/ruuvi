@@ -1,10 +1,9 @@
 import React, { Component } from 'react'
 import {
-    LineChart, Line, XAxis, YAxis, CartesianGrid, Tooltip, Legend,
+    LineChart, Line, XAxis, YAxis, CartesianGrid, Tooltip, Legend, ReferenceLine
   } from 'recharts';
 
 class TimeChart extends Component {
-
     constructor(props) {
         super(props)
         this.state = {
@@ -20,7 +19,9 @@ class TimeChart extends Component {
         <YAxis />
         <Tooltip />
         <Legend />
-        <Line type="monotone" dataKey="pv" stroke="grey" activeDot={{ r: 8 }} />
+        {/* <ReferenceLine x="Page C" stroke="red" label="Max PV PAGE" /> */}
+        <ReferenceLine y={30} label="Oven avaus" stroke="red" />
+        <Line type="monotone" dataKey="pv" stroke="grey" />
         <Line type="monotone" dataKey="uv" stroke="green" />
         <Line type="monotone" dataKey="dv" stroke="blue" />
       </LineChart>

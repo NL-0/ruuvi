@@ -4,32 +4,44 @@ var app = express()
 var cors = require('cors')
 const Influx = require('influx');
 var mysql = require("mysql");
+var fs = require('fs');
+
 
 app.use(cors())
 app.get('/', (req, res) => {
     res.json({ success: true })
 })
 
-// var connection = mysql.createConnection({
-//   host: "10.100.0.159",
-//   port: "3306",
-//   user: "buratinoUlko",
-//   password: "PapaCarloUlko",
-//   database: "Arduino",
-//   charset: "utf8mb4_general_ci"
-//   });
+var connection = mysql.createConnection({
+  host: "10.100.0.159",
+  port: "3306",
+  user: "buratinoUlko",
+  password: "PapaCarloUlko",
+  database: "Arduino",
+  charset: "utf8mb4_general_ci"
+  });
 
-// connection.connect(
-//     function(err) 
-//     {
-//         if(!err) {
-//             console.log("DB is connected")
-//             } else {
-//             console.log(err)
-//             console.log("Virhe kannan yhteyden muodostamisessa")
-//             }
-//     }
-// );
+connection.connect(
+    function(err) 
+    {
+        if(!err) {
+            console.log("DB is connected")
+            } else {
+            console.log(err)
+            console.log("Virhe kannan yhteyden muodostamisessa")
+            }
+    }
+);
+
+app.get("/cvs", function(req, res){
+  fs.readFile('../../123.cvs', 'utf8', function(err, data) {
+    if (err) throw err;
+    console.log(data);
+    res.json(data)
+      }); 
+ //   res.json(data);
+  }
+);
 
 //10.100.0.159
 
@@ -54,7 +66,7 @@ const influx2 = new Influx.InfluxDB({
 })
 
 app.get("/arduino", function(req, res){
-  const sqlLauseAsiakas="select * from data where 1=1;";
+  const sqlLauseAsiakas="select data,time from data where not (data='Ovi kiinni' or data='Ovi auki');";
 
   connection.query(sqlLauseAsiakas, function(err,rows,fields){
       if(!err) {  
