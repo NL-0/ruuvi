@@ -3,6 +3,11 @@ import { Row, Col } from 'react-flexbox-grid';
 import LiikeChart from './LiikeChart';
 import Liike from './Liike';
 
+/*
+    saa 3 eri arvoa jotka palauttaa <Liike> kautta poistaen turhat desimaalit
+    ja piirtää graafisen näkymän arvoista
+*/
+
 class MakeRowLiike extends Component {
 
     constructor(props) {

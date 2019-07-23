@@ -2,6 +2,12 @@ import React, { Component } from 'react'
 import axios from "axios";
 import TimeChart from './TimeChart';
 
+/*
+    saa props 3 eri mac osotetta ja aikavälin ja arvon 1 tai 2
+    Hakee jokaisen mac osoitteen perusteella tietokannasta väliajan data ja yhdistää kaiken graafiin
+    Myös keskiväli graafi riippuen arvosta 1 tai 2
+*/
+
 class MoveTime extends Component {
     constructor(props) {
         super(props);
@@ -34,10 +40,17 @@ class MoveTime extends Component {
     }
 
     tick = () => {
+
+        //Printtaa joka mac url testausta varten
         console.log(this.state.timeurlmac1)
         console.log(this.state.timeurlmac2)
         console.log(this.state.timeurlmac3)
         this.axiosurl();
+
+        /*
+            lisää joka mac osoitteen datan vai jos tullut tiedosto on yli 0 pitkä
+            lisää vain kohdassa 1 datatime koska kaikkien hakujen ajankohdat ovat samoja
+        */
 
         if ((this.state.timedata1) && (this.state.timedata1.length > 0)) {
             for (var i = 0; i < this.state.timedata1.length; i++) {
@@ -64,6 +77,11 @@ class MoveTime extends Component {
             }
         }
 
+        /*
+            laittaa lisätyn datan uuteen array poistaen ensimmäisen null arvon
+            Rasprebby pi epäluotettavuuden takia ei voi olettaa että saa oikeaa tai mitään dataa jokaisella haulla.
+        */
+
         if (this.state.data1 !== this.state.data11) {
             this.setState({
                 data11: this.state.data1,
@@ -87,6 +105,11 @@ class MoveTime extends Component {
             })
             this.state.data33.shift()
         }
+
+        /*
+            Poistaa grafiikasta suuremmat hyppäykset joita tulee tuntemattomasta syystä sattumanvaraisesti 
+            Tekisivät muuten grafiikasta lukukelvottoman koska ovat 10-20 kertaisia normaaliin liikkumiseen verrattuna
+        */
 
         for (var q = 0; q < this.state.timedata1.length; q++) {
             if (this.state.data11[q] > 5) {
@@ -114,6 +137,10 @@ class MoveTime extends Component {
                 })
             }
         }
+
+        /*
+            Lopettaa datahauen kun kaikki 3 ovat varmasti saaneet dataa
+        */
 
         if ((this.state.data11.length > 1) && (this.state.data22.length > 1) && this.state.data33.length > 1) {
             clearInterval(this.timerID);

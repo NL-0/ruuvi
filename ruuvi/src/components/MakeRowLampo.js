@@ -3,6 +3,12 @@ import { Row, Col } from 'react-flexbox-grid';
 import LiikeChart from './LiikeChart';
 import Lampo from './Lampo';
 
+
+/*
+    Render Lampötilan ja poistaa ylimääräiset desimaalit <Lampö>
+    <LiikeChart> piirtää graafisen näkymän arvoista
+*/
+
 class MakeRowLampo extends Component {
 
     constructor(props) {

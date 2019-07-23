@@ -1,3 +1,7 @@
+/*
+    palauttaa liikkeen muuttujan poistaen turhat desimaalit
+*/
+
 const Liike = props => {
     const { liike } = props;
 

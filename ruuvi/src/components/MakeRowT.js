@@ -1,8 +1,11 @@
 import React, { Component } from 'react'
 import { Row, Col } from 'react-flexbox-grid';
 
+/** 
+*   Render row title
+*   props 3 eri Ruuvitag Mac
+*/
 class MakeRowT extends Component {
-
     constructor(props) {
         super(props)
         this.state = {

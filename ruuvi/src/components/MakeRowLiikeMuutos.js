@@ -2,6 +2,12 @@ import React, { Component } from 'react'
 import { Row, Col } from 'react-flexbox-grid';
 import Liike from './Liike';
 
+/*
+    saa 4 props jotka ovat ruuvitag accelerationX, Y tai Z 
+    palauttaa ne <Liike> 3 desimaalin tarkkuudella
+    
+*/
+
 
 class MakeRowLiikeMuutos extends Component {
 

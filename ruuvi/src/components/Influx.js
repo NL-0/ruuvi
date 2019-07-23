@@ -16,6 +16,7 @@ import MakeRowBox from './MakeRowBox';
 import MakeRowTitleNoIcon from './MakeRowTitleNoIcon';
 import TextField from '@material-ui/core/TextField';
 import ArduinoTime from './ArduinoTime';
+import CSVData from './CSVData';
 
 /**
  * General component description in JSDoc format. Markdown is *supported*.
@@ -45,6 +46,8 @@ class Influx extends Component {
             time2: [],
             time3: [],
             show: false,
+            show2: false,
+            show3: false,
             influxall: 'http://10.100.0.119:5000/all',
             influxall2: 'http://10.100.0.119:5000/all2',
             acc1: '',
@@ -68,7 +71,7 @@ class Influx extends Component {
                         lampo3: jotain[4].mean,
                     })
                 }
-
+                //Ruuvitag mac: EF9F74296486 ei aina toimi kunnolla
                 if ((jotain[0].mean_2 !== null) && (jotain[0].mean_3 != null) && (jotain[0].mean4 !== null)) {
                     this.setState({
                         liike1x: jotain[0].mean_2,
@@ -76,7 +79,8 @@ class Influx extends Component {
                         liike1z: jotain[0].mean_4,
                     })
                 }
-
+                
+                //Jos haetaan tiedot yhdestä kannasta
                 this.setState({
                     //Suora  
                     //mean = temperature
@@ -120,6 +124,9 @@ class Influx extends Component {
                     vacc3: jotain[5].mean_5,
                 })
             }) 
+
+
+        // Jos tiedot haetaan 2 eri tietokannasta
 
         //         this.setState({
         //             //Suora  
@@ -181,6 +188,7 @@ class Influx extends Component {
 
     }
 
+    //Ohjelman päivitysnopeus (4000ms)
     async componentDidMount() {
         this.timerID = setInterval(() => this.tick(), 4000);
     }
@@ -189,6 +197,7 @@ class Influx extends Component {
         clearInterval(this.timerID);
     }
 
+    //Liikkeiden kirjoitus tietokantaan
     async addmac(mac) {
         let testimac = mac
         // stringit ""
@@ -206,7 +215,7 @@ class Influx extends Component {
         //console.log(result2);
     }
 
-
+    //Liikemuutoksen lasku math.abs(tämänhetkinen arvo - edellinen arvo )
     lasku(val1, val2) {
         if (val1 > 5) { return 1 }
         else if (val2 > 5) { return 1 }
@@ -219,22 +228,24 @@ class Influx extends Component {
     }
 
     tick = () => {
+        //Jokaisen liikemuutoksen lasku
         this.setState({
-            liike111x: this.lasku(`${this.state.liike1x}`, `${this.state.vliike1x}`),
-            liike111y: this.lasku(`${this.state.liike1y}`, `${this.state.vliike1y}`),
-            liike111z: this.lasku(`${this.state.liike1z}`, `${this.state.vliike1z}`),
-            liike222x: this.lasku(`${this.state.liike2x}`, `${this.state.vliike2x}`),
-            liike222y: this.lasku(`${this.state.liike2y}`, `${this.state.vliike2y}`),
-            liike222z: this.lasku(`${this.state.liike2z}`, `${this.state.vliike2z}`),
-            liike333x: this.lasku(`${this.state.liike3x}`, `${this.state.vliike3x}`),
-            liike333y: this.lasku(`${this.state.liike3y}`, `${this.state.vliike3y}`),
-            liike333z: this.lasku(`${this.state.liike3z}`, `${this.state.vliike3z}`),
+            liikemuutos1x: this.lasku(`${this.state.liike1x}`, `${this.state.vliike1x}`),
+            liikemuutos1y: this.lasku(`${this.state.liike1y}`, `${this.state.vliike1y}`),
+            liikemuutos1z: this.lasku(`${this.state.liike1z}`, `${this.state.vliike1z}`),
+            liikemuutos2x: this.lasku(`${this.state.liike2x}`, `${this.state.vliike2x}`),
+            liikemuutos2y: this.lasku(`${this.state.liike2y}`, `${this.state.vliike2y}`),
+            liikemuutos2z: this.lasku(`${this.state.liike2z}`, `${this.state.vliike2z}`),
+            liikemuutos3x: this.lasku(`${this.state.liike3x}`, `${this.state.vliike3x}`),
+            liikemuutos3y: this.lasku(`${this.state.liike3y}`, `${this.state.vliike3y}`),
+            liikemuutos3z: this.lasku(`${this.state.liike3z}`, `${this.state.vliike3z}`),
             totalacc1: this.lasku(`${this.state.acc1}`, `${this.state.vacc1}`),
             totalacc2: this.lasku(`${this.state.acc2}`, `${this.state.vacc2}`),
             totalacc3: this.lasku(`${this.state.acc3}`, `${this.state.vacc3}`),
         })
 
-        if ((this.state.liike111x > this.state.arvo) || (this.state.liike111y > this.state.arvo) || (this.state.liike111z > this.state.arvo)) {
+        //jokaisen eri ruuvitag muutoksien vertaus arvoon joka määriittää onko liikkumista tapahtunut
+        if ((this.state.liikemuutos1x > this.state.arvo) || (this.state.liikemuutos1y > this.state.arvo) || (this.state.liikemuutos1z > this.state.arvo)) {
             const date = new Date()
             if (this.state.box1c === 'red') {
                 this.setState({ time1: [...this.state.time1, date] })
@@ -246,7 +257,7 @@ class Influx extends Component {
             this.setState({ box1c: 'red' })
         )
 
-        if ((this.state.liike222x > this.state.arvo) || (this.state.liike222y > this.state.arvo) || (this.state.liike222z > this.state.arvo)) {
+        if ((this.state.liikemuutos2x > this.state.arvo) || (this.state.liikemuutos2y > this.state.arvo) || (this.state.liikemuutos2z > this.state.arvo)) {
             const date = new Date()
             if (this.state.box2c === 'red') {
                 this.setState({ time2: [...this.state.time2, date] })
@@ -258,7 +269,7 @@ class Influx extends Component {
             this.setState({ box2c: 'red' })
         )
 
-        if ((this.state.liike333x > this.state.arvo) || (this.state.liike333y > this.state.arvo) || (this.state.liike333z > this.state.arvo)) {
+        if ((this.state.liikemuutos3x > this.state.arvo) || (this.state.liikemuutos3y > this.state.arvo) || (this.state.liikemuutos3z > this.state.arvo)) {
             const date = new Date()
             if (this.state.box3c === 'red') {
                 this.setState({ time3: [...this.state.time3, date] })
@@ -270,6 +281,7 @@ class Influx extends Component {
             this.setState({ box3c: 'red' })
         )
 
+        //Kokonaisliikkumisen vertausta totalarvoon 
         if (this.state.totalacc1 > this.state.totalarvo) {
             this.setState({ boxt1c: 'green' })
         } else (
@@ -303,14 +315,19 @@ class Influx extends Component {
         this.setState({ show2: !this.state.show2 });
     }
 
+    time3() {
+        this.setState({ show3: !this.state.show3})
+    }
+
     render() {
         const { show } = this.state
         const { show2 } = this.state
+        const { show3 } = this.state
         return (
             <div className="center">
                 <br />
 
-                <MakeRowT val1={this.state.mac1} val2={this.state.mac2} val3={this.state.mac3} val4="u" />
+                <MakeRowT val1={this.state.mac1} val2={this.state.mac2} val3={this.state.mac3} />
                 <br />
 
                 <MakeRowTitle val1="Lämpötila" val2="temperature-low" />
@@ -332,11 +349,11 @@ class Influx extends Component {
                 <MakeRowTitleNoIcon val1="Muutos %" val2="" />
                 <br />
 
-                <MakeRowLiikeMuutos val1={this.state.liike111x} val2={this.state.liike222x} val3={this.state.liike333x} val4="X: " />
+                <MakeRowLiikeMuutos val1={this.state.liikemuutos1x} val2={this.state.liikemuutos2x} val3={this.state.liikemuutos3x} val4="X: " />
 
-                <MakeRowLiikeMuutos val1={this.state.liike111y} val2={this.state.liike222y} val3={this.state.liike333y} val4="Y: " />
+                <MakeRowLiikeMuutos val1={this.state.liikemuutos1y} val2={this.state.liikemuutos2y} val3={this.state.liikemuutos3y} val4="Y: " />
 
-                <MakeRowLiikeMuutos val1={this.state.liike111z} val2={this.state.liike222z} val3={this.state.liike333z} val4="Z: " />
+                <MakeRowLiikeMuutos val1={this.state.liikemuutos1z} val2={this.state.liikemuutos2z} val3={this.state.liikemuutos3z} val4="Z: " />
                 <br />
 
                 <MakeRowBox val1={this.state.box1c} val2={this.state.box2c} val3={this.state.box1c} />
@@ -369,23 +386,42 @@ class Influx extends Component {
                 <Row > <Col xs> <b>Liikkunut aikana</b> </Col> </Row>
                 <br />
 
+                {/*            
+                    2 Tekstikenttää jotka piirtävän väliajan graafin
+                */}
+
                 <TextField id="standard-name" label="Aika1" defaultValue="2019-07-19T06:40:00" onChange={e => this.setState({ aika1: e.target.value })} />
 
                 <TextField id="standard-name" label="Aika2" defaultValue="2019-07-19T06:45:00" onChange={e => this.setState({ aika2: e.target.value })} />
                 
                 <Button variant="contained" color="primary" onClick={this.time1.bind(this)} >Näytä 
                 </Button>
+
                 {show ? <MoveTime val1={this.state.aika1} val2=
                 {this.state.aika2} mac1={this.state.mac1} mac2={this.state.mac2} mac3={this.state.mac3} val3='1' /> : undefined}
                 
                 <br /><br />
                 
+                {/* 
+                    piirtää arduino:ssa tulevan datan graafin
+                */}
+
                 <Button variant="contained" onClick={this.time2.bind(this)}>Arduino Time</Button>
                 {show2 ? <ArduinoTime /> : undefined}
+
+
+                <br />
                 <br />
 
+                {/* 
+                    lataa konsolin logiin csv datasta tulevan tiedon
+                */}
+                <Button variant="contained" onClick={this.time3.bind(this)}>CSV Data</Button>
+                {show3 ? <CSVData /> : undefined}
+                
             </div>
         )
+
     }
 }
 

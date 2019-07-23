@@ -1,3 +1,7 @@
+/*
+    saa props lämpötilan ja palauttaa sen 2 desimaalin ja + C muodossa
+*/
+
 const Lampo = props => {
     const { lampo } = props;
 

@@ -1,6 +1,11 @@
 import React, { Component } from 'react'
 import { Row, Col } from 'react-flexbox-grid';
 
+/*
+    Piirtää punaisen tai virheän boxin props mukaan
+*/
+
+
 class MakeRowBox extends Component {
 
     constructor(props) {

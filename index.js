@@ -4,14 +4,16 @@ var app = express()
 var cors = require('cors')
 const Influx = require('influx');
 var mysql = require("mysql");
-var fs = require('fs');
 
+const csv = require('csv-parser');
+var fs = require('fs');
 
 app.use(cors())
 app.get('/', (req, res) => {
     res.json({ success: true })
 })
 
+//Arduino data eri tietokannasta
 var connection = mysql.createConnection({
   host: "10.100.0.159",
   port: "3306",
@@ -33,18 +35,31 @@ connection.connect(
     }
 );
 
-app.get("/cvs", function(req, res){
-  fs.readFile('../../123.cvs', 'utf8', function(err, data) {
-    if (err) throw err;
-    console.log(data);
-    res.json(data)
-      }); 
- //   res.json(data);
+//Luke data cvs tiedostosta ja tuo se ohjelman käytettäväksi
+//
+
+app.get("/csv", function(req, res){
+  var csvData=[];
+  fs.createReadStream('Activities.csv')
+    .pipe(csv())
+    .on('data', (row) => {
+      console.log(row); 
+      csvData.push(row)
+  //   res.json(row)
+  //res.json(row)
+    })
+    .on('end', () => {
+      console.log('CSV file successfully processed');
+      res.json(csvData)
+    });
+    
   }
 );
 
 //10.100.0.159
 
+
+// Yhteys 2 eri rasprerry pi influxdb tietokantaan
 // const influx = new Influx.InfluxDB({
 //     host: '10.100.0.111:8086/',
 //     database: 'ruuvi',
@@ -55,6 +70,8 @@ app.get("/cvs", function(req, res){
 //     database: 'ruuvi',
 // }) 
 
+
+//
 const influx = new Influx.InfluxDB({
   host: '10.100.0.119:8086/',
   database: 'ruuvi',
@@ -76,7 +93,6 @@ app.get("/arduino", function(req, res){
   });
   }
 );
-
 
 app.get('/all', cors(), (req, res) => {
 influx.query('select mean(temperature), mean(rssi), mean(accelerationX), mean(accelerationY), mean(accelerationZ), mean(accelerationTotal) from ruuvi_measurements group by time(4s), mac fill(previous) order by desc limit 2').then(results => {
@@ -122,7 +138,6 @@ app.get('/time', cors(), (req, res) => {
         res.send(results)
       })
     })
-
 
 app.listen(5000, () => {
     console.log('Server runs on http://localhost:5000')

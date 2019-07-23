@@ -3,6 +3,10 @@ import {
     LineChart, Line, XAxis ,  YAxis , CartesianGrid
 } from 'recharts';
 
+/*
+    saa props lukua jotka lisää data[] tauluun recharts vaatimassa muodossa
+*/
+
 class LiikeChart extends Component {
 
     constructor(props) {
@@ -24,6 +28,10 @@ class LiikeChart extends Component {
         this.addData()
     }
 
+    /*
+        jos taulukolla yli 50 arvoa ottaa vanhimmaan arvon pois
+    */
+
     addData() {
 
         if (this.state.data.length < 50) {
@@ -43,9 +51,9 @@ class LiikeChart extends Component {
     render() {
         return (
             <LineChart width={500} height={100} data={this.state.data} className='chart'>
-                <Line connectNulls type="monotone" dataKey="pv" stroke="grey" dot="" strokeWidth={2} />
-                <Line connectNulls type="monotone" dataKey="uv" stroke="green" dot="" strokeWidth={2} />
-                <Line connectNulls type="monotone" dataKey="dv" stroke="blue" dot="" strokeWidth={2} />
+                <Line connectNulls type="monotone" dataKey="pv" stroke="grey" strokeWidth={2} />
+                <Line connectNulls type="monotone" dataKey="uv" stroke="green"  strokeWidth={2} />
+                <Line connectNulls type="monotone" dataKey="dv" stroke="blue"  strokeWidth={2} />
                 <XAxis dataKey="name" />
                  <YAxis />
                 <CartesianGrid />

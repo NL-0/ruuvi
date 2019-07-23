@@ -6,6 +6,12 @@ import { faSignal, faTemperatureLow, faArrowsAlt } from '@fortawesome/free-solid
 
 library.add(faSignal, faTemperatureLow, faArrowsAlt)
 
+
+/*
+    Render väliotsikot ja sopivan iconin
+    https://fontawesome.com/
+*/
+
 class MakeRowTitle extends Component {
 
     constructor(props) {

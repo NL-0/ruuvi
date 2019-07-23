@@ -1,6 +1,10 @@
 import React, { Component } from 'react'
 import { Row, Col } from 'react-flexbox-grid';
 
+/*
+    Sama kuin MakeRowTitle mutta ei tarvitse iconia
+*/
+
 class MakeRowTitleNoIcon extends Component {
 
     constructor(props) {

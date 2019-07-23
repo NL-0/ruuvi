@@ -3,6 +3,10 @@ import axios from "axios";
 import { Row, Col } from "react-flexbox-grid";
 import { BarChart, Bar, XAxis, YAxis, CartesianGrid, Tooltip } from "recharts";
 
+/*
+    joka 10 sec lataa mdata url joka kertoo jokaisen montako liikkumista tapahtunit kuluvan tunnin aikana ja piirtää siitä graafin
+*/
+
 class MovedData extends Component {
     constructor(props) {
         super(props);

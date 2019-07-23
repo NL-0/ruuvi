@@ -2,6 +2,10 @@ import React, { Component } from 'react'
 import axios from "axios";
 import TimeChart from './TimeChart';
 
+/*
+    Piirtää datan arduino mysql tietokannasta
+*/
+
 class ArduinoTime extends Component {
     constructor(props) {
         super(props);
