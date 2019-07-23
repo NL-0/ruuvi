@@ -1,4 +1,5 @@
-Suorituksen tyyppi,Päiväys,Suosikki,Otsikko,Matka,Kalorit,Aika,Keskinopeus,Askeleen keskipituus,Keskipystysuhde,Keskimääräinen pystysuuntainen liikehdintä,Training Stress Score®,Vaikeus,Kulku,Pohja-aika,Minimilämpötila,Pinta-aika,Paineentasaus,Paras kierrosaika,Juoksujen määrä,Maksimilämpötila
-road_biking,2019-07-23 11:16:00,false,"Fillarointi","85.00","2,505","08:21:00","10.2","0.00","0.0","0.0","0.0","0.0","0.0","0:00","0.0","0:00","Ei","00:00.00","1","0.0"
-street_running,2019-07-22 11:14:00,false,"Juoksentelu","12.00","1,253","02:05:15","10:26","0.00","0.0","0.0","0.0","0.0","0.0","0:00","0.0","0:00","Ei","00:00.00","1","0.0"
-uncategorized,2019-07-22 09:20:00,false,"koe","5.00","1,500","01:15:00","4.0","0.00","0.0","0.0","0.0","0.0","0.0","0:00","0.0","0:00","Ei","00:00.00","1","0.0"
+Suorituksen tyyppi,Päiväys,Suosikki,Otsikko,Matka,Kalorit,Aika,Keskisyke,Maksimisyke,Keskijuoksunopeus,Maksimijuoksunopeus,Keskitahti,Paras tahti,Askeleen keskipituus,Keskipystysuhde,Keskimääräinen pystysuuntainen liikehdintä,Training Stress Score®,Vaikeus,Kulku,Pohja-aika,Minimilämpötila,Pinta-aika,Paineentasaus,Paras kierrosaika,Juoksujen määrä,Maksimilämpötila
+walking,23/07/2019 13:22,FALSE,Kävely,0.87,71,00:14:13,105,128,104,182,16:19,05:12,0.59,0,0,0,0,0,00:00,0,00:00,Ei,00:00.0,1,0
+road_biking,23/07/2019 11:16,FALSE,Fillarointi,85,"2,505",08:21:00,--,--,--,--,10.2,--,0,0,0,0,0,0,00:00,0,00:00,Ei,00:00.0,1,0
+street_running,22/07/2019 11:14,FALSE,Juoksentelu,12,"1,253",02:05:15,--,--,--,--,10:26,--,0,0,0,0,0,0,00:00,0,00:00,Ei,00:00.0,1,0
+uncategorized,22/07/2019 09:20,FALSE,koe,5,"1,500",01:15:00,--,--,--,--,4,--,0,0,0,0,0,0,00:00,0,00:00,Ei,00:00.0,1,0
