@@ -19,12 +19,8 @@ class CSVData extends Component {
     }
   
     tick = () => {
-        this.axiosurl();
-        if (this.state.csvdata.length > 0) {
-            
-            }
-        
-
+        this.axiosurl();    
+        //Lopeta timer kun data on saatu
         if (this.state.csvdata.length > 0) {
            // this.state.arduinochart.shift();
             clearInterval(this.timerID);
@@ -45,7 +41,7 @@ class CSVData extends Component {
     render() {
         return (
             <div>
-                1
+                konsoli logi
             </div>
         )
     }
