@@ -387,7 +387,7 @@ class Influx extends Component {
                 <br />
 
                 {/*            
-                    2 Tekstikenttää jotka piirtävän väliajan graafin
+                    2 Tekstikenttää jotka piirtävän aikavälin graafin
                 */}
 
                 <TextField id="standard-name" label="Aika1" defaultValue="2019-07-19T06:40:00" onChange={e => this.setState({ aika1: e.target.value })} />

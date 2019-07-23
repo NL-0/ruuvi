@@ -22,9 +22,9 @@ class TimeChart extends Component {
         <Legend />
         {/* <ReferenceLine x="Page C" stroke="red" label="Max PV PAGE" /> */}
         <ReferenceLine y={30} label="Oven avaus" stroke="red" />
-        <Line type="monotone" dataKey="pv" stroke="grey" dot=""/>
-        <Line type="monotone" dataKey="uv" stroke="green" dot=""/>
-        <Line type="monotone" dataKey="dv" stroke="blue" dot=""/>
+        <Line type="monotone" dataKey="pv" stroke="grey" />
+        <Line type="monotone" dataKey="uv" stroke="green" />
+        <Line type="monotone" dataKey="dv" stroke="blue" />
       </LineChart>
         )
     }

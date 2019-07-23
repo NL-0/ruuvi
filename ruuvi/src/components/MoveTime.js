@@ -139,7 +139,7 @@ class MoveTime extends Component {
         }
 
         /*
-            Lopettaa datahauen kun kaikki 3 ovat varmasti saaneet dataa
+            Lopettaa datahaun kun kaikki 3 ovat varmasti saaneet dataa
         */
 
         if ((this.state.data11.length > 1) && (this.state.data22.length > 1) && this.state.data33.length > 1) {
