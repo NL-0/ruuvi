@@ -49,11 +49,22 @@ class LiikeChart extends Component {
     }
 
     render() {
+        /*
+            Tyhjä custom dot tai graafi näyttää huonolta
+            http://recharts.org/en-US/examples/CustomizedDotLineChart
+        */
+        const CustomizedDot = (props) => {
+            return (
+             null
+            );
+          };
+
+
         return (
             <LineChart width={500} height={100} data={this.state.data} className='chart'>
-                <Line connectNulls type="monotone" dataKey="pv" stroke="grey" strokeWidth={2} />
-                <Line connectNulls type="monotone" dataKey="uv" stroke="green"  strokeWidth={2} />
-                <Line connectNulls type="monotone" dataKey="dv" stroke="blue"  strokeWidth={2} />
+                <Line connectNulls type="monotone" dataKey="pv" stroke="grey" strokeWidth={2} dot={<CustomizedDot />}/>
+                <Line connectNulls type="monotone" dataKey="uv" stroke="green"  strokeWidth={2} dot={<CustomizedDot />}/>
+                <Line connectNulls type="monotone" dataKey="dv" stroke="blue"  strokeWidth={2} dot={<CustomizedDot />}/>
                 <XAxis dataKey="name" />
                  <YAxis />
                 <CartesianGrid />
