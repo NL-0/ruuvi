@@ -13,21 +13,21 @@ class CSVData extends Component {
     componentDidMount() {
         this.timerID = setInterval(() => this.tick(), 2000);
     }
-  
-      componentWillUnmount() { 
-          clearInterval(this.timerID);
+
+    componentWillUnmount() {
+        clearInterval(this.timerID);
     }
-  
+
     tick = () => {
-        this.axiosurl();    
+        this.axiosurl();
         //Lopeta timer kun data on saatu
         if (this.state.csvdata.length > 0) {
-           // this.state.arduinochart.shift();
+            // this.state.arduinochart.shift();
             clearInterval(this.timerID);
         }
         console.log(this.state.csvdata)
     }
-    
+
     async axiosurl() {
         await axios.get(this.state.csvurl)
             .then(res => {
@@ -36,7 +36,7 @@ class CSVData extends Component {
                     csvdata: resdata,
                 })
             })
-    }    
+    }
 
     render() {
         return (

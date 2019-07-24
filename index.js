@@ -10,7 +10,7 @@ var fs = require('fs');
 
 app.use(cors())
 app.get('/', (req, res) => {
-    res.json({ success: true })
+  res.json({ success: true })
 })
 
 //Arduino data eri tietokannasta
@@ -21,39 +21,36 @@ var connection = mysql.createConnection({
   password: "PapaCarloUlko",
   database: "Arduino",
   charset: "utf8mb4_general_ci"
-  });
+});
 
 connection.connect(
-    function(err) 
-    {
-        if(!err) {
-            console.log("DB is connected")
-            } else {
-            console.log(err)
-            console.log("Virhe kannan yhteyden muodostamisessa")
-            }
+  function (err) {
+    if (!err) {
+      console.log("DB is connected")
+    } else {
+      console.log(err)
+      console.log("Virhe kannan yhteyden muodostamisessa")
     }
+  }
 );
 
 //Luke data cvs tiedostosta ja tuo se ohjelman käytettäväksi
 //
 
-app.get("/csv", function(req, res){
-  var csvData=[];
+app.get("/csv", function (req, res) {
+  var csvData = [];
   fs.createReadStream('Activities.csv')
     .pipe(csv())
     .on('data', (row) => {
-      console.log(row); 
+      console.log(row);
       csvData.push(row)
-  //   res.json(row)
-  //res.json(row)
     })
     .on('end', () => {
       console.log('CSV file successfully processed');
       res.json(csvData)
     });
-    
-  }
+
+}
 );
 
 //10.100.0.159
@@ -82,20 +79,20 @@ const influx2 = new Influx.InfluxDB({
   database: 'ruuvi',
 })
 
-app.get("/arduino", function(req, res){
-  const sqlLauseAsiakas="select data,time from data where not (data='Ovi kiinni' or data='Ovi auki');";
+app.get("/arduino", function (req, res) {
+  const sqlLauseAsiakas = "select data,time from data where not (data='Ovi kiinni' or data='Ovi auki');";
 
-  connection.query(sqlLauseAsiakas, function(err,rows,fields){
-      if(!err) {  
-                  res.json(rows);
-              } 
-      else console.log("arduino: virhe haun yhteydessä");
+  connection.query(sqlLauseAsiakas, function (err, rows, fields) {
+    if (!err) {
+      res.json(rows);
+    }
+    else console.log("arduino: virhe haun yhteydessä");
   });
-  }
+}
 );
 
 app.get('/all', cors(), (req, res) => {
-influx.query('select mean(temperature), mean(rssi), mean(accelerationX), mean(accelerationY), mean(accelerationZ), mean(accelerationTotal) from ruuvi_measurements group by time(4s), mac fill(previous) order by desc limit 2').then(results => {
+  influx.query('select mean(temperature), mean(rssi), mean(accelerationX), mean(accelerationY), mean(accelerationZ), mean(accelerationTotal) from ruuvi_measurements group by time(4s), mac fill(previous) order by desc limit 2').then(results => {
     //console.log(results)
     res.send(results)
   })
@@ -103,42 +100,42 @@ influx.query('select mean(temperature), mean(rssi), mean(accelerationX), mean(ac
 
 app.get('/all2', cors(), (req, res) => {
   influx2.query('select mean(temperature), mean(rssi), mean(accelerationX), mean(accelerationY), mean(accelerationZ), mean(accelerationTotal) from ruuvi_measurements group by time(6s), mac fill(previous) order by desc limit 2').then(results => {
-      //console.log(results)
-      res.send(results)
-    })
+    //console.log(results)
+    res.send(results)
   })
+})
 
 app.get('/mdata', cors(), (req, res) => {
-    influx.query(`SELECT count(value1) FROM mov10 GROUP BY mac, time(1h) ORDER BY DESC LIMIT 1`).then(results => {
-        //console.log(results)
-        res.send(results)
-      })
-    })
+  influx.query(`SELECT count(value1) FROM mov10 GROUP BY mac, time(1h) ORDER BY DESC LIMIT 1`).then(results => {
+    //console.log(results)
+    res.send(results)
+  })
+})
 
 app.get('/time2', cors(), (req, res) => {
-    let time1 = req.query.q
-    let time2 = req.query.q2
-    let mac = req.query.mac
+  let time1 = req.query.q
+  let time2 = req.query.q2
+  let mac = req.query.mac
 
-    let urli = "select mean(accelerationTotal) from ruuvi_measurements where mac='" + mac + "' and (time >= '" + time1 + "' and time <= '" + time2 + "') group by time(2s), mac fill(linear) order by time asc"
-    
-    influx2.query(urli).then(results => {
-        res.send(results)
-      })
-    })
+  let urli = "select mean(accelerationTotal) from ruuvi_measurements where mac='" + mac + "' and (time >= '" + time1 + "' and time <= '" + time2 + "') group by time(2s), mac fill(linear) order by time asc"
+
+  influx2.query(urli).then(results => {
+    res.send(results)
+  })
+})
 
 app.get('/time', cors(), (req, res) => {
-    let time1 = req.query.q
-    let time2 = req.query.q2
-    let mac = req.query.mac
+  let time1 = req.query.q
+  let time2 = req.query.q2
+  let mac = req.query.mac
 
-    let urli = "select mean(accelerationTotal) from ruuvi_measurements where mac='" + mac + "' and (time >= '" + time1 + "' and time <= '" + time2 + "') group by time(2s), mac fill(linear) order by time asc"
+  let urli = "select mean(accelerationTotal) from ruuvi_measurements where mac='" + mac + "' and (time >= '" + time1 + "' and time <= '" + time2 + "') group by time(2s), mac fill(linear) order by time asc"
 
-    influx.query(urli).then(results => {
-        res.send(results)
-      })
-    })
+  influx.query(urli).then(results => {
+    res.send(results)
+  })
+})
 
 app.listen(5000, () => {
-    console.log('Server runs on http://localhost:5000')
+  console.log('Server runs on http://localhost:5000')
 })
